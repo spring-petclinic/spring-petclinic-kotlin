@@ -1,11 +1,11 @@
-# Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=master)](https://travis-ci.org/spring-projects/spring-petclinic/)
+# Kotlin version of the Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-petclinic/spring-petclinic-kotlin.png?branch=master)](https://travis-ci.org/spring-petclinic/spring-petclinic-kotlin/)
 
-## Understanding the Spring Petclinic application with a few diagrams
-<a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
+This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] Application. 
+
 
 ## Running petclinic locally
 ```
-	git clone https://github.com/spring-projects/spring-petclinic.git
+	git clone https://github.com/spring-petclinic/spring-petclinic-kotlin.git
 	cd spring-petclinic
 	./mvnw spring-boot:run
 ```
@@ -15,7 +15,7 @@ You can then access petclinic here: http://localhost:8080/
 <img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
 
 ## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/spring-projects/spring-petclinic/issues
+Our issue tracker is available here: https://github.com/spring-petclinic/spring-petclinic-kotlin/issues
 
 
 ## Database configuration
@@ -46,7 +46,7 @@ If m2e is not there, just follow the install process here: http://eclipse.org/m2
 
 1) In the command line
 ```
-git clone https://github.com/spring-projects/spring-petclinic.git
+git clone https://github.com/spring-petclinic/spring-petclinic-kotlin.git
 ```
 2) Inside Eclipse
 ```
@@ -58,28 +58,34 @@ File -> Import -> Maven -> Existing Maven project
 
 |Spring Boot Configuration | Class or Java property files  |
 |--------------------------|---|
-|The Main Class | [PetClinicApplication](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java) |
-|Properties Files | [application.properties](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/resources) |
-|Caching | [CacheConfig](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/system/CacheConfig.java) |
+|The Main Class   | [PetClinicApplication](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/kotlin/org/springframework/samples/petclinic/PetClinicApplication.kt) |
+|Properties Files | [application.properties](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/resources) |
+|Caching          | [CacheConfig](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/kotlin/org/springframework/samples/petclinic/system/CacheConfig.java) |
 
-## Interesting Spring Petclinic branches and forks
+## Interesting Spring Petclinic forks
 
 The Spring Petclinic master branch in the main
-[spring-projects](https://github.com/spring-projects/spring-petclinic)
+[spring-projects](https://github.com/spring-project/spring-petclinic)
 GitHub org is the "canonical" implementation, currently based on
-Spring Boot and Thymeleaf. There are quite a few forks in a special
-GitHub org [spring-petclinic](https://github.com/spring-petclinic). If
-you have a special interest in a different technology stack that could
+Spring Boot and Thymeleaf. 
+
+This [spring-petclinic-kotlin][] project is one of the several forks hosted
+in a special GitHub org: [spring-petclinic][].
+If you have a special interest in a different technology stack that could
 be used to implement the Pet Clinic then please join the community
 there.
 
-| Link | Main technologies |
-|----------------|-------------------|
-| [spring-framework-petclinic](https://github.com/spring-petclinic/spring-framework-petclinic) | Spring Framework XML configuration, JSP pages, 3 persistence layers: JDBC, JPA and Spring Data JPA |
-| [javaconfig branch](https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig) | Same frameworks as the [spring-framework-petclinic](https://github.com/spring-petclinic/spring-framework-petclinic) but with Java Configuration instead of XML |
-| [spring-petclinic-angular](https://github.com/spring-petclinic/spring-petclinic-angularjs) | AngularJS 1.x, Spring Boot and Spring Data JPA |
-| [spring-petclinic-microservices](https://github.com/spring-petclinic/spring-petclinic-microservices) | Distributed version of Spring Petclinic built with Spring Cloud |
-| [spring-petclinic-reactjs](https://github.com/spring-petclinic/spring-petclinic-reactjs) | ReactJS (with TypeScript) and Spring Boot |
+| Link                               | Main technologies |
+|------------------------------------|-------------------|
+| [spring-petclinic][]               | "Canonical" implementation of Spring Petclinic based on Spring Boot and Thymeleaf |
+| [spring-framework-petclinic][]     | Spring Framework XML configuration, JSP pages, 3 persistence layers: JDBC, JPA and Spring Data JPA |
+| [javaconfig branch][]              | Same frameworks as the [spring-framework-petclinic][] but with Java Configuration instead of XML |
+| [spring-petclinic-angularjs][]     | AngularJS 1.x, Spring Boot and Spring Data JPA |
+| [spring-petclinic-angular][]       | Angular 4, Spring Boot and Spring Data JPA |
+| [spring-petclinic-microservices][] | Distributed version of Spring Petclinic built with Spring Cloud |
+| [spring-petclinic-reactjs][]       | ReactJS (with TypeScript) and Spring Boot |
+| [spring-petclinic-graphql][]       | GraphQL version based on React Appolo, TypeScript and GraphQL Spring boot starter |
+| [spring-petclinic-kotlin][]        | Kotlin version of [spring-petclinic][] |
 
 
 ## Interaction with other open source projects
@@ -96,9 +102,21 @@ Here is a list of them:
 
 # Contributing
 
-The [issue tracker](https://github.com/spring-projects/spring-petclinic/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
+The [issue tracker][] is the preferred channel for bug reports, features requests and submitting pull requests.
 
 For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
+
+
+[issue tracker]: https://github.com/spring-petclinic/spring-petclinic-kotlin/issues
+[spring-petclinic]: https://github.com/spring-projects/spring-petclinic
+[spring-framework-petclinic]: https://github.com/spring-petclinic/spring-framework-petclinic
+[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs 
+[javaconfig branch]: https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig
+[spring-petclinic-angular]: https://github.com/spring-petclinic/spring-petclinic-angular
+[spring-petclinic-microservices]: https://github.com/spring-petclinic/spring-petclinic-microservices
+[spring-petclinic-reactjs]: https://github.com/spring-petclinic/spring-petclinic-reactjs
+[spring-petclinic-graphql]: https://github.com/spring-petclinic/spring-petclinic-graphql
+[spring-petclinic-kotlin]: https://github.com/spring-petclinic/spring-petclinic-kotlin
 
 
 
