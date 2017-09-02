@@ -12,7 +12,7 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 
 You can then access petclinic here: http://localhost:8080/
 
-<img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
+<img width="1042" alt="petclinic-screenshot" src="https://user-images.githubusercontent.com/838318/29994372-7f85f6da-8fce-11e7-8896-b5aa075ac0d7.png">
 
 ## In case you find a bug/suggested improvement for Spring Petclinic
 Our issue tracker is available here: https://github.com/spring-petclinic/spring-petclinic-kotlin/issues
