@@ -67,12 +67,12 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
             result.rejectValue("name", "duplicate", "already exists")
         }
         owner.addPet(pet)
-        if (result.hasErrors()) {
+        return if (result.hasErrors()) {
             model.put("pet", pet)
-            return VIEWS_PETS_CREATE_OR_UPDATE_FORM
+            VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             this.pets.save(pet)
-            return "redirect:/owners/{ownerId}"
+            "redirect:/owners/{ownerId}"
         }
     }
 
