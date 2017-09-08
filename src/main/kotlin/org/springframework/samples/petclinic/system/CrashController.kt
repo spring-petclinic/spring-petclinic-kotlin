@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping
 class CrashController {
 
     @GetMapping("/oups")
-    fun triggerException(): String {
+    fun triggerException() {
         throw RuntimeException(
                 "Expected: controller used to showcase what " + "happens when an exception is thrown");
     }
