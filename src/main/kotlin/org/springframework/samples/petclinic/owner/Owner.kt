@@ -53,11 +53,9 @@ class Owner : Person() {
     var pets: MutableSet<Pet> = HashSet()
 
 
-    fun getPets(): List<Pet> {
-        val sortedPets = ArrayList(pets)
-        PropertyComparator.sort(sortedPets, MutableSortDefinition("name", true, true))
-        return Collections.unmodifiableList(sortedPets)
-    }
+    fun getPets(): List<Pet> =
+            pets.sortedWith(compareBy({ it.name }))
+
 
     fun addPet(pet: Pet) {
         if (pet.isNew) {
