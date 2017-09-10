@@ -38,16 +38,16 @@ import javax.validation.constraints.Digits
 class Owner : Person() {
     @Column(name = "address")
     @NotEmpty
-    var address: String? = null
+    var address: String = ""
 
     @Column(name = "city")
     @NotEmpty
-    var city: String? = null
+    var city: String = ""
 
     @Column(name = "telephone")
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
-    var telephone: String? = null
+    var telephone: String = ""
 
     @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "owner")
     var pets: MutableSet<Pet> = HashSet()
