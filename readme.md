@@ -6,7 +6,7 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 ## Running petclinic locally
 ```
 	git clone https://github.com/spring-petclinic/spring-petclinic-kotlin.git
-	cd spring-petclinic
+	cd spring-petclinic-kotlin
 	./mvnw spring-boot:run
 ```
 
