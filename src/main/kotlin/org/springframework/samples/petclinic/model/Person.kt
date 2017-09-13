@@ -31,10 +31,10 @@ open class Person : BaseEntity() {
 
     @Column(name = "first_name")
     @NotEmpty
-    var firstName: String? = null
+    var firstName: String = ""
 
     @Column(name = "last_name")
     @NotEmpty
-    var lastName: String? = null
+    var lastName: String = ""
 
 }

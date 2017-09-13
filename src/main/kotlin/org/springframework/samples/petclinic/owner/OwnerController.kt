@@ -69,15 +69,8 @@ class OwnerController(val owners: OwnerRepository) {
 
     @GetMapping(value = "/owners")
     fun processFindForm(owner: Owner, result: BindingResult, model: MutableMap<String, Any>): String {
-
-        // allow parameterless GET request for /owners to return all records
-        var lastName = owner.lastName
-        if (lastName == null) {
-            lastName = "" // empty string signifies broadest possible search
-        }
-
         // find owners by last name
-        val results = owners.findByLastName(lastName)
+        val results = owners.findByLastName(owner.lastName)
         return when {
             results.isEmpty() -> {
                 // no owners found

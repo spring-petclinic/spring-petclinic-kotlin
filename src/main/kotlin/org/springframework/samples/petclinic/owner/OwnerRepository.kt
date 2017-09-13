@@ -42,7 +42,7 @@ interface OwnerRepository : Repository<Owner, Int> {
      */
     @Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
     @Transactional(readOnly = true)
-    fun findByLastName(@Param("lastName") lastName: String?): Collection<Owner>
+    fun findByLastName(@Param("lastName") lastName: String): Collection<Owner>
 
     /**
      * Retrieve an {@link Owner} from the data store by id.
