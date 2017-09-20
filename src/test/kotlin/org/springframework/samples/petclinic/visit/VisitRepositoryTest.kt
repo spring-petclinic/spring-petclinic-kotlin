@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.visit
 
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,10 +24,10 @@ class VisitRepositoryTest {
     @Throws(Exception::class)
     fun shouldFindVisitsByPetId() {
         val visits = this.visits.findByPetId(7)
-        Assertions.assertThat(visits.size).isEqualTo(2)
+        assertThat(visits.size).isEqualTo(2)
         val visitArr = visits.toTypedArray()
-        Assertions.assertThat(visitArr[0].date).isNotNull()
-        Assertions.assertThat(visitArr[0].petId).isEqualTo(7)
+        assertThat(visitArr[0].date).isNotNull()
+        assertThat(visitArr[0].petId).isEqualTo(7)
     }
 
     @Test
@@ -42,7 +42,7 @@ class VisitRepositoryTest {
         this.pets.save(pet7)
 
         pet7 = this.pets.findById(7)
-        Assertions.assertThat(pet7.getVisits().size).isEqualTo(found + 1)
-        Assertions.assertThat(visit.id).isNotNull()
+        assertThat(pet7.getVisits().size).isEqualTo(found + 1)
+        assertThat(visit.id).isNotNull()
     }
 }

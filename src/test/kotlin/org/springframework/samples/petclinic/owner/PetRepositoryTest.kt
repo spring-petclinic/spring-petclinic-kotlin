@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.owner
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,9 +34,9 @@ class PetRepositoryTest {
         val petTypes = this.pets.findPetTypes()
 
         val petType1 = EntityUtils.getById(petTypes, PetType::class.java, 1)
-        Assertions.assertThat(petType1.name).isEqualTo("cat")
+        assertThat(petType1.name).isEqualTo("cat")
         val petType4 = EntityUtils.getById(petTypes, PetType::class.java, 4)
-        Assertions.assertThat(petType4.name).isEqualTo("snake")
+        assertThat(petType4.name).isEqualTo("snake")
     }
 
     @Test
@@ -60,7 +59,7 @@ class PetRepositoryTest {
         owner6 = this.owners.findById(6)
         assertThat(owner6.getPets().size).isEqualTo(found + 1)
         // checks that id has been generated
-        Assertions.assertThat(pet.id).isNotNull()
+        assertThat(pet.id).isNotNull()
     }
 
     @Test

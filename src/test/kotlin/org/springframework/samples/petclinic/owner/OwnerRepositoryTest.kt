@@ -1,12 +1,13 @@
 package org.springframework.samples.petclinic.owner
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.transaction.annotation.Transactional
+
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
@@ -18,19 +19,19 @@ class OwnerRepositoryTest {
     @Test
     fun shouldFindOwnersByLastName() {
         var owners = this.owners.findByLastName("Davis")
-        Assertions.assertThat(owners.size).isEqualTo(2)
+        assertThat(owners.size).isEqualTo(2)
 
         owners = this.owners.findByLastName("Daviss")
-        Assertions.assertThat(owners.isEmpty()).isTrue()
+        assertThat(owners.isEmpty()).isTrue()
     }
 
     @Test
     fun shouldFindSingleOwnerWithPet() {
         val owner = this.owners.findById(1)
-        Assertions.assertThat(owner.lastName).startsWith("Franklin")
-        Assertions.assertThat(owner.getPets().size).isEqualTo(1)
-        Assertions.assertThat(owner.getPets()[0].type).isNotNull()
-        Assertions.assertThat(owner.getPets()[0].type!!.name).isEqualTo("cat")
+        assertThat(owner.lastName).startsWith("Franklin")
+        assertThat(owner.pets.size).isEqualTo(1)
+        assertThat(owner.getPets()[0].type).isNotNull()
+        assertThat(owner.getPets()[0].type!!.name).isEqualTo("cat")
     }
 
     @Test
@@ -46,10 +47,10 @@ class OwnerRepositoryTest {
         owner.city = "Wollongong"
         owner.telephone = "4444444444"
         this.owners.save(owner)
-        Assertions.assertThat(owner.id?.toLong()).isNotEqualTo(0)
+        assertThat(owner.id?.toLong()).isNotEqualTo(0)
 
         owners = this.owners.findByLastName("Schultz")
-        Assertions.assertThat(owners.size).isEqualTo(found + 1)
+        assertThat(owners.size).isEqualTo(found + 1)
     }
 
     @Test
@@ -64,6 +65,6 @@ class OwnerRepositoryTest {
 
         // retrieving new name from database
         owner = this.owners.findById(1)
-        Assertions.assertThat(owner.lastName).isEqualTo(newLastName)
+        assertThat(owner.lastName).isEqualTo(newLastName)
     }
 }
