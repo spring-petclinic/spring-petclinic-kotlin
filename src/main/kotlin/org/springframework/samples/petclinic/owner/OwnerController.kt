@@ -79,8 +79,7 @@ class OwnerController(val owners: OwnerRepository) {
             }
             results.size == 1 -> {
                 // 1 owner found
-                val foundOwner = results.iterator().next();
-                "redirect:/owners/" + foundOwner.id
+                "redirect:/owners/" + results.first().id
             }
             else -> {
                 // multiple owners found
