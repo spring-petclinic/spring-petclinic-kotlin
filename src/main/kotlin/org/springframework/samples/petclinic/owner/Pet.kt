@@ -53,12 +53,8 @@ class Pet : NamedEntity() {
     var visits: MutableSet<Visit> = LinkedHashSet()
 
 
-    fun getVisits(): List<Visit> {
-        val sortedVisits = ArrayList(visits)
-        PropertyComparator.sort(sortedVisits,
-                MutableSortDefinition("date", false, false))
-        return Collections.unmodifiableList(sortedVisits)
-    }
+    fun getVisits(): List<Visit> =
+            visits.sortedWith(compareBy { it.date })
 
     fun addVisit(visit: Visit) {
         visits.add(visit)
