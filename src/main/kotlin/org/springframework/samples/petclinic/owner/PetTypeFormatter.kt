@@ -40,10 +40,8 @@ class PetTypeFormatter(val pets: PetRepository) : Formatter<PetType> {
 
     override fun parse(text: String, locale: Locale): PetType {
         val findPetTypes = this.pets.findPetTypes()
-        findPetTypes
-                .filter { it.name == text }
-                .forEach { return it }
-        throw ParseException("type not found: " + text, 0)
+        return findPetTypes.find { it.name == text } ?:
+                    throw ParseException("type not found: " + text, 0)
     }
 
 }
