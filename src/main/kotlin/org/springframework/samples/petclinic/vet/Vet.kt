@@ -42,12 +42,8 @@ class Vet : Person() {
 
 
     @XmlElement
-    fun getSpecialties(): List<Specialty> {
-        val sortedSpecs = ArrayList(specialties);
-        PropertyComparator.sort(sortedSpecs,
-                MutableSortDefinition("name", true, true));
-        return Collections.unmodifiableList(sortedSpecs);
-    }
+    fun getSpecialties(): List<Specialty> =
+            specialties.sortedWith(compareBy { it.name })
 
     fun getNrOfSpecialties(): Int =
             specialties.size
