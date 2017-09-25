@@ -62,6 +62,10 @@ File -> Import -> Maven -> Existing Maven project
 |Properties Files | [application.properties](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/resources) |
 |Caching          | [CacheConfig](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/kotlin/org/springframework/samples/petclinic/system/CacheConfig.kt) |
 
+## Documentation
+
+* [Article posted on the french blog Java & Moi](http://javaetmoi.com/2017/09/migrez-application-java-spring-boot-vers-kotlin/)
+
 ## Interesting Spring Petclinic forks
 
 The Spring Petclinic master branch in the main
