@@ -7,7 +7,7 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 ```
 	git clone https://github.com/spring-petclinic/spring-petclinic-kotlin.git
 	cd spring-petclinic-kotlin
-	./mvnw spring-boot:run
+	./gradlew bootRun
 ```
 
 You can then access petclinic here: http://localhost:8080/
@@ -28,29 +28,6 @@ You could start a MySql database with docker:
 
 ```
 docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:3306 mysql:5.7.8
-```
-
-## Working with Petclinic in Eclipse/STS
-
-### prerequisites
-The following items should be installed in your system:
-* Maven 3 (http://www.sonatype.com/books/mvnref-book/reference/installation.html)
-* git command line tool (https://help.github.com/articles/set-up-git)
-* Eclipse with the m2e plugin (m2e is installed by default when using the STS (http://www.springsource.org/sts) distribution of Eclipse)
-
-Note: when m2e is available, there is an m2 icon in Help -> About dialog.
-If m2e is not there, just follow the install process here: http://eclipse.org/m2e/download/
-
-
-### Steps:
-
-1) In the command line
-```
-git clone https://github.com/spring-petclinic/spring-petclinic-kotlin.git
-```
-2) Inside Eclipse
-```
-File -> Import -> Maven -> Existing Maven project
 ```
 
 
