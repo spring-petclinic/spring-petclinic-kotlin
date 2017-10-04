@@ -15,8 +15,6 @@
  */
 package org.springframework.samples.petclinic.owner
 
-
-import org.springframework.lang.Nullable
 import org.springframework.util.StringUtils
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
