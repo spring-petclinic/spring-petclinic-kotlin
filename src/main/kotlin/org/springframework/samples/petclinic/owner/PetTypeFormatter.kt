@@ -35,8 +35,9 @@ import java.util.*
 @Component
 class PetTypeFormatter(val pets: PetRepository) : Formatter<PetType> {
 
-    override fun print(petType: PetType, locale: Locale): String?
-            = petType.name
+    override fun print(petType: PetType, locale: Locale): String
+                = petType.name ?: ""
+
 
     override fun parse(text: String, locale: Locale): PetType {
         val findPetTypes = this.pets.findPetTypes()

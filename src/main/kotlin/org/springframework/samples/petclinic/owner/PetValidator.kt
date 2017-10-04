@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.owner
 
 
+import org.springframework.lang.Nullable
 import org.springframework.util.StringUtils
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
@@ -34,7 +35,10 @@ import org.springframework.validation.Validator
  */
 class PetValidator : Validator {
 
-    override fun validate(obj: Any, errors: Errors) {
+    override fun validate(obj: Any?, errors: Errors) {
+        if (obj == null) {
+            return;
+        }
         val pet = obj as Pet
         val name = pet.name
         // name validation
