@@ -10,6 +10,7 @@ import org.springframework.samples.petclinic.model.BaseEntity
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
+ * @author Antoine Rey
  * @see org.springframework.samples.petclinic.model.BaseEntity
  *
  * @since 29.10.2003
@@ -26,9 +27,9 @@ object EntityUtils {
      * @throws ObjectRetrievalFailureException if the entity was not found
      */
     @Throws(ObjectRetrievalFailureException::class)
-    fun <T : BaseEntity> getById(entities: Collection<T>, entityClass: Class<T>, entityId: Int?): T {
+    fun <T : BaseEntity> getById(entities: Collection<T>, entityClass: Class<T>, entityId: Int): T {
         entities
-                .filter { it.id === entityId && entityClass.isInstance(it) }
+                .filter { it.id == entityId && entityClass.isInstance(it) }
                 .forEach { return it }
         throw ObjectRetrievalFailureException(entityClass, entityId)
     }
