@@ -40,12 +40,11 @@ class OwnerRepositoryTest {
         var owners = this.owners.findByLastName("Schultz")
         val found = owners.size
 
-        val owner = Owner()
+        val owner = Owner(address = "4, Evans Street",
+                city = "Wollongong",
+                telephone = "4444444444")
         owner.firstName = "Sam"
         owner.lastName = "Schultz"
-        owner.address = "4, Evans Street"
-        owner.city = "Wollongong"
-        owner.telephone = "4444444444"
         this.owners.save(owner)
         assertThat(owner.id?.toLong()).isNotEqualTo(0)
 

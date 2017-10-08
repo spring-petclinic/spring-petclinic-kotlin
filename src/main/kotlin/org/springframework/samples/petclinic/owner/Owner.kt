@@ -17,8 +17,6 @@ package org.springframework.samples.petclinic.owner
 
 
 import org.hibernate.validator.constraints.NotEmpty
-import org.springframework.beans.support.MutableSortDefinition
-import org.springframework.beans.support.PropertyComparator
 import org.springframework.samples.petclinic.model.Person
 import java.util.*
 import javax.persistence.*
@@ -35,23 +33,25 @@ import javax.validation.constraints.Digits
  */
 @Entity
 @Table(name = "owners")
-class Owner : Person() {
-    @Column(name = "address")
-    @NotEmpty
-    var address = ""
+class Owner(lastName: String = "", firstName: String = "",
 
-    @Column(name = "city")
-    @NotEmpty
-    var city = ""
+            @Column(name = "address")
+            @NotEmpty
+            val address: String = "",
 
-    @Column(name = "telephone")
-    @NotEmpty
-    @Digits(fraction = 0, integer = 10)
-    var telephone = ""
+            @Column(name = "city")
+            @NotEmpty
+            val city: String = "",
 
-    @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "owner")
-    var pets: MutableSet<Pet> = HashSet()
+            @Column(name = "telephone")
+            @NotEmpty
+            @Digits(fraction = 0, integer = 10)
+            val telephone: String = "",
 
+            @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "owner")
+            val pets: MutableSet<Pet> = HashSet()
+
+) : Person(lastName = lastName, firstName = firstName) {
 
     fun getPets(): List<Pet> =
             pets.sortedWith(compareBy({ it.name }))

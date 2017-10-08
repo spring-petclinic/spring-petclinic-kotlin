@@ -45,11 +45,10 @@ class PetRepositoryTest {
         var owner6 = this.owners.findById(6)
         val found = owner6.getPets().size
 
-        val pet = Pet()
-        pet.name = "bowser"
         val types = this.pets.findPetTypes()
-        pet.type = EntityUtils.getById(types, PetType::class.java, 2)
-        pet.birthDate = Date()
+        val type = EntityUtils.getById(types, PetType::class.java, 2)
+        val pet = Pet(birthDate = Date(), type = type)
+        pet.name = "bowser"
         owner6.addPet(pet)
         assertThat(owner6.getPets().size).isEqualTo(found + 1)
 

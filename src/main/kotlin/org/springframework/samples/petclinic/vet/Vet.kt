@@ -34,12 +34,11 @@ import kotlin.collections.HashSet
  */
 @Entity
 @Table(name = "vets")
-class Vet : Person() {
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "vet_specialties", joinColumns = arrayOf(JoinColumn(name = "vet_id")), inverseJoinColumns = arrayOf(JoinColumn(name = "specialty_id")))
-    var specialties: MutableSet<Specialty> = HashSet()
-
+class Vet(
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(name = "vet_specialties", joinColumns = arrayOf(JoinColumn(name = "vet_id")), inverseJoinColumns = arrayOf(JoinColumn(name = "specialty_id")))
+        val specialties: MutableSet<Specialty> = HashSet()
+) : Person() {
 
     @XmlElement
     fun getSpecialties(): List<Specialty> =

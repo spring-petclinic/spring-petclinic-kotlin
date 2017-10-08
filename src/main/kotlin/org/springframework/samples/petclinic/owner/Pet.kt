@@ -34,23 +34,25 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "pets")
-class Pet : NamedEntity() {
+class Pet(
 
-    @Column(name = "birth_date")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    var birthDate: Date? = null
+        @Column(name = "birth_date")
+        @Temporal(TemporalType.DATE)
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        val birthDate: Date? = null,
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    var type: PetType? = null
+        @ManyToOne
+        @JoinColumn(name = "type_id")
+        val type: PetType? = null,
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    var owner: Owner? = null
+        @ManyToOne
+        @JoinColumn(name = "owner_id")
+        var owner: Owner? = null,
 
-    @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "petId", fetch = FetchType.EAGER)
-    var visits: MutableSet<Visit> = LinkedHashSet()
+        @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "petId", fetch = FetchType.EAGER)
+        val visits: MutableSet<Visit> = LinkedHashSet()
+
+) : NamedEntity() {
 
 
     fun getVisits(): List<Visit> =

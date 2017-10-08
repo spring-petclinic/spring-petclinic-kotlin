@@ -36,13 +36,8 @@ class OwnerControllerTest {
 
     @Before
     fun setup() {
-        george = Owner()
+        george = Owner(lastName = "Franklin", firstName = "George", address = "110 W. Liberty St.", city = "Madison", telephone = "6085551023")
         george.id = TEST_OWNER_ID
-        george.firstName = "George"
-        george.lastName = "Franklin"
-        george.address = "110 W. Liberty St."
-        george.city = "Madison"
-        george.telephone = "6085551023"
         given(owners.findById(TEST_OWNER_ID)).willReturn(george)
     }
 

@@ -27,14 +27,12 @@ import javax.persistence.MappedSuperclass
  * @author Antoine Rey
  */
 @MappedSuperclass
-open class Person : BaseEntity() {
+open class Person(
+        @Column(name = "first_name")
+        @NotEmpty
+        var firstName: String = "",
 
-    @Column(name = "first_name")
-    @NotEmpty
-    var firstName = ""
-
-    @Column(name = "last_name")
-    @NotEmpty
-    var lastName = ""
-
-}
+        @Column(name = "last_name")
+        @NotEmpty
+        var lastName: String = ""
+) : BaseEntity()
