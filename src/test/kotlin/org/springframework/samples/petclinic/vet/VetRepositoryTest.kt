@@ -19,7 +19,7 @@ class VetRepositoryTest {
     fun shouldFindVets() {
         val vets = this.vets.findAll()
 
-        val vet = EntityUtils.getById(vets, Vet::class.java, 3)
+        val vet = vets.first { it.id == 3 }
         assertThat(vet.lastName).isEqualTo("Douglas")
         assertThat(vet.getNrOfSpecialties()).isEqualTo(2)
         assertThat(vet.getSpecialties()[0].name).isEqualTo("dentistry");

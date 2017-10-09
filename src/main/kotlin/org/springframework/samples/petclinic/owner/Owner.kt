@@ -83,7 +83,7 @@ class Owner(lastName: String = "", firstName: String = "",
         val lname = name.toLowerCase()
         for (pet in pets) {
             if (!ignoreNew || !pet.isNew) {
-                val compName = pet.name?.toLowerCase()
+                val compName = pet.name.toLowerCase()
                 if (compName == lname) {
                     return pet
                 }

@@ -35,9 +35,8 @@ class VisitRepositoryTest {
     fun shouldAddNewVisitForPet() {
         var pet7 = this.pets.findById(7)
         val found = pet7.getVisits().size
-        val visit = Visit()
+        val visit = Visit(description = "test")
         pet7.addVisit(visit)
-        visit.description = "test"
         this.visits.save(visit)
         this.pets.save(pet7)
 

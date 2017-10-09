@@ -77,7 +77,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
     }
 
     @GetMapping(value = "/pets/{petId}/edit")
-    fun initUpdateForm(@PathVariable("petId") petId: Int, model: ModelMap): String {
+    fun initUpdateForm(@PathVariable petId: Int, model: ModelMap): String {
         val pet = pets.findById(petId)
         model.put("pet", pet)
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
