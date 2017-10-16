@@ -15,9 +15,9 @@
  */
 package org.springframework.samples.petclinic.vet
 
-import org.springframework.samples.petclinic.model.NamedEntity
-import javax.persistence.Entity
-import javax.persistence.Table
+import java.io.Serializable
+import javax.persistence.*
+import javax.xml.bind.annotation.XmlElement
 
 /**
  * Models a {@link Vet Vet's} specialty (for example, dentistry).
@@ -27,4 +27,14 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = "specialties")
-class Specialty : NamedEntity()
+data class Specialty(
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @get:XmlElement
+        var id: Int? = null,
+
+        @Column(name = "name")
+        @get:XmlElement
+        val name: String = ""
+) : Serializable

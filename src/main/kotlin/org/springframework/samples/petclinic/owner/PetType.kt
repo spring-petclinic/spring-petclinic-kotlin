@@ -15,10 +15,7 @@
  */
 package org.springframework.samples.petclinic.owner
 
-import org.springframework.samples.petclinic.model.NamedEntity;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*
 
 /**
  * @author Juergen Hoeller
@@ -27,4 +24,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "types")
-open class PetType : NamedEntity()
+data class PetType(
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int? = null,
+
+        @Column(name = "name")
+        val name: String = ""
+) {
+    override fun toString(): String =
+            this.name
+
+}

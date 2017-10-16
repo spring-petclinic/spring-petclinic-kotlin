@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.visit
 
 import org.hibernate.validator.constraints.NotEmpty
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.samples.petclinic.model.BaseEntity
 import java.util.*
 import javax.persistence.*
 
@@ -30,27 +29,35 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "visits")
-class Visit : BaseEntity() {
+data class Visit(
 
-    /**
-     * Holds value of property date.
-     */
-    @Column(name = "visit_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    var date: Date = Date()
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int? = null,
 
-    /**
-     * Holds value of property description.
-     */
-    @NotEmpty
-    @Column(name = "description")
-    var description: String? = null
+        /**
+         * Holds value of property date.
+         */
+        @Column(name = "visit_date")
+        @Temporal(TemporalType.TIMESTAMP)
+        @field:DateTimeFormat(pattern = "yyyy-MM-dd")
+        var date: Date = Date(),
 
+        /**
+         * Holds value of property description.
+         */
+        @Column(name = "description")
+        @get:NotEmpty
+        var description: String? = null,
 
-    /**
-     * Holds value of property owner.
-     */
-    @Column(name = "pet_id")
-    var petId: Int? = null
+        /**
+         * Holds value of property owner.
+         */
+        @Column(name = "pet_id")
+        var petId: Int? = null
+
+) {
+    val isNew: Boolean
+        get() = this.id == null
 }
+

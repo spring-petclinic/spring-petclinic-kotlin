@@ -30,8 +30,8 @@ class OwnerRepositoryTest {
         val owner = this.owners.findById(1)
         assertThat(owner.lastName).startsWith("Franklin")
         assertThat(owner.pets.size).isEqualTo(1)
-        assertThat(owner.getPets()[0].type).isNotNull()
-        assertThat(owner.getPets()[0].type!!.name).isEqualTo("cat")
+        assertThat(owner.pets[0].type).isNotNull()
+        assertThat(owner.pets[0].type!!.name).isEqualTo("cat")
     }
 
     @Test
@@ -40,11 +40,11 @@ class OwnerRepositoryTest {
         var owners = this.owners.findByLastName("Schultz")
         val found = owners.size
 
-        val owner = Owner(address = "4, Evans Street",
+        val owner = Owner(firstName = "Sam",
+                lastName = "Schultz",
+                address = "4, Evans Street",
                 city = "Wollongong",
                 telephone = "4444444444")
-        owner.firstName = "Sam"
-        owner.lastName = "Schultz"
         this.owners.save(owner)
         assertThat(owner.id?.toLong()).isNotEqualTo(0)
 
@@ -59,7 +59,7 @@ class OwnerRepositoryTest {
         val oldLastName = owner.lastName
         val newLastName = oldLastName + "X"
 
-        owner.lastName = newLastName
+        owner = owner.copy(lastName = newLastName)
         this.owners.save(owner)
 
         // retrieving new name from database

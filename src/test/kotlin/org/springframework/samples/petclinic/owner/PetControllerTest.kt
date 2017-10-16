@@ -41,9 +41,7 @@ class PetControllerTest {
 
     @Before
     fun setup() {
-        val cat = PetType()
-        cat.id = 3
-        cat.name = "hamster"
+        val cat = PetType(id = 3, name = "hamster")
         given(this.pets.findPetTypes()).willReturn(Lists.newArrayList(cat))
         given(this.owners.findById(TEST_OWNER_ID)).willReturn(Owner())
         given(this.pets.findById(TEST_PET_ID)).willReturn(Pet())

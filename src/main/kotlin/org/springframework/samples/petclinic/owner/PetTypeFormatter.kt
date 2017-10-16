@@ -36,7 +36,7 @@ import java.util.*
 class PetTypeFormatter(val pets: PetRepository) : Formatter<PetType> {
 
     override fun print(petType: PetType, locale: Locale): String
-                = petType.name ?: ""
+                = petType.name
 
 
     override fun parse(text: String, locale: Locale): PetType {

@@ -15,13 +15,10 @@
  */
 package org.springframework.samples.petclinic.vet
 
-import org.springframework.beans.support.MutableSortDefinition
-import org.springframework.beans.support.PropertyComparator
-import org.springframework.samples.petclinic.model.Person
-import java.util.*
+import org.hibernate.validator.constraints.NotEmpty
+import java.io.Serializable
 import javax.persistence.*
 import javax.xml.bind.annotation.XmlElement
-import kotlin.collections.HashSet
 
 /**
  * Simple JavaBean domain object representing a veterinarian.
@@ -34,15 +31,30 @@ import kotlin.collections.HashSet
  */
 @Entity
 @Table(name = "vets")
-class Vet(
+data class Vet(
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @get:XmlElement
+        val id: Int? = null,
+
+        @Column(name = "first_name")
+        @get:NotEmpty
+        @get:XmlElement
+        val firstName: String = "",
+
+        @Column(name = "last_name")
+        @get:NotEmpty
+        @get:XmlElement
+        val lastName: String = "",
+
         @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name = "vet_specialties", joinColumns = arrayOf(JoinColumn(name = "vet_id")), inverseJoinColumns = arrayOf(JoinColumn(name = "specialty_id")))
-        val specialties: MutableSet<Specialty> = HashSet()
-) : Person() {
-
-    @XmlElement
-    fun getSpecialties(): List<Specialty> =
-            specialties.sortedWith(compareBy { it.name })
+        @OrderBy("name ASC")
+        @XmlElement
+        @get:XmlElement
+        val specialties: MutableList<Specialty> = ArrayList()
+) : Serializable {
 
     fun getNrOfSpecialties(): Int =
             specialties.size

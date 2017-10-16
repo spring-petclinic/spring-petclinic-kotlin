@@ -17,8 +17,6 @@ package org.springframework.samples.petclinic.owner
 
 
 import org.hibernate.validator.constraints.NotEmpty
-import org.springframework.samples.petclinic.model.Person
-import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.Digits
 
@@ -33,29 +31,41 @@ import javax.validation.constraints.Digits
  */
 @Entity
 @Table(name = "owners")
-class Owner(lastName: String = "", firstName: String = "",
+data class Owner(
 
-            @Column(name = "address")
-            @NotEmpty
-            val address: String = "",
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Int? = null,
 
-            @Column(name = "city")
-            @NotEmpty
-            val city: String = "",
+        @Column(name = "first_name")
+        @get:NotEmpty
+        val firstName: String = "",
 
-            @Column(name = "telephone")
-            @NotEmpty
-            @Digits(fraction = 0, integer = 10)
-            val telephone: String = "",
+        @Column(name = "last_name")
+        @get:NotEmpty
+        val lastName: String = "",
 
-            @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "owner")
-            val pets: MutableSet<Pet> = HashSet()
+        @Column(name = "address")
+        @get:NotEmpty
+        val address: String = "",
 
-) : Person(lastName = lastName, firstName = firstName) {
+        @Column(name = "city")
+        @get:NotEmpty
+        val city: String = "",
 
-    fun getPets(): List<Pet> =
-            pets.sortedWith(compareBy({ it.name }))
+        @Column(name = "telephone")
+        @get:NotEmpty
+        @get:Digits(fraction = 0, integer = 10)
+        val telephone: String = "",
 
+        @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "owner")
+        @OrderBy("name ASC")
+        val pets: MutableList<Pet> = ArrayList()
+
+) {
+
+    val isNew: Boolean
+        get() = this.id == null
 
     fun addPet(pet: Pet) {
         if (pet.isNew) {

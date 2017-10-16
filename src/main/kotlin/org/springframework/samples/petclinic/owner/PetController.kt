@@ -63,7 +63,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
 
     @PostMapping(value = "/pets/new")
     fun processCreationForm(owner: Owner, @Valid pet: Pet, result: BindingResult, model: ModelMap): String {
-        if (StringUtils.hasLength(pet.name) && pet.isNew && owner.getPet(pet.name!!, true) != null) {
+        if (StringUtils.hasLength(pet.name) && pet.isNew && owner.getPet(pet.name, true) != null) {
             result.rejectValue("name", "duplicate", "already exists")
         }
         owner.addPet(pet)

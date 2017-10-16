@@ -40,9 +40,11 @@ class VetController(val vetRepository: VetRepository) {
 
     @GetMapping(path = arrayOf("/vets.json", "/vets.xml"))
     @ResponseBody
-    fun showResourcesVetList(): Vets =
-            // Here we are returning an object of type 'Vets' rather than a collection of Vet
-            // objects so it is simpler for JSon/Object mapping
-            Vets(vetRepository.findAll())
+    fun showResourcesVetList(): Vets  {
+        // Here we are returning an object of type 'Vets' rather than a collection of Vet
+        // objects so it is simpler for JSon/Object mapping
+        val vets = Vets(vetRepository.findAll())
+        return vets
+    }
 
 }

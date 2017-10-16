@@ -16,7 +16,6 @@
 package org.springframework.samples.petclinic.visit
 
 import org.springframework.data.repository.Repository
-import org.springframework.samples.petclinic.model.BaseEntity
 
 /**
  * Repository class for `Visit` domain objects All method names are compliant with Spring Data naming

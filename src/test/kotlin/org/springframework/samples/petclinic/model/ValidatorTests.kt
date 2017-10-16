@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.samples.petclinic.owner.Owner
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import java.util.*
 import javax.validation.Validator
@@ -25,10 +26,10 @@ class ValidatorTests {
     fun shouldNotValidateWhenFirstNameEmpty() {
 
         LocaleContextHolder.setLocale(Locale.ENGLISH)
-        val person = Person(lastName="smith")
+        val owner = Owner(lastName="smith", address = "110 W. Liberty St.", city = "Madison", telephone = "6085551023")
 
         val validator = createValidator()
-        val constraintViolations = validator.validate(person)
+        val constraintViolations = validator.validate(owner)
 
         assertThat(constraintViolations.size).isEqualTo(1)
         val violation = constraintViolations.iterator().next()

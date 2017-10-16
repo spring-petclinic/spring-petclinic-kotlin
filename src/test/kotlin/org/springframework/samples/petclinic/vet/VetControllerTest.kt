@@ -30,17 +30,9 @@ class VetControllerTest {
 
     @Before
     fun setup() {
-        val james = Vet()
-        james.firstName = "James"
-        james.lastName = "Carter"
-        james.id = 1
-        val helen = Vet()
-        helen.firstName = "Helen"
-        helen.lastName = "Leary"
-        helen.id = 2
-        val radiology = Specialty()
-        radiology.id = 1
-        radiology.name = "radiology"
+        val james = Vet(id = 1, firstName = "James", lastName = "Carter")
+        val helen = Vet(id = 2, firstName = "Helen", lastName = "Leary")
+        val radiology = Specialty(id = 1, name = "radiology")
         helen.addSpecialty(radiology)
         given(this.vets.findAll()).willReturn(Lists.newArrayList(james, helen))
     }

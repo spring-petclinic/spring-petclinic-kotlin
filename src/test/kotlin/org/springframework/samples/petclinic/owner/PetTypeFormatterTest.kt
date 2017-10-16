@@ -31,8 +31,7 @@ class PetTypeFormatterTest {
 
     @Test
     fun testPrint() {
-        val petType = PetType()
-        petType.name = "Hamster"
+        val petType = PetType(name = "Hamster")
         val petTypeName = this.petTypeFormatter.print(petType, Locale.ENGLISH)
         assertEquals("Hamster", petTypeName)
     }
@@ -59,16 +58,8 @@ class PetTypeFormatterTest {
      */
     private fun makePetTypes(): List<PetType> {
         val petTypes = ArrayList<PetType>()
-        petTypes.add(object : PetType() {
-            init {
-                name = "Dog"
-            }
-        })
-        petTypes.add(object : PetType() {
-            init {
-                name = "Bird"
-            }
-        })
+        petTypes.add(PetType(name = "Dog"));
+        petTypes.add(PetType(name = "Bird"));
         return petTypes
     }
 

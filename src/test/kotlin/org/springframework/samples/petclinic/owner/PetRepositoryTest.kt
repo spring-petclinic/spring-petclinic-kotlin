@@ -5,7 +5,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.samples.petclinic.repository.EntityUtils
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -43,19 +42,19 @@ class PetRepositoryTest {
     @Transactional
     fun shouldInsertPetIntoDatabaseAndGenerateId() {
         var owner6 = this.owners.findById(6)
-        val found = owner6.getPets().size
+        val found = owner6.pets.size
 
         val types = this.pets.findPetTypes()
-        val type = EntityUtils.getById(types, PetType::class.java, 2)
+        val type = types.first { it.id == 2 }
         val pet = Pet(name = "bowser", birthDate = Date(), type = type)
         owner6.addPet(pet)
-        assertThat(owner6.getPets().size).isEqualTo(found + 1)
+        assertThat(owner6.pets.size).isEqualTo(found + 1)
 
         this.pets.save(pet)
         this.owners.save(owner6)
 
         owner6 = this.owners.findById(6)
-        assertThat(owner6.getPets().size).isEqualTo(found + 1)
+        assertThat(owner6.pets.size).isEqualTo(found + 1)
         // checks that id has been generated
         assertThat(pet.id).isNotNull()
     }

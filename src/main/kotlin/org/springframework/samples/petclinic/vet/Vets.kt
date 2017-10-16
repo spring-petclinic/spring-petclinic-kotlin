@@ -24,4 +24,4 @@ import javax.xml.bind.annotation.XmlRootElement
  * @author Antoine Rey
  */
 @XmlRootElement
-data class Vets(var vetList: Collection<Vet>? = null)
+data class Vets(var vetList: MutableCollection<Vet> = mutableListOf())

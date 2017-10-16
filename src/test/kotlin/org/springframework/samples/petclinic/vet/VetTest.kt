@@ -14,10 +14,7 @@ class VetTest {
 
     @Test
     fun testSerialization() {
-        val vet = Vet()
-        vet.firstName = "Zaphod"
-        vet.lastName = "Beeblebrox"
-        vet.id = 123
+        val vet = Vet(id = 123, firstName = "Zaphod", lastName = "Beeblebrox")
         val other = SerializationUtils
                 .deserialize(SerializationUtils.serialize(vet)) as Vet
         assertThat(other.firstName).isEqualTo(vet.firstName)

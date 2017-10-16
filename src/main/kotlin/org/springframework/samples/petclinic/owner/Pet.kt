@@ -16,10 +16,7 @@
 package org.springframework.samples.petclinic.owner
 
 
-import org.springframework.beans.support.MutableSortDefinition
-import org.springframework.beans.support.PropertyComparator
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.samples.petclinic.model.NamedEntity
 import org.springframework.samples.petclinic.visit.Visit
 import java.util.*
 import javax.persistence.*
@@ -34,7 +31,14 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "pets")
-class Pet(
+data class Pet(
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int? = null,
+
+        @Column(name = "name")
+        val name: String = "",
 
         @Column(name = "birth_date")
         @Temporal(TemporalType.DATE)
@@ -52,8 +56,7 @@ class Pet(
         @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "petId", fetch = FetchType.EAGER)
         val visits: MutableSet<Visit> = LinkedHashSet()
 
-) : NamedEntity() {
-
+) {
 
     fun getVisits(): List<Visit> =
             visits.sortedWith(compareBy { it.date })
@@ -62,5 +65,11 @@ class Pet(
         visits.add(visit)
         visit.petId = this.id
     }
+
+    val isNew: Boolean
+        get() = this.id == null
+
+    override fun toString(): String =
+            this.name
 
 }
