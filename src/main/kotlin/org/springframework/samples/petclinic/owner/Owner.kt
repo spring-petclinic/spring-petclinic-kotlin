@@ -16,7 +16,7 @@
 package org.springframework.samples.petclinic.owner
 
 
-import org.hibernate.validator.constraints.NotEmpty
+import javax.validation.constraints.NotEmpty
 import org.springframework.beans.support.MutableSortDefinition
 import org.springframework.beans.support.PropertyComparator
 import org.springframework.samples.petclinic.model.Person

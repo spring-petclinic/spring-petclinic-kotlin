@@ -35,7 +35,7 @@ class ValidatorTests {
         assertThat(constraintViolations.size).isEqualTo(1)
         val violation = constraintViolations.iterator().next()
         assertThat(violation.propertyPath.toString()).isEqualTo("firstName")
-        assertThat(violation.message).isEqualTo("may not be empty")
+        assertThat(violation.message).isEqualTo("must not be empty")
     }
 
 }
