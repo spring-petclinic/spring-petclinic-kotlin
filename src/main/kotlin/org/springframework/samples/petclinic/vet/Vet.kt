@@ -15,9 +15,9 @@
  */
 package org.springframework.samples.petclinic.vet
 
-import org.hibernate.validator.constraints.NotEmpty
 import java.io.Serializable
 import javax.persistence.*
+import javax.validation.constraints.NotEmpty
 import javax.xml.bind.annotation.XmlElement
 
 /**
