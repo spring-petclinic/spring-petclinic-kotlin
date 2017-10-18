@@ -5,7 +5,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.samples.petclinic.repository.EntityUtils
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -33,9 +32,9 @@ class PetRepositoryTest {
     fun shouldFindAllPetTypes() {
         val petTypes = this.pets.findPetTypes()
 
-        val petType1 = EntityUtils.getById(petTypes, PetType::class.java, 1)
+        val petType1 = petTypes.first { it.id == 1 }
         assertThat(petType1.name).isEqualTo("cat")
-        val petType4 = EntityUtils.getById(petTypes, PetType::class.java, 4)
+        val petType4 = petTypes.first { it.id == 4 }
         assertThat(petType4.name).isEqualTo("snake")
     }
 
@@ -48,7 +47,7 @@ class PetRepositoryTest {
         val pet = Pet()
         pet.name = "bowser"
         val types = this.pets.findPetTypes()
-        pet.type = EntityUtils.getById(types, PetType::class.java, 2)
+        pet.type = types.first { it.id == 2 }
         pet.birthDate = Date()
         owner6.addPet(pet)
         assertThat(owner6.getPets().size).isEqualTo(found + 1)
