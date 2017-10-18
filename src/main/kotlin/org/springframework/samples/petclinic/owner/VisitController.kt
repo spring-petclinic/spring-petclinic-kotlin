@@ -67,10 +67,10 @@ class VisitController(val visits: VisitRepository, val pets: PetRepository) {
     @PostMapping(value = "/owners/{ownerId}/pets/{petId}/visits/new")
     fun processNewVisitForm(@Valid visit: Visit, result: BindingResult): String {
         return if (result.hasErrors()) {
-            "pets/createOrUpdateVisitForm";
+            "pets/createOrUpdateVisitForm"
         } else {
-            visits.save(visit);
-            "redirect:/owners/{ownerId}";
+            visits.save(visit)
+            "redirect:/owners/{ownerId}"
         }
     }
 

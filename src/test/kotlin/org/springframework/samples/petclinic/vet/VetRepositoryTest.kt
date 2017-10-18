@@ -22,8 +22,8 @@ class VetRepositoryTest {
         val vet = EntityUtils.getById(vets, Vet::class.java, 3)
         assertThat(vet.lastName).isEqualTo("Douglas")
         assertThat(vet.getNrOfSpecialties()).isEqualTo(2)
-        assertThat(vet.getSpecialties()[0].name).isEqualTo("dentistry");
-        assertThat(vet.getSpecialties()[1].name).isEqualTo("surgery");
+        assertThat(vet.getSpecialties()[0].name).isEqualTo("dentistry")
+        assertThat(vet.getSpecialties()[1].name).isEqualTo("surgery")
     }
 
 }

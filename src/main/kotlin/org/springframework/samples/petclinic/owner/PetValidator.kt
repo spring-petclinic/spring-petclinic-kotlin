@@ -35,7 +35,7 @@ class PetValidator : Validator {
 
     override fun validate(obj: Any?, errors: Errors) {
         if (obj == null) {
-            return;
+            return
         }
         val pet = obj as Pet
         val name = pet.name

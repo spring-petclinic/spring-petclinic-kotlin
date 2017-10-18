@@ -50,6 +50,6 @@ class Vet : Person() {
 
 
     fun addSpecialty(specialty: Specialty) =
-            specialties.add(specialty);
+            specialties.add(specialty)
 
 }

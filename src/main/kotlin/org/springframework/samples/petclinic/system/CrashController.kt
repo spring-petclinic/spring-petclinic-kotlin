@@ -32,7 +32,7 @@ class CrashController {
     @GetMapping("/oups")
     fun triggerException() {
         throw RuntimeException(
-                "Expected: controller used to showcase what happens when an exception is thrown");
+                "Expected: controller used to showcase what happens when an exception is thrown")
     }
 
 }
