@@ -61,6 +61,6 @@ data class Vet(
 
 
     fun addSpecialty(specialty: Specialty) =
-            specialties.add(specialty);
+            specialties.add(specialty)
 
 }
