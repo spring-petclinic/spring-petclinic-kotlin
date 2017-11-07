@@ -1,29 +1,36 @@
 package org.springframework.samples.petclinic.vet
 
 import org.assertj.core.util.Lists
+import org.hamcrest.CoreMatchers
 import org.hamcrest.xml.HasXPath.hasXPath
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.reactive.server.WebTestClient
+import org.xml.sax.InputSource
+import java.io.StringReader
+import javax.xml.parsers.DocumentBuilderFactory
+
 
 /**
  * Test class for the [VetController]
  */
 @RunWith(SpringRunner::class)
-@WebMvcTest(VetController::class)
+@WebFluxTest(VetController::class)
+@Import(ThymeleafAutoConfiguration::class)
 class VetControllerTest {
 
     @Autowired
-    lateinit private var mockMvc: MockMvc
+    lateinit private var client: WebTestClient;
 
     @MockBean
     lateinit private var vets: VetRepository
@@ -47,26 +54,41 @@ class VetControllerTest {
 
     @Test
     fun testShowVetListHtml() {
-        mockMvc.perform(get("/vets.html"))
-                .andExpect(status().isOk)
-                .andExpect(model().attributeExists("vets"))
-                .andExpect(view().name("vets/vetList"))
+        val html = client.get().uri("/vets.html")
+                .exchange()
+                .expectStatus().isOk
+                .returnResult(String::class.java)
+                .responseBody.blockFirst()
+
+        assertThat(html, CoreMatchers.containsString("<td>James Carter</td>"))
+        assertThat(html, CoreMatchers.containsString("<td>Helen Leary</td>"))
     }
 
     @Test
-    fun testShowResourcesVetList() {
-        val actions = mockMvc.perform(get("/vets.json").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk)
-        actions.andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$.vetList[0].id").value(1))
+    fun testShowVetListJson() {
+        client.get().uri("/vets.json")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .expectStatus().isOk
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .jsonPath("\$.vetList[0].id").isEqualTo(1)
+
     }
 
     @Test
     fun testShowVetListXml() {
-        mockMvc.perform(get("/vets.xml").accept(MediaType.APPLICATION_XML))
-                .andExpect(status().isOk)
-                .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
-                .andExpect(content().node(hasXPath("/vets/vetList[id=1]/id")))
+        val result = client.get().uri("/vets.xml")
+                .accept(MediaType.APPLICATION_XML)
+                .exchange()
+                .expectStatus().isOk
+                .expectHeader().contentType(MediaType.APPLICATION_XML)
+                .returnResult(String::class.java)
+
+        val node = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder()
+                .parse(InputSource(StringReader(result.responseBody.blockFirst())))
+        assertThat(node, hasXPath("/vets/vetList[id=1]/id"))
     }
 
 }

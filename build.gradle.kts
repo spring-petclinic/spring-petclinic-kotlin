@@ -9,6 +9,7 @@ buildscript {
     extra["boostrapVersion"] = "3.3.6"
     extra["jQueryVersion"] = "2.2.4"
     extra["jQueryUIVersion"] = "1.11.4"
+    extra["elVersion"] = "3.0.1-b08"
 
     val springBootVersion: String by extra
 
@@ -43,6 +44,7 @@ val jUnitVersion: String by extra
 val boostrapVersion: String by extra
 val jQueryVersion: String by extra
 val jQueryUIVersion: String by extra
+val elVersion: String by extra
 
 version = springBootVersion
 
@@ -64,7 +66,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("javax.cache:cache-api")
     compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
@@ -75,6 +77,7 @@ dependencies {
     compile("org.webjars:bootstrap:$boostrapVersion")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.glassfish:javax.el:$elVersion")
     testCompile("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 

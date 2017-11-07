@@ -1,35 +1,40 @@
 package org.springframework.samples.petclinic.system
 
 
-import org.junit.Ignore
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
+import org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.context.annotation.Import
+import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.reactive.server.WebTestClient
 
 /**
  * Test class for [CrashController]
  *
  * @author Colin But
+ * @author Antoine Rey
  */
 @RunWith(SpringRunner::class)
-@WebMvcTest(controllers = arrayOf(CrashController::class))
+@WebFluxTest(CrashController::class)
+@Import(ThymeleafAutoConfiguration::class, ErrorWebFluxAutoConfiguration::class)
 class CrashControllerTest {
 
     @Autowired
-    lateinit var mockMvc: MockMvc
+    lateinit private var client: WebTestClient;
 
     @Test
-    // Waiting https://github.com/spring-projects/spring-boot/issues/5574
-    @Ignore
     fun testTriggerException() {
-        mockMvc.perform(get("/oups"))
-                .andExpect(view().name("exception"))
-                .andExpect(model().attributeExists("exception"))
-                .andExpect(forwardedUrl("exception")).andExpect(status().isOk)
+        val res = client.get().uri("/oups")
+                .accept(MediaType.TEXT_HTML)
+                .exchange()
+                .expectStatus().is5xxServerError
+                .expectBody(String::class.java).returnResult()
+
+        assertThat(res.responseBody).contains("<h2>Something happened...</h2>")
     }
 }

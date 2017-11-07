@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.owner
 
 
 import org.springframework.stereotype.Controller
-import org.springframework.ui.ModelMap
+import org.springframework.ui.Model
 import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
@@ -54,21 +54,21 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
     }
 
     @GetMapping(value = "/pets/new")
-    fun initCreationForm(owner: Owner, model: ModelMap): String {
+    fun initCreationForm(owner: Owner, model: Model): String {
         val pet = Pet()
         owner.addPet(pet)
-        model.put("pet", pet)
+        model.addAttribute("pet", pet)
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
     }
 
     @PostMapping(value = "/pets/new")
-    fun processCreationForm(owner: Owner, @Valid pet: Pet, result: BindingResult, model: ModelMap): String {
+    fun processCreationForm(owner: Owner, @Valid pet: Pet, result: BindingResult, model: Model): String {
         if (StringUtils.hasLength(pet.name) && pet.isNew && owner.getPet(pet.name!!, true) != null) {
             result.rejectValue("name", "duplicate", "already exists")
         }
         owner.addPet(pet)
         return if (result.hasErrors()) {
-            model.put("pet", pet)
+            model.addAttribute("pet", pet)
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             this.pets.save(pet)
@@ -77,17 +77,17 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
     }
 
     @GetMapping(value = "/pets/{petId}/edit")
-    fun initUpdateForm(@PathVariable petId: Int, model: ModelMap): String {
+    fun initUpdateForm(@PathVariable petId: Int, model: Model): String {
         val pet = pets.findById(petId)
-        model.put("pet", pet)
+        model.addAttribute("pet", pet)
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
     }
 
     @PostMapping(value = "/pets/{petId}/edit")
-    fun processUpdateForm(@Valid pet: Pet, result: BindingResult, owner: Owner, model: ModelMap): String {
+    fun processUpdateForm(@Valid pet: Pet, result: BindingResult, owner: Owner, model: Model): String {
         return if (result.hasErrors()) {
             pet.owner = owner
-            model.put("pet", pet)
+            model.addAttribute("pet", pet)
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             owner.addPet(pet)

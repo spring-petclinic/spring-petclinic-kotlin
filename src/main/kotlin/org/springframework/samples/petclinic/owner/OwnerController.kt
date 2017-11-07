@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.servlet.ModelAndView
 import javax.validation.Valid
 
 /**
@@ -114,10 +113,9 @@ class OwnerController(val owners: OwnerRepository) {
      * @return a ModelMap with the model attributes for the view
      */
     @GetMapping("/owners/{ownerId}")
-    fun showOwner(@PathVariable("ownerId") ownerId: Int): ModelAndView {
-        val mav = ModelAndView("owners/ownerDetails")
-        mav.addObject(this.owners.findById(ownerId))
-        return mav
+    fun showOwner(@PathVariable("ownerId") ownerId: Int, model: Model): String {
+        model.addAttribute(this.owners.findById(ownerId))
+        return "owners/ownerDetails"
     }
 
 }
