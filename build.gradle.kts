@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
 
-    extra["kotlinVersion"] = "1.1.51"
+    extra["kotlinVersion"] = "1.1.60"
     extra["springBootVersion"] = "2.0.0.M6"
     extra["jUnitVersion"] = "5.0.0"
     extra["boostrapVersion"] = "3.3.6"
@@ -25,7 +25,7 @@ buildscript {
 
 
 plugins {
-    val kotlinVersion = "1.1.51"
+    val kotlinVersion = "1.1.60"
 
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
