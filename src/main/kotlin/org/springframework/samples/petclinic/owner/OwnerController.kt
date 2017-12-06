@@ -110,7 +110,7 @@ class OwnerController(val owners: OwnerRepository) {
      * Custom handler for displaying an owner.
      *
      * @param ownerId the ID of the owner to display
-     * @return a ModelMap with the model attributes for the view
+     * @return the view
      */
     @GetMapping("/owners/{ownerId}")
     fun showOwner(@PathVariable("ownerId") ownerId: Int, model: Model): String {

@@ -15,13 +15,9 @@
  */
 package org.springframework.samples.petclinic.vet
 
-import org.springframework.beans.support.MutableSortDefinition
-import org.springframework.beans.support.PropertyComparator
 import org.springframework.samples.petclinic.model.Person
-import java.util.*
 import javax.persistence.*
 import javax.xml.bind.annotation.XmlElement
-import kotlin.collections.HashSet
 
 /**
  * Simple JavaBean domain object representing a veterinarian.

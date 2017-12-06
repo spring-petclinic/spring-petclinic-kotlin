@@ -15,11 +15,11 @@
  */
 package org.springframework.samples.petclinic.visit
 
-import javax.validation.constraints.NotEmpty
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.samples.petclinic.model.BaseEntity
 import java.util.*
 import javax.persistence.*
+import javax.validation.constraints.NotEmpty
 
 /**
  * Simple JavaBean domain object representing a visit.

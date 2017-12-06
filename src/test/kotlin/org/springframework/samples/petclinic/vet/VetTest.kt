@@ -1,11 +1,9 @@
 package org.springframework.samples.petclinic.vet
 
 
-import org.junit.Test
-
-import org.springframework.util.SerializationUtils
-
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Test
+import org.springframework.util.SerializationUtils
 
 /**
  * @author Dave Syer

@@ -75,7 +75,7 @@ class OwnerControllerTest {
 
     @Test
     fun testProcessCreationFormHasErrors() {
-        val formData = LinkedMultiValueMap<String, String>(5)
+        val formData = LinkedMultiValueMap<String, String>(4)
         formData.put("firstName", Arrays.asList("Joe"))
         formData.put("lastName", Arrays.asList("Bloggs"))
         formData.put("address", Arrays.asList("123 Caramel Street"))
