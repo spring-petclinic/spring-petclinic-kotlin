@@ -2,6 +2,18 @@
 
 This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] Application. 
 
+## Technologies used
+
+* Language: Kotlin
+* Core framework: Spring Boot 2.0 with Spring Framework 5 Kotlin support
+* Server: Netty
+* Web framework: Spring WebFlux
+* Templates: Thymeleaf and Bootstrap
+* Reactive API: Reactor
+* Persistence : Spring Data JPA
+* Databases: H2 and MySQL both supported
+* Build: Gradle Script with the Kotlin DSL
+* Testing: Junit, Mockito and AssertJ
 
 ## Running petclinic locally
 ```
@@ -33,11 +45,24 @@ docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:
 
 ## Looking for something in particular?
 
-|Spring Boot Configuration | Class or Java property files  |
-|--------------------------|---|
-|The Main Class   | [PetClinicApplication](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/kotlin/org/springframework/samples/petclinic/PetClinicApplication.kt) |
-|Properties Files | [application.properties](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/resources) |
-|Caching          | [CacheConfig](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/kotlin/org/springframework/samples/petclinic/system/CacheConfig.kt) |
+| Features                           | Class, files or Java property files  |
+|------------------------------------|---|
+|The Main Class                      | [PetClinicApplication](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/kotlin/org/springframework/samples/petclinic/PetClinicApplication.kt) |
+|Properties configuration file       | [application.properties](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/resources) |
+|Gradle build script with Kotlin DSL | [build.gradle.kts](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/build.gradle.kts) |
+|Caching Configuration               | [CacheConfig](https://github.com/spring-petclinic/spring-petclinic-kotlin/blob/master/src/main/kotlin/org/springframework/samples/petclinic/system/CacheConfig.kt) |
+
+
+## Import and run the project in IntelliJ IDEA
+   
+* Make sure you have at least IntelliJ IDEA 2017.2 and IDEA Kotlin plugin 1.1.60+ (menu Tools -> Kotlin -> configure Kotlin Plugin Updates -> make sure "Stable" channel is selected -> check for updates now -> restart IDE after the update)
+* Import it in IDEA as a Gradle project
+  * Go to the menu "File -> New -> Project from Existing Sources... "
+  * Select the spring-petclinic-kotlin directory then choose "Import the project from Gradle"
+  * Select the "Use gradle wrapper task configuration" radio button
+* In IntelliJ IDEA, right click on PetClinicApplication.kt then "Run..." or "Debug..."
+* Open http://localhost:8080/ in your browser
+
 
 ## Documentation
 
