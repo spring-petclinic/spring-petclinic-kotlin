@@ -66,7 +66,8 @@ docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:
 
 ## Documentation
 
-* [Article posted on the french blog Java & Moi](http://javaetmoi.com/2017/09/migrez-application-java-spring-boot-vers-kotlin/)
+* [Migrez une application Java Spring Boot vers kotlin](http://javaetmoi.com/2017/09/migrez-application-java-spring-boot-vers-kotlin/) (french)
+* [Migration Spring Web MVC vers Spring WebFlux](http://javaetmoi.com/2017/12/migration-spring-web-mvc-vers-spring-webflux/) (french)
 
 ## Interesting Spring Petclinic forks
 
