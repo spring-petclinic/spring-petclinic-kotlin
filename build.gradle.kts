@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
 
     extra["kotlinVersion"] = "1.1.60"
-    extra["springBootVersion"] = "2.0.0.M6"
+    extra["springBootVersion"] = "2.0.0.M7"
     extra["jUnitVersion"] = "5.0.0"
     extra["boostrapVersion"] = "3.3.6"
     extra["jQueryVersion"] = "2.2.4"
@@ -83,5 +83,6 @@ dependencies {
 
     runtime("org.hsqldb:hsqldb")
     runtime("mysql:mysql-connector-java")
+    runtime("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
 
