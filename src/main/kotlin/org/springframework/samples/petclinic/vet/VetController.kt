@@ -30,19 +30,24 @@ import org.springframework.web.bind.annotation.ResponseBody
 class VetController(val vetRepository: VetRepository) {
 
     @GetMapping("/vets.html")
-    fun showVetList(model: MutableMap<String, Any>): String {
-        // Here we are returning an object of type 'Vets' rather than a collection of Vet
-        // objects so it is simpler for Object-Xml mapping
+    fun showHtmlVetList(model: MutableMap<String, Any>): String {
         val vets = Vets(vetRepository.findAll())
         model.put("vets", vets)
         return "vets/vetList"
     }
 
-    @GetMapping(path = arrayOf("/vets.json", "/vets.xml"))
+    @GetMapping(path = arrayOf("vets.json"), produces = arrayOf("application/json"))
     @ResponseBody
-    fun showResourcesVetList(): Vets =
+    fun showJsonVetList(): Vets =
             // Here we are returning an object of type 'Vets' rather than a collection of Vet
-            // objects so it is simpler for JSon/Object mapping
+            // objects so it is simpler for Json/Object mapping
             Vets(vetRepository.findAll())
+
+
+    @GetMapping(path = arrayOf("vets.xml"))
+    @ResponseBody
+    fun showXmlVetList(): Vets =
+            Vets(vetRepository.findAll())
+
 
 }
