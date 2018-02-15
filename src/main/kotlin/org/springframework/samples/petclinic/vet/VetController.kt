@@ -36,7 +36,7 @@ class VetController(val vetRepository: VetRepository) {
         return "vets/vetList"
     }
 
-    @GetMapping(path = arrayOf("vets.json"), produces = arrayOf("application/json"))
+    @GetMapping("vets.json", produces = ["application/json"])
     @ResponseBody
     fun showJsonVetList(): Vets =
             // Here we are returning an object of type 'Vets' rather than a collection of Vet
@@ -44,7 +44,7 @@ class VetController(val vetRepository: VetRepository) {
             Vets(vetRepository.findAll())
 
 
-    @GetMapping(path = arrayOf("vets.xml"))
+    @GetMapping("vets.xml")
     @ResponseBody
     fun showXmlVetList(): Vets =
             Vets(vetRepository.findAll())

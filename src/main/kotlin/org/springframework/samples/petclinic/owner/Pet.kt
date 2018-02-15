@@ -47,7 +47,7 @@ class Pet : NamedEntity() {
     @JoinColumn(name = "owner_id")
     var owner: Owner? = null
 
-    @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "petId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "petId", fetch = FetchType.EAGER)
     var visits: MutableSet<Visit> = LinkedHashSet()
 
 

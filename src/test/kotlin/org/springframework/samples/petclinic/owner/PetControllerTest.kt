@@ -29,7 +29,7 @@ const val TEST_OWNER_ID = 1
 const val TEST_PET_ID = 1
 
 @RunWith(SpringRunner::class)
-@WebFluxTest(PetController::class, includeFilters = arrayOf(ComponentScan.Filter(value = PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)))
+@WebFluxTest(PetController::class, includeFilters = [ComponentScan.Filter(value = PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)])
 @Import(ThymeleafAutoConfiguration::class)
 class PetControllerTest {
 

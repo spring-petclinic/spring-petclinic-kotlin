@@ -47,7 +47,7 @@ class Owner : Person() {
     @Digits(fraction = 0, integer = 10)
     var telephone = ""
 
-    @OneToMany(cascade = arrayOf(CascadeType.ALL), mappedBy = "owner")
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "owner")
     var pets: MutableSet<Pet> = HashSet()
 
 

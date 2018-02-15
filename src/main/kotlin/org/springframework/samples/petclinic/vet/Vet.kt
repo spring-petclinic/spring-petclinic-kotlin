@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlElement
 class Vet : Person() {
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "vet_specialties", joinColumns = arrayOf(JoinColumn(name = "vet_id")), inverseJoinColumns = arrayOf(JoinColumn(name = "specialty_id")))
+    @JoinTable(name = "vet_specialties", joinColumns = [JoinColumn(name = "vet_id")], inverseJoinColumns = [JoinColumn(name = "specialty_id")])
     var specialties: MutableSet<Specialty> = HashSet()
 
 
