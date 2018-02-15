@@ -104,30 +104,23 @@ class OwnerControllerTest(@Autowired private val client: WebTestClient) {
     }
 
     @Test
-    @Disabled
     fun testProcessFindFormByLastName() {
         given(owners.findByLastName(george.lastName)).willReturn(Lists.newArrayList<Owner>(george))
 
-        // How to submit data into a GET with the Webflux client?
-        client.get().uri("/owners")
-                .attribute("lastname", "Franklin")
+        client.get().uri("/owners?lastName=Franklin")
                 .exchange()
                 .expectStatus().is3xxRedirection
                 .expectHeader().valueEquals("location", "/owners/" + TEST_OWNER_ID)
     }
 
     @Test
-    @Disabled
     fun testProcessFindFormNoOwnersFound() {
-
-        // How to submit data into a GET with the Webflux client?
-        client.get().uri("/owners")
-                .attribute("lastName", "Unknown Surname")
+        var res = client.get().uri("/owners?lastName=Unknown Surname")
                 .exchange()
                 .expectStatus().isOk
-        //.andExpect(model().attributeHasFieldErrors("owner", "lastName"))
-        //.andExpect(model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
-        //.andExpect(view().name("owners/findOwners"))
+                .expectBody(String::class.java).returnResult()
+
+        Assertions.assertThat(res.responseBody).contains("has not been found")
     }
 
     @Test
