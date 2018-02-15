@@ -3,9 +3,9 @@ package org.springframework.samples.petclinic.owner
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.util.Lists
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
@@ -14,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
 import org.springframework.context.annotation.Import
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
@@ -25,24 +25,21 @@ import java.util.*
  *
  * @author Colin But
  */
-const val TEST_OWNER_ID = 1
-const val TEST_PET_ID = 1
-
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @WebFluxTest(PetController::class, includeFilters = [ComponentScan.Filter(value = PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)])
 @Import(ThymeleafAutoConfiguration::class)
-class PetControllerTest {
+class PetControllerTest(@Autowired private val client: WebTestClient) {
 
-    @Autowired
-    lateinit private var client: WebTestClient;
-
-    @MockBean
-    lateinit private var pets: PetRepository
+    private val TEST_OWNER_ID = 1
+    private val TEST_PET_ID = 1
 
     @MockBean
-    lateinit private var owners: OwnerRepository
+    private lateinit var pets: PetRepository
 
-    @Before
+    @MockBean
+    private lateinit var owners: OwnerRepository
+
+    @BeforeEach
     fun setup() {
         val cat = PetType()
         cat.id = 3

@@ -33,6 +33,7 @@ plugins {
 
 apply {
     plugin("org.springframework.boot")
+    plugin("org.junit.platform.gradle.plugin")
 }
 
 
@@ -74,7 +75,9 @@ dependencies {
     compile("org.webjars:jquery-ui:$jQueryUIVersion")
     compile("org.webjars:bootstrap:$boostrapVersion")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "junit")
+    }
     testCompile("org.glassfish:javax.el:$elVersion")
     testCompile("org.junit.jupiter:junit-jupiter-api")
     testRuntime("org.junit.jupiter:junit-jupiter-engine")

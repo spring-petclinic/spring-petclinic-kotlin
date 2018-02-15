@@ -2,15 +2,15 @@ package org.springframework.samples.petclinic.system
 
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
 import org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 
 /**
@@ -19,13 +19,10 @@ import org.springframework.test.web.reactive.server.WebTestClient
  * @author Colin But
  * @author Antoine Rey
  */
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @WebFluxTest(CrashController::class)
 @Import(ThymeleafAutoConfiguration::class, ErrorWebFluxAutoConfiguration::class)
-class CrashControllerTest {
-
-    @Autowired
-    lateinit private var client: WebTestClient;
+class CrashControllerTest(@Autowired private val client: WebTestClient) {
 
     @Test
     fun testTriggerException() {
