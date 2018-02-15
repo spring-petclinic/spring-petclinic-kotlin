@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
@@ -26,7 +26,7 @@ import java.util.*
  * @author Colin But
  */
 @ExtendWith(SpringExtension::class)
-@WebFluxTest(PetController::class, includeFilters = [ComponentScan.Filter(value = PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)])
+@WebMvcTest(PetController::class, includeFilters = [ComponentScan.Filter(value = PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)])
 @Import(ThymeleafAutoConfiguration::class)
 class PetControllerTest(@Autowired private val client: WebTestClient) {
 

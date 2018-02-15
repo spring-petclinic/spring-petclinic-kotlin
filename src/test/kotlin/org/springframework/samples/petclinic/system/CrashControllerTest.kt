@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
 import org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -20,7 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
  * @author Antoine Rey
  */
 @ExtendWith(SpringExtension::class)
-@WebFluxTest(CrashController::class)
+@WebMvcTest(CrashController::class)
 @Import(ThymeleafAutoConfiguration::class, ErrorWebFluxAutoConfiguration::class)
 class CrashControllerTest(@Autowired private val client: WebTestClient) {
 
