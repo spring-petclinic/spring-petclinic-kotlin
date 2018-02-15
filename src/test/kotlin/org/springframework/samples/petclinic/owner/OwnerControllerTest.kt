@@ -4,17 +4,17 @@ package org.springframework.samples.petclinic.owner
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.util.Lists
-import org.junit.Before
-import org.junit.Ignore
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
@@ -26,20 +26,17 @@ import java.util.*
  *
  * @author Colin But
  */
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @WebFluxTest(OwnerController::class)
 @Import(ThymeleafAutoConfiguration::class)
-class OwnerControllerTest {
-
-    @Autowired
-    lateinit private var client: WebTestClient;
+class OwnerControllerTest(@Autowired private val client: WebTestClient) {
 
     @MockBean
-    lateinit private var owners: OwnerRepository
+    private lateinit var owners: OwnerRepository
 
-    lateinit private var george: Owner
+    private lateinit var george: Owner
 
-    @Before
+    @BeforeEach
     fun setup() {
         Locale.setDefault(Locale.US)
         george = Owner()
@@ -107,7 +104,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     fun testProcessFindFormByLastName() {
         given(owners.findByLastName(george.lastName)).willReturn(Lists.newArrayList<Owner>(george))
 
@@ -120,7 +117,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     fun testProcessFindFormNoOwnersFound() {
 
         // How to submit data into a GET with the Webflux client?
@@ -195,7 +192,7 @@ class OwnerControllerTest {
 
     companion object {
 
-        private val TEST_OWNER_ID = 1
+        private const val TEST_OWNER_ID = 1
     }
 
 }

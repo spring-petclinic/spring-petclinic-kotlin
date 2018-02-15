@@ -1,12 +1,12 @@
 package org.springframework.samples.petclinic.vet
 
-import org.assertj.core.util.Lists
+import org.aspectj.lang.annotation.Before
 import org.hamcrest.CoreMatchers
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.xml.HasXPath.hasXPath
-import org.junit.Assert.assertThat
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.xml.sax.InputSource
 import java.io.StringReader
@@ -24,18 +24,15 @@ import javax.xml.parsers.DocumentBuilderFactory
 /**
  * Test class for the [VetController]
  */
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @WebFluxTest(VetController::class)
 @Import(ThymeleafAutoConfiguration::class)
-class VetControllerTest {
-
-    @Autowired
-    lateinit private var client: WebTestClient;
+class VetControllerTest(@Autowired private val client: WebTestClient) {
 
     @MockBean
-    lateinit private var vets: VetRepository
+    private lateinit var vets: VetRepository
 
-    @Before
+    @BeforeEach
     fun setup() {
         val james = Vet()
         james.firstName = "James"
@@ -49,7 +46,7 @@ class VetControllerTest {
         radiology.id = 1
         radiology.name = "radiology"
         helen.addSpecialty(radiology)
-        given(this.vets.findAll()).willReturn(Lists.newArrayList(james, helen))
+        given(this.vets.findAll()).willReturn(listOf(james, helen))
     }
 
     @Test

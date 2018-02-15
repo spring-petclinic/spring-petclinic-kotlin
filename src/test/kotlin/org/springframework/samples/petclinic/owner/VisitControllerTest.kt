@@ -1,8 +1,8 @@
 package org.springframework.samples.petclinic.owner
 
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.samples.petclinic.visit.VisitRepository
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
@@ -21,21 +21,21 @@ import java.util.*
  *
  * @author Colin But
  */
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @WebFluxTest(VisitController::class)
 @Import(ThymeleafAutoConfiguration::class)
-class VisitControllerTest {
+class VisitControllerTest(@Autowired private val client: WebTestClient) {
 
-    @Autowired
-    lateinit private var client: WebTestClient;
-
-    @MockBean
-    lateinit private var visits: VisitRepository
+    private val TEST_OWNER_ID = 1
+    private val TEST_PET_ID = 1
 
     @MockBean
-    lateinit private var pets: PetRepository
+    private lateinit var visits: VisitRepository
 
-    @Before
+    @MockBean
+    private lateinit var pets: PetRepository
+
+    @BeforeEach
     fun init() {
         given(pets.findById(TEST_PET_ID)).willReturn(Pet())
     }
@@ -71,10 +71,6 @@ class VisitControllerTest {
                 .exchange()
                 .expectStatus().isOk
                 //.andExpect(view().name("pets/createOrUpdateVisitForm"))
-    }
-
-    companion object {
-        const val TEST_PET_ID = 1
     }
 
 }
