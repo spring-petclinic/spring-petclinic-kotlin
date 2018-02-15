@@ -7,13 +7,13 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 * Language: Kotlin
 * Core framework: Spring Boot 2.0 with Spring Framework 5 Kotlin support
 * Server: Netty
-* Web framework: Spring WebFlux
+* Web framework: Spring MVC and Spring WebFlux (for testing)
 * Templates: Thymeleaf and Bootstrap
 * Reactive API: Reactor
 * Persistence : Spring Data JPA
 * Databases: H2 and MySQL both supported
 * Build: Gradle Script with the Kotlin DSL
-* Testing: Junit, Mockito and AssertJ
+* Testing: Junit 5, Mockito and AssertJ
 
 ## Running petclinic locally
 ```
