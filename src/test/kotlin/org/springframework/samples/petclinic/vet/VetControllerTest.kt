@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.vet
 
-import org.aspectj.lang.annotation.Before
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.xml.HasXPath.hasXPath
@@ -54,11 +53,12 @@ class VetControllerTest(@Autowired private val client: WebTestClient) {
         val html = client.get().uri("/vets.html")
                 .exchange()
                 .expectStatus().isOk
-                .returnResult(String::class.java)
-                .responseBody.blockFirst()
+                .expectBody(String::class.java)
+                .returnResult()
+                .responseBody
 
-        assertThat(html, CoreMatchers.containsString("<td>James Carter</td>"))
         assertThat(html, CoreMatchers.containsString("<td>Helen Leary</td>"))
+        assertThat(html, CoreMatchers.containsString("<td>James Carter</td>"))
     }
 
     @Test

@@ -26,7 +26,7 @@ import java.util.*
  * @author Colin But
  */
 @ExtendWith(SpringExtension::class)
-@WebFluxTest(PetController::class, includeFilters = [ComponentScan.Filter(value = PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)])
+@WebFluxTest(PetController::class, includeFilters = [ComponentScan.Filter(PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)])
 @Import(ThymeleafAutoConfiguration::class)
 class PetControllerTest(@Autowired private val client: WebTestClient) {
 

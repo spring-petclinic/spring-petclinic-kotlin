@@ -59,12 +59,12 @@ class VisitController(val visits: VisitRepository, val pets: PetRepository) {
     }
 
     // Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
-    @GetMapping(value = "/owners/*/pets/{petId}/visits/new")
+    @GetMapping("/owners/*/pets/{petId}/visits/new")
     fun initNewVisitForm(@PathVariable("petId") petId: Int, model: Map<String, Any>): String
             = "pets/createOrUpdateVisitForm"
 
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
-    @PostMapping(value = "/owners/{ownerId}/pets/{petId}/visits/new")
+    @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
     fun processNewVisitForm(@Valid visit: Visit, result: BindingResult): String {
         return if (result.hasErrors()) {
             "pets/createOrUpdateVisitForm"

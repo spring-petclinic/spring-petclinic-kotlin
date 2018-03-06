@@ -43,14 +43,14 @@ class OwnerController(val owners: OwnerRepository) {
         dataBinder.setDisallowedFields("id")
     }
 
-    @GetMapping(value = "/owners/new")
+    @GetMapping("/owners/new")
     fun initCreationForm(model: MutableMap<String, Any>): String {
         val owner = Owner()
         model.put("owner", owner)
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM
     }
 
-    @PostMapping(value = "/owners/new")
+    @PostMapping("/owners/new")
     fun processCreationForm(@Valid owner: Owner, result: BindingResult): String {
         return if (result.hasErrors()) {
             VIEWS_OWNER_CREATE_OR_UPDATE_FORM
@@ -60,13 +60,13 @@ class OwnerController(val owners: OwnerRepository) {
         }
     }
 
-    @GetMapping(value = "/owners/find")
+    @GetMapping("/owners/find")
     fun initFindForm(model: MutableMap<String, Any>): String {
         model.put("owner", Owner())
         return "owners/findOwners"
     }
 
-    @GetMapping(value = "/owners")
+    @GetMapping("/owners")
     fun processFindForm(owner: Owner, result: BindingResult, model: MutableMap<String, Any>): String {
         // find owners by last name
         val results = owners.findByLastName(owner.lastName)
@@ -88,14 +88,14 @@ class OwnerController(val owners: OwnerRepository) {
         }
     }
 
-    @GetMapping(value = "/owners/{ownerId}/edit")
+    @GetMapping("/owners/{ownerId}/edit")
     fun initUpdateOwnerForm(@PathVariable("ownerId") ownerId: Int, model: Model): String {
         val owner = owners.findById(ownerId)
         model.addAttribute(owner)
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM
     }
 
-    @PostMapping(value = "/owners/{ownerId}/edit")
+    @PostMapping("/owners/{ownerId}/edit")
     fun processUpdateOwnerForm(@Valid owner: Owner, result: BindingResult, @PathVariable("ownerId") ownerId: Int): String {
         return if (result.hasErrors()) {
             VIEWS_OWNER_CREATE_OR_UPDATE_FORM

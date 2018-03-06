@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
 
-    extra["springBootVersion"] = "2.0.0.RC1"
+    extra["springBootVersion"] = "2.0.0.RELEASE"
     extra["boostrapVersion"] = "3.3.6"
     extra["jQueryVersion"] = "2.2.4"
     extra["jQueryUIVersion"] = "1.11.4"
@@ -12,12 +12,10 @@ buildscript {
 
     repositories {
         mavenCentral()
-        maven("https://repo.spring.io/milestone")
     }
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-        classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.2")
     }
 }
 
@@ -32,7 +30,6 @@ plugins {
 
 apply {
     plugin("org.springframework.boot")
-    plugin("org.junit.platform.gradle.plugin")
 }
 
 
@@ -54,9 +51,12 @@ tasks {
     }
 }
 
+val test by tasks.getting(Test::class) {
+    useJUnitPlatform()
+}
+
 repositories {
     mavenCentral()
-    maven("https://repo.spring.io/milestone")
 }
 
 dependencies {
@@ -68,7 +68,7 @@ dependencies {
     compile("javax.cache:cache-api")
     compile("org.jetbrains.kotlin:kotlin-stdlib")
     compile("org.jetbrains.kotlin:kotlin-reflect")
-    compile("org.webjars:webjars-locator")
+    compile("org.webjars:webjars-locator-core")
     compile("org.webjars:jquery:$jQueryVersion")
     compile("org.webjars:jquery-ui:$jQueryUIVersion")
     compile("org.webjars:bootstrap:$boostrapVersion")

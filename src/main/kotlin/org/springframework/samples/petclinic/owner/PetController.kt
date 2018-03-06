@@ -53,7 +53,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
         dataBinder.validator = PetValidator()
     }
 
-    @GetMapping(value = "/pets/new")
+    @GetMapping("/pets/new")
     fun initCreationForm(owner: Owner, model: Model): String {
         val pet = Pet()
         owner.addPet(pet)
@@ -61,7 +61,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
     }
 
-    @PostMapping(value = "/pets/new")
+    @PostMapping("/pets/new")
     fun processCreationForm(owner: Owner, @Valid pet: Pet, result: BindingResult, model: Model): String {
         if (StringUtils.hasLength(pet.name) && pet.isNew && owner.getPet(pet.name!!, true) != null) {
             result.rejectValue("name", "duplicate", "already exists")
@@ -76,14 +76,14 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
         }
     }
 
-    @GetMapping(value = "/pets/{petId}/edit")
+    @GetMapping("/pets/{petId}/edit")
     fun initUpdateForm(@PathVariable petId: Int, model: Model): String {
         val pet = pets.findById(petId)
         model.addAttribute("pet", pet)
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
     }
 
-    @PostMapping(value = "/pets/{petId}/edit")
+    @PostMapping("/pets/{petId}/edit")
     fun processUpdateForm(@Valid pet: Pet, result: BindingResult, owner: Owner, model: Model): String {
         return if (result.hasErrors()) {
             pet.owner = owner
