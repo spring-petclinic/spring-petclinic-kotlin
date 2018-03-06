@@ -77,8 +77,8 @@ dependencies {
         exclude(module = "junit")
     }
     testCompile("org.springframework.boot:spring-boot-starter-webflux")
-    testCompile("org.junit.jupiter:junit-jupiter-api")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
     runtime("org.hsqldb:hsqldb")
     runtime("mysql:mysql-connector-java")
