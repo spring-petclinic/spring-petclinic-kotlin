@@ -39,7 +39,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("javax.cache:cache-api")
-    compile("org.jetbrains.kotlin:kotlin-stdlib")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compile("org.webjars:webjars-locator-core")
     compile("org.webjars:jquery:$jQueryVersion")
