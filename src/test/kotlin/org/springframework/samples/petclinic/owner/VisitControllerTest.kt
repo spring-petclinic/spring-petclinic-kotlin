@@ -5,16 +5,14 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Import
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.reactive.function.BodyInserters
-import java.util.*
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 /**
  * Test class for [VisitController]
@@ -22,12 +20,11 @@ import java.util.*
  * @author Colin But
  */
 @ExtendWith(SpringExtension::class)
-@WebFluxTest(VisitController::class)
-@Import(ThymeleafAutoConfiguration::class)
-class VisitControllerTest(@Autowired private val client: WebTestClient) {
+@WebMvcTest(VisitController::class)
+class VisitControllerTest {
 
-    private val TEST_OWNER_ID = 1
-    private val TEST_PET_ID = 1
+    @Autowired
+    lateinit private var mockMvc: MockMvc
 
     @MockBean
     private lateinit var visits: VisitRepository
@@ -42,35 +39,29 @@ class VisitControllerTest(@Autowired private val client: WebTestClient) {
 
     @Test
     fun testInitNewVisitForm() {
-        client.get().uri("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
-                .exchange()
-                .expectStatus().isOk
-                //.andExpect(view().name("pets/createOrUpdateVisitForm"))
+        mockMvc.perform(get("/owners/*/pets/{petId}/visits/new", TEST_PET_ID))
+                .andExpect(status().isOk)
+                .andExpect(view().name("pets/createOrUpdateVisitForm"))
     }
 
     @Test
     fun testProcessNewVisitFormSuccess() {
-        val formData = LinkedMultiValueMap<String, String>(2)
-        formData.put("name", Arrays.asList("George"))
-        formData.put("description", Arrays.asList("Visit Description"))
-
-        client.post().uri("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
-                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .expectStatus().is3xxRedirection
-                .expectHeader().valueEquals("location", "/owners/"+TEST_OWNER_ID)
+        mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
+                .param("name", "George")
+                .param("description", "Visit Description")
+        )
+                .andExpect(status().is3xxRedirection)
+                .andExpect(view().name("redirect:/owners/{ownerId}"))
     }
 
     @Test
     fun testProcessNewVisitFormHasErrors() {
-        val formData = LinkedMultiValueMap<String, String>(1)
-        formData.put("name", Arrays.asList("George"))
-
-        client.post().uri("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
-                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .expectStatus().isOk
-                //.andExpect(view().name("pets/createOrUpdateVisitForm"))
+        mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
+                .param("name", "George")
+        )
+                .andExpect(model().attributeHasErrors("visit"))
+                .andExpect(status().isOk)
+                .andExpect(view().name("pets/createOrUpdateVisitForm"))
     }
 
 }

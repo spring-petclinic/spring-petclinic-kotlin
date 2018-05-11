@@ -1,37 +1,36 @@
 package org.springframework.samples.petclinic.owner
 
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.util.Lists
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
-import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.reactive.function.BodyInserters
-import java.util.*
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 /**
  * Test class for the [PetController]
  *
  * @author Colin But
  */
-@ExtendWith(SpringExtension::class)
-@WebFluxTest(PetController::class, includeFilters = [ComponentScan.Filter(PetTypeFormatter::class, type = FilterType.ASSIGNABLE_TYPE)])
-@Import(ThymeleafAutoConfiguration::class)
-class PetControllerTest(@Autowired private val client: WebTestClient) {
+const val TEST_OWNER_ID = 1
+const val TEST_PET_ID = 1
 
-    private val TEST_OWNER_ID = 1
-    private val TEST_PET_ID = 1
+@ExtendWith(SpringExtension::class)
+@WebMvcTest(value = [(PetController::class)], includeFilters = arrayOf(ComponentScan.Filter(value = [(PetTypeFormatter::class)], type = FilterType.ASSIGNABLE_TYPE)))
+class PetControllerTest {
+
+    @Autowired
+    lateinit private var mockMvc: MockMvc
 
     @MockBean
     private lateinit var pets: PetRepository
@@ -52,74 +51,64 @@ class PetControllerTest(@Autowired private val client: WebTestClient) {
 
     @Test
     fun testInitCreationForm() {
-        client.get().uri("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
-                .exchange()
-                .expectStatus().isOk
+        mockMvc.perform(get("/owners/{ownerId}/pets/new", TEST_OWNER_ID))
+                .andExpect(status().isOk)
+                .andExpect(view().name("pets/createOrUpdatePetForm"))
+                .andExpect(model().attributeExists("owner"))
     }
 
     @Test
     fun testProcessCreationFormSuccess() {
-        val formData = LinkedMultiValueMap<String, String>(3)
-        formData.put("name", Arrays.asList("Betty"))
-        formData.put("type", Arrays.asList("hamster"))
-        formData.put("birthDate", Arrays.asList("2015-02-12"))
-
-        client.post().uri("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
-                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .expectStatus().is3xxRedirection
-                .expectHeader().valueEquals("location", "/owners/"+TEST_OWNER_ID)
+        mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+                .param("name", "Betty")
+                .param("type", "hamster")
+                .param("birthDate", "2015-02-12")
+        )
+                .andExpect(status().is3xxRedirection)
+                .andExpect(view().name("redirect:/owners/{ownerId}"))
     }
 
     @Test
     fun testProcessCreationFormHasErrors() {
-        val formData = LinkedMultiValueMap<String, String>(2)
-        formData.put("name", Arrays.asList("Betty"))
-        formData.put("birthDate", Arrays.asList("2015-02-12"))
-
-        val responseBody = client.post().uri("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
-                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .expectStatus().isOk
-                .expectBody(String::class.java).returnResult().responseBody
-
-        Assertions.assertThat(responseBody).contains("is required")
+        mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
+                .param("name", "Betty")
+                .param("birthDate", "2015-02-12")
+        )
+                .andExpect(model().attributeHasNoErrors("owner"))
+                .andExpect(model().attributeHasErrors("pet"))
+                .andExpect(status().isOk)
+                .andExpect(view().name("pets/createOrUpdatePetForm"))
     }
 
     @Test
     fun testInitUpdateForm() {
-        client.get().uri("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
-                .exchange()
-                .expectStatus().isOk
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
+                .andExpect(status().isOk)
+                .andExpect(model().attributeExists("owner"))
+                .andExpect(view().name("pets/createOrUpdatePetForm"))
     }
 
     @Test
     fun testProcessUpdateFormSuccess() {
-        val formData = LinkedMultiValueMap<String, String>(3)
-        formData.put("name", Arrays.asList("Betty"))
-        formData.put("type", Arrays.asList("hamster"))
-        formData.put("birthDate", Arrays.asList("2015-02-12"))
-
-        client.post().uri("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
-                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .expectStatus().is3xxRedirection
-                .expectHeader().valueEquals("location", "/owners/"+TEST_OWNER_ID)
+        mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
+                .param("name", "Betty")
+                .param("type", "hamster")
+                .param("birthDate", "2015-02-12")
+        )
+                .andExpect(status().is3xxRedirection)
+                .andExpect(view().name("redirect:/owners/{ownerId}"))
     }
 
     @Test
     fun testProcessUpdateFormHasErrors() {
-        val formData = LinkedMultiValueMap<String, String>(2)
-        formData.put("name", Arrays.asList("Betty"))
-        formData.put("birthDate", Arrays.asList("2015-02-12"))
-
-        val responseBody = client.post().uri("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
-                .body(BodyInserters.fromFormData(formData))
-                .exchange()
-                .expectStatus().isOk
-                .expectBody(String::class.java).returnResult().responseBody
-
-        Assertions.assertThat(responseBody).contains("is required")
+        mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
+                .param("name", "Betty")
+                .param("birthDate", "2015-02-12")
+        )
+                .andExpect(model().attributeHasNoErrors("owner"))
+                .andExpect(model().attributeHasErrors("pet"))
+                .andExpect(status().isOk)
+                .andExpect(view().name("pets/createOrUpdatePetForm"))
     }
 
 }
