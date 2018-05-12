@@ -52,7 +52,7 @@ class VisitController(val visits: VisitRepository, val pets: PetRepository) {
     @ModelAttribute("visit")
     fun loadPetWithVisit(@PathVariable("petId") petId: Int, model: MutableMap<String, Any>): Visit {
         val pet = pets.findById(petId)
-        model.put("pet", pet)
+        model["pet"] = pet
         val visit = Visit()
         pet.addVisit(visit)
         return visit

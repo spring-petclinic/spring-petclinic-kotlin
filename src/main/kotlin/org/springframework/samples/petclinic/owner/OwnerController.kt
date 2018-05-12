@@ -46,7 +46,7 @@ class OwnerController(val owners: OwnerRepository) {
     @GetMapping("/owners/new")
     fun initCreationForm(model: MutableMap<String, Any>): String {
         val owner = Owner()
-        model.put("owner", owner)
+        model["owner"] = owner
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM
     }
 
@@ -62,7 +62,7 @@ class OwnerController(val owners: OwnerRepository) {
 
     @GetMapping("/owners/find")
     fun initFindForm(model: MutableMap<String, Any>): String {
-        model.put("owner", Owner())
+        model["owner"] = Owner()
         return "owners/findOwners"
     }
 
@@ -82,7 +82,7 @@ class OwnerController(val owners: OwnerRepository) {
             }
             else -> {
                 // multiple owners found
-                model.put("selections", results)
+                model["selections"] = results
                 "owners/ownersList"
             }
         }
