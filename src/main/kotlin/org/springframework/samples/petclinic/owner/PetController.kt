@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.owner
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
@@ -57,7 +58,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
     fun initCreationForm(owner: Owner, model: Model): String {
         val pet = Pet()
         owner.addPet(pet)
-        model.addAttribute("pet", pet)
+        model["pet"] = pet
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
     }
 
@@ -68,7 +69,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
         }
         owner.addPet(pet)
         return if (result.hasErrors()) {
-            model.addAttribute("pet", pet)
+            model["pet"] = pet
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             this.pets.save(pet)
@@ -79,7 +80,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
     @GetMapping("/pets/{petId}/edit")
     fun initUpdateForm(@PathVariable petId: Int, model: Model): String {
         val pet = pets.findById(petId)
-        model.addAttribute("pet", pet)
+        model["pet"] = pet
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
     }
 
@@ -87,7 +88,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
     fun processUpdateForm(@Valid pet: Pet, result: BindingResult, owner: Owner, model: Model): String {
         return if (result.hasErrors()) {
             pet.owner = owner
-            model.addAttribute("pet", pet)
+            model["pet"] = pet
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             owner.addPet(pet)
