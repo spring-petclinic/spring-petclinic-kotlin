@@ -12,8 +12,6 @@ val boostrapVersion = "3.3.6"
 val jQueryVersion = "2.2.4"
 val jQueryUIVersion = "1.11.4"
 
-version = "2.0.2"
-
 tasks {
     withType<KotlinCompile> {
         kotlinOptions {
