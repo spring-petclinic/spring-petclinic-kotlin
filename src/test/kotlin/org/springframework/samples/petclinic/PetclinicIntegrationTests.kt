@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.system
+package org.springframework.samples.petclinic
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
-class ProductionConfigurationTests(@Autowired private val vets: VetRepository) {
+class PetclinicIntegrationTests(@Autowired private val vets: VetRepository) {
 
     @Test
     fun testFindAll() {
