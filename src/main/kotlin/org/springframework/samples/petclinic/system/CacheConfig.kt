@@ -23,10 +23,12 @@ import javax.cache.configuration.Configuration
 import javax.cache.configuration.MutableConfiguration
 
 /**
- * Cache could be disabled in unit test.
+ * Cache configuration intended for caches providing the JCache API. This configuration creates the used cache for the
+ * application and enables statistics that become accessible via JMX.
  *
  * @author Antoine Rey
  * @author Stephane Nicoll
+ * @author Jens Wilke
  */
 @org.springframework.context.annotation.Configuration
 @EnableCaching
@@ -39,8 +41,13 @@ class CacheConfig {
         }
     }
 
+    /**
+     * Create a simple configuration that enable statistics via the JCache programmatic configuration API.
+     * <p>
+     * Within the configuration object that is provided by the JCache API standard, there is only a very limited set of
+     * configuration options. The really relevant configuration options (like the size limit) must be set via a
+     * configuration mechanism that is provided by the selected JCache implementation.
+     */
     private fun createCacheConfiguration(): Configuration<Any, Any> =
-            // Create a cache using infinite heap. A real application will want to use an
-            // implementation dependent configuration that will better fit your needs
             MutableConfiguration<Any, Any>().setStatisticsEnabled(true)
 }
