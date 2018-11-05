@@ -32,11 +32,7 @@ import org.springframework.validation.Validator
  * @author Antoine Rey
  */
 class PetValidator : Validator {
-
-    override fun validate(obj: Any?, errors: Errors) {
-        if (obj == null) {
-            return
-        }
+    override fun validate(obj: Any, errors: Errors) {
         val pet = obj as Pet
         val name = pet.name
         // name validation

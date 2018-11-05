@@ -5,7 +5,7 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 ## Technologies used
 
 * Language: Kotlin
-* Core framework: Spring Boot 2.0 with Spring Framework 5 Kotlin support
+* Core framework: Spring Boot 2.1 with Spring Framework 5 Kotlin support
 * Server: Netty
 * Web framework: Spring MVC
 * Templates: Thymeleaf and Bootstrap
