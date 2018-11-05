@@ -68,31 +68,18 @@ docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:
 * [Migrez une application Java Spring Boot vers kotlin](http://javaetmoi.com/2017/09/migrez-application-java-spring-boot-vers-kotlin/) (french)
 * [Migration Spring Web MVC vers Spring WebFlux](http://javaetmoi.com/2017/12/migration-spring-web-mvc-vers-spring-webflux/) (french)
 
+
+
 ## Interesting Spring Petclinic forks
 
-The Spring Petclinic master branch in the main
-[spring-projects](https://github.com/spring-project/spring-petclinic)
-GitHub org is the "canonical" implementation, currently based on
-Spring Boot and Thymeleaf. 
+The Spring Petclinic master branch in the main [spring-projects](https://github.com/spring-projects/spring-petclinic)
+GitHub org is the "canonical" implementation, currently based on Spring Boot and Thymeleaf.
 
-This [spring-petclinic-kotlin][] project is one of the several forks hosted
-in a special GitHub org: [spring-petclinic](https://github.com/spring-petclinic).
-If you have a special interest in a different technology stack that could
-be used to implement the Pet Clinic then please join the community
-there.
+This [spring-petclinic-kotlin][] project is one of the [several forks](https://spring-petclinic.github.io/docs/forks.html) 
+hosted in a special GitHub org: [spring-petclinic](https://github.com/spring-petclinic).
+If you have a special interest in a different technology stack
+that could be used to implement the Pet Clinic then please join the community there.
 
-| Link                               | Main technologies |
-|------------------------------------|-------------------|
-| [spring-petclinic][]               | "Canonical" implementation of Spring Petclinic based on Spring Boot and Thymeleaf |
-| [spring-framework-petclinic][]     | Spring Framework XML configuration, JSP pages, 3 persistence layers: JDBC, JPA and Spring Data JPA |
-| [javaconfig branch][]              | Same frameworks as the [spring-framework-petclinic][] but with Java Configuration instead of XML |
-| [spring-petclinic-angularjs][]     | AngularJS 1.x, Spring Boot and Spring Data JPA |
-| [spring-petclinic-angular][]       | Angular 4 front-end of the Petclinic REST API [spring-petclinic-rest][] |
-| [spring-petclinic-microservices][] | Distributed version of Spring Petclinic built with Spring Cloud |
-| [spring-petclinic-reactjs][]       | ReactJS (with TypeScript) and Spring Boot |
-| [spring-petclinic-graphql][]       | GraphQL version based on React Appolo, TypeScript and GraphQL Spring boot starter |
-| [spring-petclinic-kotlin][]        | Kotlin version of [spring-petclinic][] |
-| [spring-petclinic-rest][]          | Backend REST API |
 
 
 ## Interaction with other open source projects
