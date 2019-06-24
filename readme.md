@@ -15,18 +15,25 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 * Testing: Junit 5, Mockito and AssertJ
 
 ## Running petclinic locally
+
+### With gradle command line
+
 ```
-	git clone https://github.com/spring-petclinic/spring-petclinic-kotlin.git
-	cd spring-petclinic-kotlin
-	./gradlew bootRun
+git clone https://github.com/spring-petclinic/spring-petclinic-kotlin.git
+cd spring-petclinic-kotlin
+./gradlew bootRun
 ```
 
-You can then access petclinic here: http://localhost:8080/
+### With Docker
+
+```
+docker run -P 8080:8080 springcommunity/spring-petclinic-kotlin
+```
+
+
+You can then access petclinic here: [http://localhost:8080/]()
 
 <img width="1042" alt="petclinic-screenshot" src="https://user-images.githubusercontent.com/838318/29994372-7f85f6da-8fce-11e7-8896-b5aa075ac0d7.png">
-
-## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/spring-petclinic/spring-petclinic-kotlin/issues
 
 
 ## Database configuration
@@ -69,6 +76,13 @@ docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:
 * [Migration Spring Web MVC vers Spring WebFlux](http://javaetmoi.com/2017/12/migration-spring-web-mvc-vers-spring-webflux/) (french)
 
 
+## Publishing a Docker image
+
+This application uses [Google Jib]([https://github.com/GoogleContainerTools/jib) to build an optimized Docker image
+into the [Docker Hub](https://cloud.docker.com/u/springcommunity/repository/docker/springcommunity/spring-petclinic-kotlin/)
+repository.
+The [build.gradle.kts](build.gradle.kts) has been configured to publish the image with a the `springcommunity/spring-petclinic-kotlin` image name.
+
 
 ## Interesting Spring Petclinic forks
 
@@ -80,6 +94,11 @@ hosted in a special GitHub org: [spring-petclinic](https://github.com/spring-pet
 If you have a special interest in a different technology stack
 that could be used to implement the Pet Clinic then please join the community there.
 
+Build and push the container image of Petclinc to the Docker Hub registry:
+T
+```
+gradle jib -Djib.to.auth.username=<username> -Djib.to.auth.password=<password>
+```
 
 
 ## Interaction with other open source projects
@@ -103,15 +122,7 @@ For pull requests, editor preferences are available in the [editor config](.edit
 
 [issue tracker]: https://github.com/spring-petclinic/spring-petclinic-kotlin/issues
 [spring-petclinic]: https://github.com/spring-projects/spring-petclinic
-[spring-framework-petclinic]: https://github.com/spring-petclinic/spring-framework-petclinic
 [spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs 
-[javaconfig branch]: https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig
-[spring-petclinic-angular]: https://github.com/spring-petclinic/spring-petclinic-angular
-[spring-petclinic-microservices]: https://github.com/spring-petclinic/spring-petclinic-microservices
-[spring-petclinic-reactjs]: https://github.com/spring-petclinic/spring-petclinic-reactjs
-[spring-petclinic-graphql]: https://github.com/spring-petclinic/spring-petclinic-graphql
-[spring-petclinic-kotlin]: https://github.com/spring-petclinic/spring-petclinic-kotlin
-[spring-petclinic-rest]: https://github.com/spring-petclinic/spring-petclinic-rest
 
 
 

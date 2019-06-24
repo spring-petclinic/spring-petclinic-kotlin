@@ -1,11 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
+project.description = "Kotlin version of the Spring Petclinic application"
+// Align with Spring Version
+project.version = "2.1.3"
+
 plugins {
     val kotlinVersion = "1.3.21"
     id("org.springframework.boot") version "2.1.3.RELEASE"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
     id("io.spring.dependency-management") version "1.0.7.RELEASE"
+    id("com.google.cloud.tools.jib") version "1.3.0"
 }
 
 val boostrapVersion = "3.3.6"
@@ -53,5 +59,13 @@ dependencies {
 
     runtimeOnly("org.hsqldb:hsqldb")
     runtimeOnly("mysql:mysql-connector-java")
+}
+
+
+jib {
+    to {
+        image = "springcommunity/spring-petclinic-kotlin"
+        tags = setOf(project.version.toString(), "latest")
+    }
 }
 
