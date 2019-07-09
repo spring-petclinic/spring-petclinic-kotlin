@@ -2,16 +2,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 project.description = "Kotlin version of the Spring Petclinic application"
+project.group = "org.springframework.samples"
 // Align with Spring Version
-project.version = "2.1.6"
+project.version = "2.2.0.M4"
 
 plugins {
-    val kotlinVersion = "1.3.21"
-    id("org.springframework.boot") version "2.1.6.RELEASE"
-    id("org.jetbrains.kotlin.jvm") version kotlinVersion
-    id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
+    val kotlinVersion = "1.3.31"
+    id("org.springframework.boot") version "2.2.0.M4"
     id("io.spring.dependency-management") version "1.0.7.RELEASE"
     id("com.google.cloud.tools.jib") version "1.3.0"
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
 }
 
 val boostrapVersion = "3.3.6"
@@ -33,6 +34,8 @@ tasks.withType<Test> {
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {
@@ -61,11 +64,9 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java")
 }
 
-
 jib {
     to {
         image = "springcommunity/spring-petclinic-kotlin"
         tags = setOf(project.version.toString(), "latest")
     }
 }
-

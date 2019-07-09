@@ -83,6 +83,11 @@ into the [Docker Hub](https://cloud.docker.com/u/springcommunity/repository/dock
 repository.
 The [build.gradle.kts](build.gradle.kts) has been configured to publish the image with a the `springcommunity/spring-petclinic-kotlin` image name.
 
+Build and push the container image of Petclinic to the Docker Hub registry:
+```
+gradle jib -Djib.to.auth.username=<username> -Djib.to.auth.password=<password>
+```
+
 
 ## Interesting Spring Petclinic forks
 
@@ -93,12 +98,6 @@ This [spring-petclinic-kotlin][] project is one of the [several forks](https://s
 hosted in a special GitHub org: [spring-petclinic](https://github.com/spring-petclinic).
 If you have a special interest in a different technology stack
 that could be used to implement the Pet Clinic then please join the community there.
-
-Build and push the container image of Petclinc to the Docker Hub registry:
-T
-```
-gradle jib -Djib.to.auth.username=<username> -Djib.to.auth.password=<password>
-```
 
 
 ## Interaction with other open source projects
