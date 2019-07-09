@@ -46,6 +46,7 @@ class PetTypeFormatterTest {
         assertEquals("Bird", petType.name)
     }
 
+    @Test
     @Throws(ParseException::class)
     fun shouldThrowParseException() {
         Mockito.`when`(this.pets.findPetTypes()).thenReturn(makePetTypes())
