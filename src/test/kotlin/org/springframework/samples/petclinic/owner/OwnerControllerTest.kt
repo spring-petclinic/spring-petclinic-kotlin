@@ -2,13 +2,13 @@ package org.springframework.samples.petclinic.owner
 
 
 import org.assertj.core.util.Lists
-import org.hamcrest.BaseMatcher
-import org.hamcrest.Description
 import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.verify
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -58,7 +58,7 @@ class OwnerControllerTest {
         max.type = dog
         max.name = "Max"
         max.birthDate = Date()
-        george.pets = Collections.singleton(max)
+        george.pets = mutableSetOf(max)
         given(owners.findById(TEST_OWNER_ID)).willReturn(george)
         val visit = Visit()
         visit.date = Date()
@@ -186,18 +186,9 @@ class OwnerControllerTest {
                 .andExpect(model().attribute("owner", hasProperty<Any>("city", `is`("Madison"))))
                 .andExpect(model().attribute("owner", hasProperty<Any>("telephone", `is`("6085551023"))))
                 .andExpect(model().attribute("owner", hasProperty<Any>("pets", not<Any>(empty<Any>()))))
-                .andExpect(model().attribute("owner", hasProperty<Any>("pets", object: BaseMatcher<List<Pet>>() {
-                    override fun describeTo(description: Description?) {
-                        description?.appendText("Max did not have any visits")
-                    }
-
-                    @Suppress("UNCHECKED_CAST")
-                    override fun matches(item: Any?): Boolean {
-                        val pets : Set<Pet> = item as Set<Pet>
-                        val pet = pets.iterator().next()
-                        return !pet.getVisits().isEmpty()
-                    } })))
                 .andExpect(view().name("owners/ownerDetails"))
+
+        Mockito.verify(this.visits).findByPetId(1)
     }
 
 
