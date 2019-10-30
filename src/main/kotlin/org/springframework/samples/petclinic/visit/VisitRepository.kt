@@ -38,6 +38,6 @@ interface VisitRepository : Repository<Visit, Int> {
      */
     fun save(visit: Visit)
 
-    fun findByPetId(petId: Int): List<Visit>
+    fun findByPetId(petId: Int): MutableSet<Visit>
 
 }

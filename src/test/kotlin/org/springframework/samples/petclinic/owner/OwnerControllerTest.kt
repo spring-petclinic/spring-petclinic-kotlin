@@ -2,8 +2,9 @@ package org.springframework.samples.petclinic.owner
 
 
 import org.assertj.core.util.Lists
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.hasProperty
+import org.hamcrest.BaseMatcher
+import org.hamcrest.Description
+import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -16,6 +17,10 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.samples.petclinic.visit.VisitRepository
+import org.springframework.samples.petclinic.visit.Visit
+import java.util.*
+
 
 /**
  * Test class for [OwnerController]
@@ -32,6 +37,9 @@ class OwnerControllerTest {
     @MockBean
     private lateinit var owners: OwnerRepository
 
+    @MockBean
+    private lateinit var visits: VisitRepository
+
     private lateinit var george: Owner
 
     @BeforeEach
@@ -43,7 +51,18 @@ class OwnerControllerTest {
         george.address = "110 W. Liberty St."
         george.city = "Madison"
         george.telephone = "6085551023"
+        val max = Pet()
+        val dog = PetType()
+        dog.name = "dog"
+        max.id = 1
+        max.type = dog
+        max.name = "Max"
+        max.birthDate = Date()
+        george.pets = Collections.singleton(max)
         given(owners.findById(TEST_OWNER_ID)).willReturn(george)
+        val visit = Visit()
+        visit.date = Date()
+        given(this.visits.findByPetId(max.id!!)).willReturn(Collections.singleton(visit))
     }
 
     @Test
@@ -166,8 +185,21 @@ class OwnerControllerTest {
                 .andExpect(model().attribute("owner", hasProperty<Any>("address", `is`("110 W. Liberty St."))))
                 .andExpect(model().attribute("owner", hasProperty<Any>("city", `is`("Madison"))))
                 .andExpect(model().attribute("owner", hasProperty<Any>("telephone", `is`("6085551023"))))
+                .andExpect(model().attribute("owner", hasProperty<Any>("pets", not<Any>(empty<Any>()))))
+                .andExpect(model().attribute("owner", hasProperty<Any>("pets", object: BaseMatcher<List<Pet>>() {
+                    override fun describeTo(description: Description?) {
+                        description?.appendText("Max did not have any visits")
+                    }
+
+                    @Suppress("UNCHECKED_CAST")
+                    override fun matches(item: Any?): Boolean {
+                        val pets : List<Pet> = item as List<Pet>
+                        val pet = pets.get(0)
+                        return !pet.getVisits().isEmpty()
+                    } })))
                 .andExpect(view().name("owners/ownerDetails"))
     }
+
 
     companion object {
 

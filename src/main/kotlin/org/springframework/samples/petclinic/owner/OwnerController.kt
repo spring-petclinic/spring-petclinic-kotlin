@@ -15,7 +15,7 @@
  */
 package org.springframework.samples.petclinic.owner
 
-
+import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -34,7 +34,7 @@ import javax.validation.Valid
  * @author Antoine Rey
  */
 @Controller
-class OwnerController(val owners: OwnerRepository) {
+class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) {
 
     val VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm"
 
@@ -114,7 +114,11 @@ class OwnerController(val owners: OwnerRepository) {
      */
     @GetMapping("/owners/{ownerId}")
     fun showOwner(@PathVariable("ownerId") ownerId: Int, model: Model): String {
-        model.addAttribute(this.owners.findById(ownerId))
+        val owner = this.owners.findById(ownerId)
+        for (pet in owner.getPets()) {
+            pet.visits = visits.findByPetId(pet.id!!)
+        }
+        model.addAttribute(owner)
         return "owners/ownerDetails"
     }
 

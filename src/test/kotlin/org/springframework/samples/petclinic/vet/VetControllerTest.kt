@@ -56,7 +56,7 @@ class VetControllerTest {
     fun testShowResourcesVetList() {
         val actions = mockMvc.perform(get("/vets.json").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk)
-        actions.andExpect(content().contentType("application/json"))
+        actions.andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.vetList[0].id").value(1))
     }
 
