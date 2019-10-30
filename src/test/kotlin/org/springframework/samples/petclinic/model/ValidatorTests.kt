@@ -32,7 +32,7 @@ class ValidatorTests {
         val validator = createValidator()
         val constraintViolations = validator.validate(person)
 
-        assertThat(constraintViolations.size).isEqualTo(1)
+        assertThat(constraintViolations).hasSize(1)
         val violation = constraintViolations.iterator().next()
         assertThat(violation.propertyPath.toString()).isEqualTo("firstName")
         assertThat(violation.message).isEqualTo("must not be empty")

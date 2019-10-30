@@ -193,8 +193,8 @@ class OwnerControllerTest {
 
                     @Suppress("UNCHECKED_CAST")
                     override fun matches(item: Any?): Boolean {
-                        val pets : List<Pet> = item as List<Pet>
-                        val pet = pets.get(0)
+                        val pets : Set<Pet> = item as Set<Pet>
+                        val pet = pets.iterator().next()
                         return !pet.getVisits().isEmpty()
                     } })))
                 .andExpect(view().name("owners/ownerDetails"))

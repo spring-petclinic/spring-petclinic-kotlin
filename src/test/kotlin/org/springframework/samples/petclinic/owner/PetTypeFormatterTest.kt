@@ -1,13 +1,13 @@
 package org.springframework.samples.petclinic.owner
 
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.BDDMockito.given
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.text.ParseException
 import java.util.*
@@ -35,21 +35,21 @@ class PetTypeFormatterTest {
         val petType = PetType()
         petType.name = "Hamster"
         val petTypeName = this.petTypeFormatter.print(petType, Locale.ENGLISH)
-        assertEquals("Hamster", petTypeName)
+        assertThat("Hamster").isEqualTo(petTypeName)
     }
 
     @Test
     @Throws(ParseException::class)
     fun shouldParse() {
-        Mockito.`when`(this.pets.findPetTypes()).thenReturn(makePetTypes())
+        given(this.pets.findPetTypes()).willReturn(makePetTypes())
         val petType = petTypeFormatter.parse("Bird", Locale.ENGLISH)
-        assertEquals("Bird", petType.name)
+        assertThat("Bird").isEqualTo(petType.name)
     }
 
     @Test
     @Throws(ParseException::class)
     fun shouldThrowParseException() {
-        Mockito.`when`(this.pets.findPetTypes()).thenReturn(makePetTypes())
+        given(this.pets.findPetTypes()).willReturn(makePetTypes())
         assertThrows(ParseException::class.java, { petTypeFormatter.parse("Fish", Locale.ENGLISH) })
     }
 
