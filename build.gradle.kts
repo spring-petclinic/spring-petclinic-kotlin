@@ -4,11 +4,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 project.description = "Kotlin version of the Spring Petclinic application"
 project.group = "org.springframework.samples"
 // Align with Spring Version
-project.version = "2.2.0.M4"
+project.version = "2.2.0.RELEASE"
 
 plugins {
     val kotlinVersion = "1.3.31"
-    id("org.springframework.boot") version "2.2.0.M4"
+    id("org.springframework.boot") version "2.2.0.RELEASE"
     id("io.spring.dependency-management") version "1.0.7.RELEASE"
     id("com.google.cloud.tools.jib") version "1.3.0"
     kotlin("jvm") version kotlinVersion
