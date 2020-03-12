@@ -30,7 +30,7 @@ import javax.cache.configuration.MutableConfiguration
  * @author Stephane Nicoll
  * @author Jens Wilke
  */
-@org.springframework.context.annotation.Configuration
+@org.springframework.context.annotation.Configuration(proxyBeanMethods = false)
 @EnableCaching
 class CacheConfig {
 
