@@ -1,15 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
-project.description = "Kotlin version of the Spring Petclinic application"
-project.group = "org.springframework.samples"
+description = "Kotlin version of the Spring Petclinic application"
+group = "org.springframework.samples"
 // Align with Spring Version
-project.version = "2.2.0.RELEASE"
+version = "2.2.5.RELEASE"
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 plugins {
-    val kotlinVersion = "1.3.31"
-    id("org.springframework.boot") version "2.2.0.RELEASE"
-    id("io.spring.dependency-management") version "1.0.7.RELEASE"
+    val kotlinVersion = "1.3.61"
+    id("org.springframework.boot") version "2.2.5.RELEASE"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("com.google.cloud.tools.jib") version "1.3.0"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
