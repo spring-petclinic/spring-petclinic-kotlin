@@ -63,8 +63,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-    runtimeOnly("org.hsqldb:hsqldb")
+    runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 jib {

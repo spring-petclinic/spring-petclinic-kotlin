@@ -38,8 +38,11 @@ You can then access petclinic here: [http://localhost:8080/]()
 
 ## Database configuration
 
-In its default configuration, Petclinic uses an in-memory database (HSQLDB) which
-gets populated at startup with data. A similar setup is provided for MySql in case a persistent database configuration is needed.
+In its default configuration, Petclinic uses an in-memory database (H2) which gets populated at startup with data.
+The h2 console is automatically exposed at `http://localhost:8080/h2-console`
+and it is possible to inspect the content of the database using the `jdbc:h2:mem:{uuid}` url (the `uuid` param could be find in the startup logs).
+
+A similar setup is provided for MySql in case a persistent database configuration is needed.
 Note that whenever the database type is changed, the data-access.properties file needs to be updated and the mysql-connector-java artifact from the pom.xml needs to be uncommented.
 
 You could start a MySql database with docker:
