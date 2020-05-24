@@ -27,7 +27,7 @@ cd spring-petclinic-kotlin
 ### With Docker
 
 ```
-docker run -P 8080:8080 springcommunity/spring-petclinic-kotlin
+docker run -p 8080:8080 springcommunity/spring-petclinic-kotlin
 ```
 
 
