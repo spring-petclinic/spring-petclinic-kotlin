@@ -31,7 +31,7 @@ import javax.persistence.MappedSuperclass
 open class NamedEntity : BaseEntity() {
 
     @Column(name = "name")
-    var name: String? = null
+    open var name: String? = null
 
     override fun toString(): String =
             this.name ?: ""

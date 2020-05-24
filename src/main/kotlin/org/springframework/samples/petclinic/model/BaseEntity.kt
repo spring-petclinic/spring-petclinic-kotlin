@@ -34,7 +34,7 @@ open class BaseEntity : Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null
+    open var id: Int? = null
 
     val isNew: Boolean
         get() = this.id == null
