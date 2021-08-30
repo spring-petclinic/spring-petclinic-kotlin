@@ -1,0 +1,32 @@
+# GH Action Workflow: Example Workflow to cleanup (ephemeral) Sandbox Namespaces 
+
+name:  
+on: [push, create]
+
+jobs:
+  cleanup_namespace:
+    name: Cluster Authentication 
+    uses: redhat-actions/oc-login@v1
+    runs-on: [deployer]
+    steps:
+      - name:  Authenticate and set context
+        uses: redhat-actions/oc-login@v1
+        with:
+          # URL to your OpenShift cluster.
+          # Refer to Step 2.
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+
+          # Authentication Token. Can use username and password instead.
+          # Refer to Step 3.
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+
+          # Disables SSL cert checking. Use this if you don't have the certificate authority data.
+          insecure_skip_tls_verify: true
+          # This method is more secure, if the certificate from Step 4 is available.
+          certificate_authority_data: ${{ secrets.CA_DATA }}
+
+          # Optional - this sets your Kubernetes context's current namespace after logging in.
+          namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
+      - name: Cleanup Namespace
+        run:
+          oc create ns ${{ secrets.OPENSHIFT_NAMESPACE }}-sbx -l git-sha=${{ GITHUB_SHA	}}
