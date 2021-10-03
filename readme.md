@@ -8,7 +8,7 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 
 * Language: Kotlin
 * Core framework: Spring Boot 2 with Spring Framework 5 Kotlin support
-* Server: Netty
+* Server: Apache Tomcat
 * Web framework: Spring MVC
 * Templates: Thymeleaf and Bootstrap
 * Persistence : Spring Data JPA
