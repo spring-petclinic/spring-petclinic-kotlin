@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.visit
 
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.samples.petclinic.model.BaseEntity
-import java.util.*
+import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.NotEmpty
 
@@ -36,9 +36,8 @@ class Visit : BaseEntity() {
      * Holds value of property date.
      */
     @Column(name = "visit_date")
-    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    var date: Date = Date()
+    var date: LocalDate = LocalDate.now()
 
     /**
      * Holds value of property description.

@@ -19,6 +19,7 @@ package org.springframework.samples.petclinic.owner
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.samples.petclinic.model.NamedEntity
 import org.springframework.samples.petclinic.visit.Visit
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -35,9 +36,8 @@ import javax.persistence.*
 class Pet : NamedEntity() {
 
     @Column(name = "birth_date")
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    var birthDate: Date? = null
+    var birthDate: LocalDate? = null
 
     @ManyToOne
     @JoinColumn(name = "type_id")

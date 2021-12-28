@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.samples.petclinic.visit.Visit
+import java.time.LocalDate
 import java.util.*
 
 
@@ -57,11 +58,11 @@ class OwnerControllerTest {
         max.id = 1
         max.type = dog
         max.name = "Max"
-        max.birthDate = Date()
+        max.birthDate = LocalDate.now()
         george.pets = mutableSetOf(max)
         given(owners.findById(TEST_OWNER_ID)).willReturn(george)
         val visit = Visit()
-        visit.date = Date()
+        visit.date = LocalDate.now()
         given(this.visits.findByPetId(max.id!!)).willReturn(Collections.singleton(visit))
     }
 

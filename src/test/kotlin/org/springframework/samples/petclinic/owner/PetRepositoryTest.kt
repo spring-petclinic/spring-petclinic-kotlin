@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -41,7 +42,7 @@ class PetRepositoryTest(@Autowired private val pets: PetRepository, @Autowired p
         pet.name = "bowser"
         val types = this.pets.findPetTypes()
         pet.type = types.first { it.id == 2 }
-        pet.birthDate = Date()
+        pet.birthDate = LocalDate.now()
         owner6.addPet(pet)
         assertThat(owner6.getPets().size).isEqualTo(found + 1)
 
