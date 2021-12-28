@@ -78,10 +78,10 @@ class Owner : Person() {
      * @return true if owner name is already in use
      */
     fun getPet(name: String, ignoreNew: Boolean): Pet? {
-        val lname = name.toLowerCase()
+        val lname = name.lowercase()
         for (pet in pets) {
             if (!ignoreNew || !pet.isNew) {
-                val compName = pet.name?.toLowerCase()
+                val compName = pet.name?.lowercase()
                 if (compName == lname) {
                     return pet
                 }

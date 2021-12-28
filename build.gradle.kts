@@ -17,9 +17,8 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion
 }
 
-val boostrapVersion = "3.3.6"
-val jQueryVersion = "2.2.4"
-val jQueryUIVersion = "1.11.4"
+val boostrapVersion = "5.1.3"
+val fontAwesomeVersion = "4.7.0"
 
 tasks {
     withType<KotlinCompile> {
@@ -52,9 +51,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.webjars:webjars-locator-core")
-    implementation("org.webjars:jquery:$jQueryVersion")
-    implementation("org.webjars:jquery-ui:$jQueryUIVersion")
-    implementation("org.webjars:bootstrap:$boostrapVersion")
+    implementation("org.webjars.npm:bootstrap:$boostrapVersion")
+    implementation("org.webjars.npm:font-awesome:$fontAwesomeVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
