@@ -10,7 +10,7 @@ This is a [Kotlin](https://kotlinlang.org/) version of the [spring-petclinic][] 
 * Core framework: Spring Boot 2 with Spring Framework 5 Kotlin support
 * Server: Apache Tomcat
 * Web framework: Spring MVC
-* Templates: Thymeleaf and Bootstrap
+* Templates: Thymeleaf and Bootstrap 5
 * Persistence : Spring Data JPA
 * Databases: H2 and MySQL both supported
 * Build: Gradle Script with the Kotlin DSL
@@ -26,7 +26,7 @@ cd spring-petclinic-kotlin
 ./gradlew bootRun
 ```
 
-### With Docker
+### With Docke
 
 ```
 docker run -p 8080:8080 springcommunity/spring-petclinic-kotlin
