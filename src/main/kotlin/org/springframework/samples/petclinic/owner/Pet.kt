@@ -21,7 +21,7 @@ import org.springframework.samples.petclinic.model.NamedEntity
 import org.springframework.samples.petclinic.visit.Visit
 import java.time.LocalDate
 import java.util.*
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * Simple business object representing a owner.

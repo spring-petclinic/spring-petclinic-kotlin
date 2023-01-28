@@ -16,8 +16,8 @@
 package org.springframework.samples.petclinic.vet
 
 import org.springframework.samples.petclinic.model.Person
-import javax.persistence.*
-import javax.xml.bind.annotation.XmlElement
+import jakarta.persistence.*
+import jakarta.xml.bind.annotation.XmlElement
 
 /**
  * Simple JavaBean domain object representing a veterinarian.

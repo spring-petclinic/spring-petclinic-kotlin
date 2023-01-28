@@ -18,9 +18,9 @@ package org.springframework.samples.petclinic.owner
 
 import org.springframework.samples.petclinic.model.Person
 import java.util.*
-import javax.persistence.*
-import javax.validation.constraints.Digits
-import javax.validation.constraints.NotEmpty
+import jakarta.persistence.*
+import jakarta.validation.constraints.Digits
+import jakarta.validation.constraints.NotEmpty
 
 /**
  * Simple JavaBean domain object representing an owner.
