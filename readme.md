@@ -26,7 +26,7 @@ cd spring-petclinic-kotlin
 ./gradlew bootRun
 ```
 
-### With Docke
+### With Docker
 
 ```
 docker run -p 8080:8080 springcommunity/spring-petclinic-kotlin
