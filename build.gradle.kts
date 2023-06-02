@@ -4,13 +4,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 description = "Kotlin version of the Spring Petclinic application"
 group = "org.springframework.samples"
 // Align with Spring Version
-version = "3.0.4"
+version = "3.1.0"
 
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 plugins {
-    val kotlinVersion = "1.7.22"
-    id("org.springframework.boot") version "3.0.4"
+    val kotlinVersion = "1.8.21"
+    id("org.springframework.boot") version "3.1.0"
     id("io.spring.dependency-management") version "1.1.0"
     id("com.google.cloud.tools.jib") version "3.1.4"
     kotlin("jvm") version kotlinVersion
@@ -20,12 +20,10 @@ plugins {
 val boostrapVersion = "5.1.3"
 val fontAwesomeVersion = "4.7.0"
 
-tasks {
-    withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "17"
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-        }
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "17"
+        freeCompilerArgs = listOf("-Xjsr305=strict")
     }
 }
 
@@ -49,7 +47,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.glassfish.jaxb:jaxb-runtime")
     implementation("javax.cache:cache-api")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.webjars:webjars-locator-core")
     implementation("org.webjars.npm:bootstrap:$boostrapVersion")
@@ -64,6 +61,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 jib {
@@ -72,3 +70,4 @@ jib {
         tags = setOf(project.version.toString(), "latest")
     }
 }
+
