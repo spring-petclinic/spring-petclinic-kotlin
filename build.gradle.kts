@@ -17,6 +17,7 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion
 }
 
+// WebJars versions are also referenced in src/main/resources/templates/fragments/layout.html for resource URLs
 val boostrapVersion = "5.1.3"
 val fontAwesomeVersion = "4.7.0"
 
@@ -48,7 +49,6 @@ dependencies {
     implementation("org.glassfish.jaxb:jaxb-runtime")
     implementation("javax.cache:cache-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.webjars:webjars-locator-core")
     implementation("org.webjars.npm:bootstrap:$boostrapVersion")
     implementation("org.webjars.npm:font-awesome:$fontAwesomeVersion")
 
