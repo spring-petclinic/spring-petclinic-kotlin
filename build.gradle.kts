@@ -4,13 +4,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 description = "Kotlin version of the Spring Petclinic application"
 group = "org.springframework.samples"
 // Align with Spring Version
-version = "3.1.0"
+version = "3.1.3"
 
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 plugins {
-    val kotlinVersion = "1.8.21"
-    id("org.springframework.boot") version "3.1.0"
+    val kotlinVersion = "1.8.22"
+    id("org.springframework.boot") version "3.1.3"
     id("io.spring.dependency-management") version "1.1.0"
     id("com.google.cloud.tools.jib") version "3.1.4"
     kotlin("jvm") version kotlinVersion
