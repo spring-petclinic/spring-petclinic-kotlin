@@ -15,7 +15,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.1.4"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("jacoco")
+    id("org.jetbrains.kotlinx.kover") version "0.7.2"
 }
 
 // WebJars versions are also referenced in src/main/resources/templates/fragments/layout.html for resource URLs
@@ -31,6 +31,21 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy(tasks.koverXmlReport)
+}
+
+koverReport {
+    filters {
+        includes {
+            classes("org.springframework.samples.*")
+        }
+    }
+    defaults {
+        xml {
+            onCheck = false
+            setReportFile(layout.projectDirectory.file(".qodana/code-coverage/result.xml").asFile)
+        }
+    }
 }
 
 repositories {
@@ -58,7 +73,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation(kotlin("test"))
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
