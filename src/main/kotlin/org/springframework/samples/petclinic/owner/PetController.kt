@@ -24,6 +24,9 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import jakarta.validation.Valid
+import org.springframework.samples.petclinic.remote.HotelClient
+import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 /**
  * @author Juergen Hoeller
@@ -33,7 +36,7 @@ import jakarta.validation.Valid
  */
 @Controller
 @RequestMapping("/owners/{ownerId}")
-class PetController(val pets: PetRepository, val owners: OwnerRepository) {
+class PetController(val pets: PetRepository, val owners: OwnerRepository, val hotelClient: HotelClient) {
 
     private val VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm"
 
@@ -92,9 +95,22 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             owner.addPet(pet)
-            pets.save(pet)
+            saveOwnerAndPet(pet, owner)
             "redirect:/owners/{ownerId}"
         }
     }
 
+    @PostMapping("/pets/{petId}/hotel")
+    fun requestHotel(@Valid hotel: Hotel, @PathVariable("petId") petId: Int, result: BindingResult, owner: Owner, model: Model): String {
+        hotelClient.requestRoomForPet(hotel.date, petId)
+        return "redirect:/owners/{ownerId}"
+    }
+
+    @Transactional
+    fun saveOwnerAndPet(pet: Pet, owner: Owner) {
+        pets.save(pet)
+        owners.save(owner)
+    }
 }
+
+data class Hotel(val date: Date)

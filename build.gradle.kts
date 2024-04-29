@@ -15,6 +15,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.1.4"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
+    id("jacoco")
 }
 
 // WebJars versions are also referenced in src/main/resources/templates/fragments/layout.html for resource URLs
@@ -40,6 +41,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -51,6 +53,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.webjars.npm:bootstrap:$boostrapVersion")
     implementation("org.webjars.npm:font-awesome:$fontAwesomeVersion")
+    implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
