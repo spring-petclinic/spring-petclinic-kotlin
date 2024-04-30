@@ -14,4 +14,4 @@ failureConditions:
 
 projectJDK: "17" #(Applied in CI/CD pipeline)
 
-linter: jetbrains/qodana-jvm:latest
+linter: jetbrains/qodana-jvm:2024.1
