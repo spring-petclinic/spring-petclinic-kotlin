@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class TransactionalRepository(val pets: PetRepository, val owners: OwnerRepository) {
     @Transactional
-    @Suppress("Code Coverage")
     fun saveOwnerAndPet(pet: Pet, owner: Owner) {
         pets.save(pet)
         owners.save(owner)

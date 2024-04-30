@@ -15,7 +15,6 @@ class HotelClient(
 ) {
     private val circuitBreaker = circuitBreakerRegistry.circuitBreaker("pet-hotel-client")
 
-    @Suppress("Code Coverage")
     fun requestRoomForPet(date: Date, petId: Int): RoomReservationResponse {
         return circuitBreaker.decorateCallable {
             client.post()
@@ -27,7 +26,7 @@ class HotelClient(
         }.call() ?: throw IllegalStateException("Missing body")
     }
 
-    @Suppress("unused", "Code Coverage")
+    @Suppress("unused")
     fun requestRoomForPetWithoutCircuitBreaker(date: Date, petId: Int): RoomReservationResponse {
         return client.post()
             .uri("/room-reservation")
