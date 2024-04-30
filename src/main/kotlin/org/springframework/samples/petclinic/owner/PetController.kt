@@ -99,7 +99,7 @@ class PetController(
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             owner.addPet(pet)
-//            saveOwnerAndPet(pet, owner)
+            saveOwnerAndPet(pet, owner)
             "redirect:/owners/{ownerId}"
         }
     }
@@ -109,12 +109,12 @@ class PetController(
         hotelClient.requestRoomForPet(hotel.date, petId)
         return "redirect:/owners/{ownerId}"
     }
-//
-//    @Transactional
-//    fun saveOwnerAndPet(pet: Pet, owner: Owner) {
-//        pets.save(pet)
-//        owners.save(owner)
-//    }
+
+    @Transactional
+    fun saveOwnerAndPet(pet: Pet, owner: Owner) {
+        pets.save(pet)
+        owners.save(owner)
+    }
 }
 
 data class Hotel(val date: Date)
