@@ -11,6 +11,7 @@ import org.springframework.util.SerializationUtils
 class VetTest {
 
     @Test
+    @Suppress("Deprecation")
     fun testSerialization() {
         val vet = Vet()
         vet.firstName = "Zaphod"
