@@ -9,7 +9,7 @@ import org.springframework.web.client.RestClient
 class RestClientFactory {
     @Bean(name = ["pet-hotel-client"])
     fun restClient(): RestClient {
-        return RestClient.create("https://pet-hotel.com")
+        return RestClient.create("http://pet-hotel.com")
     }
 }
 
