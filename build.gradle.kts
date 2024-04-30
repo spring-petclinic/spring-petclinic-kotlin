@@ -39,6 +39,9 @@ koverReport {
         includes {
             classes("org.springframework.samples.*")
         }
+        excludes {
+            classes("org.springframework.samples.petclinic.system.TransactionalRepository")
+        }
     }
     defaults {
         xml {
