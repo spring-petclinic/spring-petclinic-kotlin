@@ -25,16 +25,17 @@ class HotelClient(
                 .body(RoomReservationResponse::class.java)
         }.call() ?: throw IllegalStateException("Missing body")
     }
-//
-//    fun requestRoomForPetWithoutCircuitBreaker(date: Date, petId: Int): RoomReservationResponse {
-//        return client.post()
-//            .uri("/room-reservation")
-//            .contentType(MediaType.APPLICATION_JSON)
-//            .body(RoomReservationRequest(date, petId))
-//            .retrieve()
-//            .body(RoomReservationResponse::class.java)
-//            ?: throw IllegalStateException("Missing body")
-//    }
+
+    @Suppress("unused")
+    fun requestRoomForPetWithoutCircuitBreaker(date: Date, petId: Int): RoomReservationResponse {
+        return client.post()
+            .uri("/room-reservation")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(RoomReservationRequest(date, petId))
+            .retrieve()
+            .body(RoomReservationResponse::class.java)
+            ?: throw IllegalStateException("Missing body")
+    }
 }
 
 data class RoomReservationRequest(val date: Date, val petId: Int)

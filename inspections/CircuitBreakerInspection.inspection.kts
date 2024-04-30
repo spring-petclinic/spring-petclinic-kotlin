@@ -9,6 +9,7 @@ val htmlDescription = """
     </body>
     </html>
 """.trimIndent()
+
 val message = "Calls to rest client methods must be wrapped by a circuit breaker"
 
 val httpClientWithoutCircuitBreaker = localInspection { psiFile, inspection ->
@@ -48,13 +49,14 @@ fun hasCircuitBreakerParent(expression: KtDotQualifiedExpression, circuitBreaker
     }
     return false
 }
-
-listOf(
-    InspectionKts(
-        id = "CircuitBreakerInspection", // inspection id (used in qodana.yaml)
-        localTool = httpClientWithoutCircuitBreaker,
-        name = "CircuitBreakerInspection.inspection.kts", // Inspection name, displayed in UI
-        htmlDescription = htmlDescription,
-        level = HighlightDisplayLevel.WARNING,
-    )
-)
+emptyList<InspectionKts>()
+//
+//listOf(
+//    InspectionKts(
+//        id = "CircuitBreakerInspection", // inspection id (used in qodana.yaml)
+//        localTool = httpClientWithoutCircuitBreaker,
+//        name = "CircuitBreakerInspection.inspection.kts", // Inspection name, displayed in UI
+//        htmlDescription = htmlDescription,
+//        level = HighlightDisplayLevel.WARNING,
+//    )
+//)
