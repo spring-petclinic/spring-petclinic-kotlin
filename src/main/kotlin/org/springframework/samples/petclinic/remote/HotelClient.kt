@@ -15,6 +15,7 @@ class HotelClient(
 ) {
     private val circuitBreaker = circuitBreakerRegistry.circuitBreaker("pet-hotel-client")
 
+    @Suppress("Code Coverage")
     fun requestRoomForPet(date: Date, petId: Int): RoomReservationResponse {
         return circuitBreaker.decorateCallable {
             client.post()
