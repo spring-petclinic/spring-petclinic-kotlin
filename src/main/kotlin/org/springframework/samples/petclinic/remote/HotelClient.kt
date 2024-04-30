@@ -26,7 +26,7 @@ class HotelClient(
         }.call() ?: throw IllegalStateException("Missing body")
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "Code Coverage")
     fun requestRoomForPetWithoutCircuitBreaker(date: Date, petId: Int): RoomReservationResponse {
         return client.post()
             .uri("/room-reservation")
