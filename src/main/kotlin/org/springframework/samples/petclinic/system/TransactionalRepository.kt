@@ -9,8 +9,16 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TransactionalRepository(val pets: PetRepository, val owners: OwnerRepository) {
-    @Transactional
     fun saveOwnerAndPet(pet: Pet, owner: Owner) {
+        internalMethod(owner, pet)
+    }
+
+    @Transactional
+    fun internalMethod(
+        owner: Owner,
+        pet: Pet
+    ) {
+        owner.addPet(pet)
         pets.save(pet)
         owners.save(owner)
     }
