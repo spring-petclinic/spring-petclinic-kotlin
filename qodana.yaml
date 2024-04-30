@@ -12,7 +12,6 @@ failureConditions:
     critical: 0
     high: 0
 
-
 projectJDK: 17 #(Applied in CI/CD pipeline)
 
 linter: jetbrains/qodana-jvm:latest
