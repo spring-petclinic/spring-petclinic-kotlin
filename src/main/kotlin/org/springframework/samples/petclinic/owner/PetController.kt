@@ -25,6 +25,7 @@ import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import jakarta.validation.Valid
 import org.springframework.samples.petclinic.remote.HotelClient
+import org.springframework.samples.petclinic.system.TransactionalRepository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
@@ -39,7 +40,8 @@ import java.util.*
 class PetController(
     val pets: PetRepository,
     val owners: OwnerRepository,
-    val hotelClient: HotelClient
+    val hotelClient: HotelClient,
+    val transactionalRepository: TransactionalRepository
 ) {
 
     private val VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm"
@@ -99,7 +101,7 @@ class PetController(
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
         } else {
             owner.addPet(pet)
-//            saveOwnerAndPet(pet, owner)
+            transactionalRepository.saveOwnerAndPet(pet, owner)
             "redirect:/owners/{ownerId}"
         }
     }
@@ -109,12 +111,6 @@ class PetController(
         hotelClient.requestRoomForPet(hotel.date, petId)
         return "redirect:/owners/{ownerId}"
     }
-//
-//    @Transactional
-//    fun saveOwnerAndPet(pet: Pet, owner: Owner) {
-//        pets.save(pet)
-//        owners.save(owner)
-//    }
 }
 
 data class Hotel(val date: Date)
