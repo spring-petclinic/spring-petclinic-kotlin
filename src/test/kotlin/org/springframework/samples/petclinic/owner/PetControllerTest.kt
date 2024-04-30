@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
 import org.springframework.samples.petclinic.remote.HotelClient
+import org.springframework.samples.petclinic.system.TransactionalRepository
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -35,6 +36,9 @@ class PetControllerTest {
 
     @MockBean
     private lateinit var pets: PetRepository
+
+    @MockBean
+    private lateinit var transactionalRepository: TransactionalRepository
 
     @MockBean
     private lateinit var hotelClient: HotelClient
