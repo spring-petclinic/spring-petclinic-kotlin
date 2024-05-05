@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 description = "Kotlin version of the Spring Petclinic application"
 group = "org.springframework.samples"
 // Align with Spring Version
-version = "3.2.2"
+version = "3.2.5"
 
 java.sourceCompatibility = JavaVersion.VERSION_17
 
