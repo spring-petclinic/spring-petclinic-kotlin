@@ -18,7 +18,7 @@ plugins {
 }
 
 // WebJars versions are also referenced in src/main/resources/templates/fragments/layout.html for resource URLs
-val boostrapVersion = "5.1.3"
+val boostrapVersion = "5.3.3"
 val fontAwesomeVersion = "4.7.0"
 
 tasks.withType<KotlinCompile> {
