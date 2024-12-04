@@ -1,30 +1,30 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-
 description = "Kotlin version of the Spring Petclinic application"
 group = "org.springframework.samples"
 // Align with Spring Version
-version = "3.3.0"
-
-java.sourceCompatibility = JavaVersion.VERSION_17
+version = "3.4.0"
 
 plugins {
     val kotlinVersion = "2.1.0"
-    id("org.springframework.boot") version "3.3.5"
+    id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("com.google.cloud.tools.jib") version "3.4.4"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
 }
 
-// WebJars versions are also referenced in src/main/resources/templates/fragments/layout.html for resource URLs
 val boostrapVersion = "5.3.3"
 val fontAwesomeVersion = "4.7.0"
+val webjarsLocatorLiteVersion = "1.0.1"
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs = listOf("-Xjsr305=strict")
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
 
@@ -59,9 +59,9 @@ dependencies {
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
+    runtimeOnly("org.webjars:webjars-locator-lite:${webjarsLocatorLiteVersion}")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    implementation(kotlin("stdlib-jdk8"))
 }
 
 jib {

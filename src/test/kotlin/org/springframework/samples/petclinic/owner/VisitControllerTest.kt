@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
@@ -26,10 +26,10 @@ class VisitControllerTest {
     @Autowired
     lateinit private var mockMvc: MockMvc
 
-    @MockBean
+    @MockitoBean
     private lateinit var visits: VisitRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var pets: PetRepository
 
     @BeforeEach

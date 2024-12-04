@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -32,10 +32,10 @@ class PetControllerTest {
     @Autowired
     lateinit private var mockMvc: MockMvc
 
-    @MockBean
+    @MockitoBean
     private lateinit var pets: PetRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var owners: OwnerRepository
 
     @BeforeEach
