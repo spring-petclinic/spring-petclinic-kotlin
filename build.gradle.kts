@@ -1,11 +1,11 @@
 description = "Kotlin version of the Spring Petclinic application"
 group = "org.springframework.samples"
 // Align with Spring Version
-version = "3.4.2"
+version = "3.4.3"
 
 plugins {
     val kotlinVersion = "2.1.10"
-    id("org.springframework.boot") version "3.4.2"
+    id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.google.cloud.tools.jib") version "3.4.4"
     kotlin("jvm") version kotlinVersion
