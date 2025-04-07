@@ -12,7 +12,7 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion
 }
 
-val boostrapVersion = "5.3.3"
+val boostrapVersion = "5.3.5"
 val fontAwesomeVersion = "4.7.0"
 val webjarsLocatorLiteVersion = "1.1.0"
 
