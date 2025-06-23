@@ -1,7 +1,7 @@
 description = "Kotlin version of the Spring Petclinic application"
 group = "org.springframework.samples"
 // Align with Spring Version
-version = "3.4.4"
+version = "3.5.3"
 
 plugins {
     val kotlinVersion = "2.2.0"
