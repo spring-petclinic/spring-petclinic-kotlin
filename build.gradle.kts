@@ -4,7 +4,7 @@ group = "org.springframework.samples"
 version = "3.5.3"
 
 plugins {
-    val kotlinVersion = "2.2.0"
+    val kotlinVersion = "2.2.10"
     id("org.springframework.boot") version "3.5.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.google.cloud.tools.jib") version "3.4.5"
