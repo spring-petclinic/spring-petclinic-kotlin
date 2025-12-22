@@ -30,6 +30,8 @@ import jakarta.validation.constraints.NotEmpty
 open class Person : BaseEntity() {
 
     @Column(name = "first_name")
+    // hibernate validator
+    // null不可かつ空文字不可
     @NotEmpty
     var firstName = ""
 
