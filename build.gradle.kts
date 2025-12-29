@@ -14,7 +14,7 @@ plugins {
 
 val boostrapVersion = "5.3.8"
 val fontAwesomeVersion = "4.7.0"
-val webjarsLocatorLiteVersion = "1.1.2"
+val webjarsLocatorLiteVersion = "1.1.3"
 
 java {
     toolchain {
