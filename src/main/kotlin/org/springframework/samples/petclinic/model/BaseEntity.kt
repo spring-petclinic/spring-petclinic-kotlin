@@ -29,14 +29,24 @@ import jakarta.persistence.MappedSuperclass
  * @author Juergen Hoeller
  * @author Antoine Rey
  */
+// このクラス自体はテーブルにならない
+// 継承先の共通フィールド定義
 @MappedSuperclass
+// kotlinのクラスはデフォルトで継承不可(final)
+// 継承可能にするにはopen修飾子をつける
 open class BaseEntity : Serializable {
 
+    // 主キー
     @Id
+    // データベースのオートインクリメント
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // varならgetter/setterが自動生成される
     open var id: Int? = null
 
+    // valはgetterのみ自動生成される
+    // これはカスタムgetter
     val isNew: Boolean
+        // entity.isNew で呼び出す
         get() = this.id == null
 
 }

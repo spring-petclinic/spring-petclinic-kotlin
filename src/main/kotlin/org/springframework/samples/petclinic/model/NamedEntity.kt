@@ -28,11 +28,16 @@ import jakarta.persistence.MappedSuperclass
  * @author Antoine Rey
  */
 @MappedSuperclass
+// BaseEntityを継承している
+// idプロパティを持つ
 open class NamedEntity : BaseEntity() {
 
+    // DBのカラム名を指定
+    // プロパティ名とカラム名を別にできる
     @Column(name = "name")
     open var name: String? = null
 
+    // 関数のオーバーライド
     override fun toString(): String =
             this.name ?: ""
 
