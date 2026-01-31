@@ -1,11 +1,11 @@
 description = "Kotlin version of the Spring Petclinic application"
 group = "org.springframework.samples"
 // Align with Spring Version
-version = "3.5.3"
+version = "4.0.2"
 
 plugins {
     val kotlinVersion = "2.3.0"
-    id("org.springframework.boot") version "3.5.7"
+    id("org.springframework.boot") version "4.0.2"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.google.cloud.tools.jib") version "3.5.2"
     kotlin("jvm") version kotlinVersion
@@ -42,10 +42,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("org.glassfish.jaxb:jaxb-runtime")
     implementation("javax.cache:cache-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
