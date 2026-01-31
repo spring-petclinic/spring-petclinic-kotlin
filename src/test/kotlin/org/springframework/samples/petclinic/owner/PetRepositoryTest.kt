@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-class PetRepositoryTest(@Autowired private val pets: PetRepository, @Autowired private val owners: OwnerRepository) {
+class PetRepositoryTest(@param:Autowired private val pets: PetRepository, @param:Autowired private val owners: OwnerRepository) {
 
     @Test
     fun shouldFindPetWithCorrectId() {
