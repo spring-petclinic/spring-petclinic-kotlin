@@ -9,7 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-class VetRepositoryTest(@Autowired private val vets: VetRepository) {
+class VetRepositoryTest(@param:Autowired private val vets: VetRepository) {
 
     @Test
     fun shouldFindVets() {

@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-class VisitRepositoryTest(@Autowired private val pets: PetRepository,
-                          @Autowired private val visits: VisitRepository) {
+class VisitRepositoryTest(@param:Autowired private val pets: PetRepository,
+                          @param:Autowired private val visits: VisitRepository) {
 
     @Test
     @Throws(Exception::class)
