@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.miro.persistence-tooling</groupId>
+    <artifactId>persistence-tooling</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Persistence Tooling</name>
+    <description>
+        Tooling for dynamic database creation during the project build and tests execution.
+    </description>
+
+    <url>https://github.com/miroapp/persistence-tooling</url>
+
+    <developers>
+        <developer>
+            <id>seregamorph</id>
+            <name>Sergey Chernov</name>
+        </developer>
+        <developer>
+            <id>nikolay-miro</id>
+            <name>Nikolai Averin</name>
+        </developer>
+        <developer>
+            <id>ignatnikitenko</id>
+            <name>Ignat Nikitenko</name>
+        </developer>
+        <developer>
+            <id>subbotinkv</id>
+            <name>Konstantin Subbotin</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/miroapp/persistence-tooling</url>
+        <connection>scm:git:git@github.com:miroapp/persistence-tooling.git</connection>
+        <developerConnection>scm:git:git@github.com:miroapp/persistence-tooling.git</developerConnection>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.testSource>17</maven.compiler.testSource>
+        <maven.compiler.testTarget>17</maven.compiler.testTarget>
+
+        <!--
+        https://maven.apache.org/guides/mini/guide-reproducible-builds.html
+        -->
+        <project.build.outputTimestamp>2025-01-01T01:00:00Z</project.build.outputTimestamp>
+
+        <maven.version>3.9.11</maven.version>
+        <maven.plugin.version>3.8.2</maven.plugin.version>
+        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+
+        <flyway.version>11.7.2</flyway.version>
+    </properties>
+
+    <modules>
+        <module>persistence-tooling-core</module>
+        <module>persistence-tooling-test</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>example</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>!true</value>
+                </property>
+            </activation>
+            <modules>
+                <module>example</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.8</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- modules -->
+            <dependency>
+                <groupId>com.miro.persistence-tooling</groupId>
+                <artifactId>persistence-tooling-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.miro.persistence-tooling</groupId>
+                <artifactId>persistence-tooling-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+              <groupId>com.sun.jersey.contribs</groupId>
+              <artifactId>jersey-guice</artifactId>
+              <version>1.9</version>
+            </dependency>
+          </dependencies>
+
+            <!-- libraries -->
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>1.21.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>5.3.39</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.36</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>6.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.27.4</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.14.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>${maven.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
