@@ -28,10 +28,10 @@ import jakarta.persistence.MappedSuperclass
  * @author Antoine Rey
  */
 @MappedSuperclass
-open class NamedEntity : BaseEntity() {
+class NamedEntity : BaseEntity() {
 
     @Column(name = "name")
-    open var name: String? = null
+    var name: String? = null
 
     override fun toString(): String =
             this.name ?: ""
