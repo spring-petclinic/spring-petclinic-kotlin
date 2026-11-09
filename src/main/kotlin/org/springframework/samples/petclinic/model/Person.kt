@@ -27,7 +27,7 @@ import jakarta.validation.constraints.NotEmpty
  * @author Antoine Rey
  */
 @MappedSuperclass
-open class Person : BaseEntity() {
+class Person : BaseEntity() {
 
     @Column(name = "first_name")
     @NotEmpty

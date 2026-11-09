@@ -30,11 +30,11 @@ import jakarta.persistence.MappedSuperclass
  * @author Antoine Rey
  */
 @MappedSuperclass
-open class BaseEntity : Serializable {
+class BaseEntity : Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    open var id: Int? = null
+    var id: Int? = null
 
     val isNew: Boolean
         get() = this.id == null

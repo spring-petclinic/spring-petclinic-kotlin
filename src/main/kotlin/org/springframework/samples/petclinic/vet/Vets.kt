@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.vet
 
+import jakarta.xml.bind.annotation.XmlElement
 import jakarta.xml.bind.annotation.XmlRootElement
 
 /**
@@ -24,4 +25,4 @@ import jakarta.xml.bind.annotation.XmlRootElement
  * @author Antoine Rey
  */
 @XmlRootElement
-data class Vets(var vetList: Collection<Vet>? = null)
+data class Vets(@get:XmlElement var vetList: Collection<Vet>? = null)
