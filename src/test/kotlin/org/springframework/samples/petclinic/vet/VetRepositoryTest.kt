@@ -17,9 +17,9 @@ class VetRepositoryTest(@param:Autowired private val vets: VetRepository) {
 
         val vet = vets.first { it.id == 3 }
         assertThat(vet.lastName).isEqualTo("Douglas")
-        assertThat(vet.getNrOfSpecialties()).isEqualTo(2)
-        assertThat(vet.getSpecialties()[0].name).isEqualTo("dentistry")
-        assertThat(vet.getSpecialties()[1].name).isEqualTo("surgery")
+        assertThat(vet.nrOfSpecialties).isEqualTo(2)
+        assertThat(vet.specialties[0].name).isEqualTo("dentistry")
+        assertThat(vet.specialties[1].name).isEqualTo("surgery")
     }
 
 }

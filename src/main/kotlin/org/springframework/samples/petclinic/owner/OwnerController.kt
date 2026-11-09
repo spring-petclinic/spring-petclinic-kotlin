@@ -115,8 +115,8 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
     @GetMapping("/owners/{ownerId}")
     fun showOwner(@PathVariable("ownerId") ownerId: Int, model: Model): String {
         val owner = this.owners.findById(ownerId)
-        for (pet in owner.getPets()) {
-            pet.visits = visits.findByPetId(pet.id!!)
+        for (pet in owner.pets) {
+            visits.findByPetId(pet.id!!).forEach(pet::addVisit)
         }
         model.addAttribute(owner)
         return "owners/ownerDetails"

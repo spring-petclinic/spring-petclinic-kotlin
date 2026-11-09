@@ -20,7 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.samples.petclinic.model.NamedEntity
 import org.springframework.samples.petclinic.visit.Visit
 import java.time.LocalDate
-import java.util.*
 import jakarta.persistence.*
 
 /**
@@ -48,14 +47,13 @@ class Pet : NamedEntity() {
     var owner: Owner? = null
 
     @Transient
-    var visits: MutableSet<Visit> = LinkedHashSet()
+    private val _visits: MutableSet<Visit> = LinkedHashSet()
 
-
-    fun getVisits(): List<Visit> =
-            visits.sortedWith(compareBy { it.date })
+    val visits: List<Visit>
+        get() = _visits.sortedBy { it.date }
 
     fun addVisit(visit: Visit) {
-        visits.add(visit)
+        _visits.add(visit)
         visit.petId = this.id
     }
 

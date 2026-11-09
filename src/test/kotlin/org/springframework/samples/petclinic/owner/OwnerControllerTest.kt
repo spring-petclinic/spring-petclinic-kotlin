@@ -54,11 +54,11 @@ class OwnerControllerTest {
         val max = Pet()
         val dog = PetType()
         dog.name = "dog"
-        max.id = 1
         max.type = dog
         max.name = "Max"
         max.birthDate = LocalDate.now()
-        george.pets = mutableSetOf(max)
+        george.addPet(max)
+        max.id = 1
         given(owners.findById(TEST_OWNER_ID)).willReturn(george)
         val visit = Visit()
         visit.date = LocalDate.now()

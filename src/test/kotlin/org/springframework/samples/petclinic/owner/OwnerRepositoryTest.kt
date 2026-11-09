@@ -27,8 +27,8 @@ class OwnerRepositoryTest(@Autowired private val owners: OwnerRepository) {
         val owner = this.owners.findById(1)
         assertThat(owner.lastName).startsWith("Franklin")
         assertThat(owner.pets.size).isEqualTo(1)
-        assertThat(owner.getPets()[0].type).isNotNull()
-        assertThat(owner.getPets()[0].type!!.name).isEqualTo("cat")
+        assertThat(owner.pets[0].type).isNotNull()
+        assertThat(owner.pets[0].type!!.name).isEqualTo("cat")
     }
 
     @Test

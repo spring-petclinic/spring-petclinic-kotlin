@@ -34,18 +34,17 @@ class Vet : Person() {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vet_specialties", joinColumns = [JoinColumn(name = "vet_id")], inverseJoinColumns = [JoinColumn(name = "specialty_id")])
-    var specialties: MutableSet<Specialty> = HashSet()
+    private val _specialties: MutableSet<Specialty> = HashSet()
 
+    @get:XmlElement
+    val specialties: List<Specialty>
+        get() = _specialties.sortedBy { it.name }
 
-    @XmlElement
-    fun getSpecialties(): List<Specialty> =
-            specialties.sortedWith(compareBy { it.name })
+    val nrOfSpecialties: Int
+        get() = _specialties.size
 
-    fun getNrOfSpecialties(): Int =
-            specialties.size
-
-
-    fun addSpecialty(specialty: Specialty) =
-            specialties.add(specialty)
+    fun addSpecialty(specialty: Specialty) {
+        _specialties.add(specialty)
+    }
 
 }
