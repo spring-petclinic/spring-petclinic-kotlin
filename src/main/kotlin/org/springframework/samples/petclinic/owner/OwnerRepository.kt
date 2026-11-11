@@ -39,7 +39,7 @@ interface OwnerRepository : Repository<Owner, Int> {
      * @return a Collection of matching {@link Owner}s (or an empty Collection if none
      * found)
      */
-    @Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
+    @Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner._pets WHERE owner.lastName LIKE :lastName%")
     @Transactional(readOnly = true)
     fun findByLastName(lastName: String): Collection<Owner>
 
@@ -48,7 +48,7 @@ interface OwnerRepository : Repository<Owner, Int> {
      * @param id the id to search for
      * @return the {@link Owner} if found
      */
-    @Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
+    @Query("SELECT owner FROM Owner owner left join fetch owner._pets WHERE owner.id =:id")
     @Transactional(readOnly = true)
     fun findById(id: Int): Owner
 

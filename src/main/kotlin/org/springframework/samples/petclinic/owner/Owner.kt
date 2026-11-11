@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.owner
 
 
 import org.springframework.samples.petclinic.model.Person
-import java.util.*
 import jakarta.persistence.*
 import jakarta.validation.constraints.Digits
 import jakarta.validation.constraints.NotEmpty
@@ -48,16 +47,14 @@ class Owner : Person() {
     var telephone = ""
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "owner")
-    var pets: MutableSet<Pet> = HashSet()
+    private val _pets: MutableSet<Pet> = HashSet()
 
-
-    fun getPets(): List<Pet> =
-            pets.sortedWith(compareBy({ it.name }))
-
+    val pets: List<Pet>
+        get() = _pets.sortedBy { it.name }
 
     fun addPet(pet: Pet) {
         if (pet.isNew) {
-            pets.add(pet)
+            _pets.add(pet)
         }
         pet.owner = this
     }
@@ -79,7 +76,7 @@ class Owner : Person() {
      */
     fun getPet(name: String, ignoreNew: Boolean): Pet? {
         val lname = name.lowercase()
-        for (pet in pets) {
+        for (pet in _pets) {
             if (!ignoreNew || !pet.isNew) {
                 val compName = pet.name?.lowercase()
                 if (compName == lname) {

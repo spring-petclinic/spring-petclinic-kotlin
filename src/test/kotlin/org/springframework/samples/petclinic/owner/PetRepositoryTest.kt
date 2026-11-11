@@ -35,7 +35,7 @@ class PetRepositoryTest(@param:Autowired private val pets: PetRepository, @param
     @Transactional
     fun shouldInsertPetIntoDatabaseAndGenerateId() {
         var owner6 = this.owners.findById(6)
-        val found = owner6.getPets().size
+        val found = owner6.pets.size
 
         val pet = Pet()
         pet.name = "bowser"
@@ -43,13 +43,13 @@ class PetRepositoryTest(@param:Autowired private val pets: PetRepository, @param
         pet.type = types.first { it.id == 2 }
         pet.birthDate = LocalDate.now()
         owner6.addPet(pet)
-        assertThat(owner6.getPets().size).isEqualTo(found + 1)
+        assertThat(owner6.pets.size).isEqualTo(found + 1)
 
         this.pets.save(pet)
         this.owners.save(owner6)
 
         owner6 = this.owners.findById(6)
-        assertThat(owner6.getPets().size).isEqualTo(found + 1)
+        assertThat(owner6.pets.size).isEqualTo(found + 1)
         // checks that id has been generated
         assertThat(pet.id).isNotNull()
     }

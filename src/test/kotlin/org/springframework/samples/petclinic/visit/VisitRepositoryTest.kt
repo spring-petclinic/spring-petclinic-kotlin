@@ -29,7 +29,7 @@ class VisitRepositoryTest(@param:Autowired private val pets: PetRepository,
     @Transactional
     fun shouldAddNewVisitForPet() {
         var pet7 = this.pets.findById(7)
-        val found = pet7.getVisits().size
+        val found = pet7.visits.size
         val visit = Visit()
         pet7.addVisit(visit)
         visit.description = "test"
@@ -37,7 +37,7 @@ class VisitRepositoryTest(@param:Autowired private val pets: PetRepository,
         this.pets.save(pet7)
 
         pet7 = this.pets.findById(7)
-        assertThat(pet7.getVisits().size).isEqualTo(found + 1)
+        assertThat(pet7.visits.size).isEqualTo(found + 1)
         assertThat(visit.id).isNotNull()
     }
 }
