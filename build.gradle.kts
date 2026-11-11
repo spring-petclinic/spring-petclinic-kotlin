@@ -85,7 +85,12 @@ dependencies {
     implementation("org.webjars.npm:bootstrap:$bootstrapVersion")
     implementation("org.webjars.npm:font-awesome:$fontAwesomeVersion")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // Prefer MockK over Mockito as recommended by the Spring Boot Kotlin guide:
+    // https://spring.io/guides/tutorials/spring-boot-kotlin
+    // https://docs.spring.io/spring-boot/reference/features/kotlin.html#features.kotlin.testing
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "mockito-core")
+    }
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
