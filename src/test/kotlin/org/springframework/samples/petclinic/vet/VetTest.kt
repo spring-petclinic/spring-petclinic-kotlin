@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.vet
 
-
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.util.SerializationUtils
@@ -21,5 +20,4 @@ class VetTest {
         assertThat(other.lastName).isEqualTo(vet.lastName)
         assertThat(other.id).isEqualTo(vet.id)
     }
-
 }

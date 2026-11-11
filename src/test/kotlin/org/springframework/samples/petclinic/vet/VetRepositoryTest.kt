@@ -21,5 +21,4 @@ class VetRepositoryTest(@Autowired private val vets: VetRepository) {
         assertThat(vet.specialties[0].name).isEqualTo("dentistry")
         assertThat(vet.specialties[1].name).isEqualTo("surgery")
     }
-
 }

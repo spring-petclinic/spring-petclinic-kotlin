@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.owner
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 
-
 /**
  * `Validator` for `Pet` forms.
  *
@@ -53,11 +52,9 @@ class PetValidator : Validator {
     /**
      * This Validator validates *just* Pet instances
      */
-    override fun supports(clazz: Class<*>)
-            = Pet::class.java.isAssignableFrom(clazz)
+    override fun supports(clazz: Class<*>) = Pet::class.java.isAssignableFrom(clazz)
 
     companion object {
         const val REQUIRED = "required"
     }
-
 }

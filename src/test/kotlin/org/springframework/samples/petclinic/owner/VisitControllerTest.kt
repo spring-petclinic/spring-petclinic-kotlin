@@ -6,13 +6,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
-import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.samples.petclinic.visit.VisitRepository
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 
 /**
  * Test class for [VisitController]
@@ -24,7 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 class VisitControllerTest {
 
     @Autowired
-    lateinit private var mockMvc: MockMvc
+    private lateinit var mockMvc: MockMvc
 
     @MockitoBean
     private lateinit var visits: VisitRepository
@@ -40,34 +42,35 @@ class VisitControllerTest {
     @Test
     fun testInitNewVisitForm() {
         mockMvc.perform(get("/owners/*/pets/{petId}/visits/new", TEST_PET_ID))
-                .andExpect(status().isOk)
-                .andExpect(view().name("pets/createOrUpdateVisitForm"))
+            .andExpect(status().isOk)
+            .andExpect(view().name("pets/createOrUpdateVisitForm"))
     }
 
     @Test
     fun testInitNewVisitFormPetNotFound() {
         mockMvc.perform(get("/owners/*/pets/{petId}/visits/new", 9999))
-                .andExpect(status().isNotFound)
+            .andExpect(status().isNotFound)
     }
 
     @Test
     fun testProcessNewVisitFormSuccess() {
-        mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
+        mockMvc.perform(
+            post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
                 .param("name", "George")
-                .param("description", "Visit Description")
+                .param("description", "Visit Description"),
         )
-                .andExpect(status().is3xxRedirection)
-                .andExpect(view().name("redirect:/owners/{ownerId}"))
+            .andExpect(status().is3xxRedirection)
+            .andExpect(view().name("redirect:/owners/{ownerId}"))
     }
 
     @Test
     fun testProcessNewVisitFormHasErrors() {
-        mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
-                .param("name", "George")
+        mockMvc.perform(
+            post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
+                .param("name", "George"),
         )
-                .andExpect(model().attributeHasErrors("visit"))
-                .andExpect(status().isOk)
-                .andExpect(view().name("pets/createOrUpdateVisitForm"))
+            .andExpect(model().attributeHasErrors("visit"))
+            .andExpect(status().isOk)
+            .andExpect(view().name("pets/createOrUpdateVisitForm"))
     }
-
 }

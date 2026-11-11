@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.model
 import jakarta.persistence.Column
 import jakarta.persistence.MappedSuperclass
 
-
 /**
  * Simple JavaBean domain object adds a name property to <code>BaseEntity</code>. Used as a base class for objects
  * needing these properties.
@@ -33,7 +32,5 @@ class NamedEntity : BaseEntity() {
     @Column(name = "name")
     var name: String? = null
 
-    override fun toString(): String =
-            this.name ?: ""
-
+    override fun toString(): String = this.name ?: ""
 }

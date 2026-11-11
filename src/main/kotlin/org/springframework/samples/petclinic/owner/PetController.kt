@@ -15,16 +15,22 @@
  */
 package org.springframework.samples.petclinic.owner
 
-
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.InitBinder
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.server.ResponseStatusException
-import jakarta.validation.Valid
+
+private const val VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm"
 
 /**
  * @author Juergen Hoeller
@@ -36,14 +42,12 @@ import jakarta.validation.Valid
 @RequestMapping("/owners/{ownerId}")
 class PetController(val pets: PetRepository, val owners: OwnerRepository) {
 
-    private val VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm"
-
     @ModelAttribute("types")
     fun populatePetTypes(): Collection<PetType> = this.pets.findPetTypes()
 
     @ModelAttribute("owner")
-    fun findOwner(@PathVariable("ownerId") ownerId: Int): Owner
-            = owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
+    fun findOwner(@PathVariable("ownerId") ownerId: Int): Owner = owners.findById(ownerId)
+        ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
 
     @InitBinder("owner")
     fun initOwnerBinder(dataBinder: WebDataBinder) {
@@ -87,8 +91,8 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
     }
 
     @PostMapping("/pets/{petId}/edit")
-    fun processUpdateForm(@Valid pet: Pet, result: BindingResult, owner: Owner, model: Model): String {
-        return if (result.hasErrors()) {
+    fun processUpdateForm(@Valid pet: Pet, result: BindingResult, owner: Owner, model: Model): String =
+        if (result.hasErrors()) {
             pet.owner = owner
             model["pet"] = pet
             VIEWS_PETS_CREATE_OR_UPDATE_FORM
@@ -97,6 +101,4 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
             pets.save(pet)
             "redirect:/owners/{ownerId}"
         }
-    }
-
 }

@@ -15,11 +15,14 @@
  */
 package org.springframework.samples.petclinic.owner
 
-
-import org.springframework.samples.petclinic.model.Person
-import jakarta.persistence.*
+import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
 import jakarta.validation.constraints.Digits
 import jakarta.validation.constraints.NotEmpty
+import org.springframework.samples.petclinic.model.Person
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -65,8 +68,7 @@ class Owner : Person() {
      * @param name to test
      * @return true if owner name is already in use
      */
-    fun getPet(name: String): Pet? =
-            getPet(name, false)
+    fun getPet(name: String): Pet? = getPet(name, false)
 
     /**
      * Return the Pet with the given name, or null if none found for this Owner.
@@ -86,5 +88,4 @@ class Owner : Person() {
         }
         return null
     }
-
 }

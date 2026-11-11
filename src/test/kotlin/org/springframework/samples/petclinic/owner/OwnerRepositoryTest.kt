@@ -8,7 +8,6 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 
-
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
 class OwnerRepositoryTest(@Autowired private val owners: OwnerRepository) {
