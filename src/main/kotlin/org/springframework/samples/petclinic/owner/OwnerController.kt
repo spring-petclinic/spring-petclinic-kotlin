@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.owner
 
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.stereotype.Controller
@@ -26,7 +27,8 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.server.ResponseStatusException
-import jakarta.validation.Valid
+
+private const val VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm"
 
 /**
  * @author Juergen Hoeller
@@ -37,8 +39,6 @@ import jakarta.validation.Valid
  */
 @Controller
 class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) {
-
-    val VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm"
 
     @InitBinder
     fun setAllowedFields(dataBinder: WebDataBinder) {
@@ -53,13 +53,11 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
     }
 
     @PostMapping("/owners/new")
-    fun processCreationForm(@Valid owner: Owner, result: BindingResult): String {
-        return if (result.hasErrors()) {
-            VIEWS_OWNER_CREATE_OR_UPDATE_FORM
-        } else {
-            owners.save(owner)
-            "redirect:/owners/" + owner.id
-        }
+    fun processCreationForm(@Valid owner: Owner, result: BindingResult): String = if (result.hasErrors()) {
+        VIEWS_OWNER_CREATE_OR_UPDATE_FORM
+    } else {
+        owners.save(owner)
+        "redirect:/owners/" + owner.id
     }
 
     @GetMapping("/owners/find")
@@ -78,10 +76,12 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
                 result.rejectValue("lastName", "notFound", "not found")
                 "owners/findOwners"
             }
+
             results.size == 1 -> {
                 // 1 owner found
                 "redirect:/owners/" + results.first().id
             }
+
             else -> {
                 // multiple owners found
                 model["selections"] = results
@@ -92,20 +92,23 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
 
     @GetMapping("/owners/{ownerId}/edit")
     fun initUpdateOwnerForm(@PathVariable("ownerId") ownerId: Int, model: Model): String {
-        val owner = owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
+        val owner =
+            owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
         model.addAttribute(owner)
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM
     }
 
     @PostMapping("/owners/{ownerId}/edit")
-    fun processUpdateOwnerForm(@Valid owner: Owner, result: BindingResult, @PathVariable("ownerId") ownerId: Int): String {
-        return if (result.hasErrors()) {
-            VIEWS_OWNER_CREATE_OR_UPDATE_FORM
-        } else {
-            owner.id = ownerId
-            this.owners.save(owner)
-            "redirect:/owners/{ownerId}"
-        }
+    fun processUpdateOwnerForm(
+        @Valid owner: Owner,
+        result: BindingResult,
+        @PathVariable("ownerId") ownerId: Int,
+    ): String = if (result.hasErrors()) {
+        VIEWS_OWNER_CREATE_OR_UPDATE_FORM
+    } else {
+        owner.id = ownerId
+        this.owners.save(owner)
+        "redirect:/owners/{ownerId}"
     }
 
     /**
@@ -116,13 +119,13 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
      */
     @GetMapping("/owners/{ownerId}")
     fun showOwner(@PathVariable("ownerId") ownerId: Int, model: Model): String {
-        val owner = this.owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
+        val owner =
+            this.owners.findById(ownerId)
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
         for (pet in owner.pets) {
             pet.id?.let { visits.findByPetId(it).forEach(pet::addVisit) }
         }
         model.addAttribute(owner)
         return "owners/ownerDetails"
     }
-
 }
-

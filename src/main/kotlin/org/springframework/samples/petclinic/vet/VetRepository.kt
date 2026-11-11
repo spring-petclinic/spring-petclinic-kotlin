@@ -39,5 +39,4 @@ interface VetRepository : Repository<Vet, Int> {
     @Transactional(readOnly = true)
     @Cacheable("vets")
     fun findAll(): Collection<Vet>
-
 }

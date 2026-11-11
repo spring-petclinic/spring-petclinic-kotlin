@@ -1,14 +1,13 @@
 package org.springframework.samples.petclinic.owner
 
-
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.BDDMockito.given
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.text.ParseException
 import java.util.*
@@ -74,5 +73,4 @@ class PetTypeFormatterTest {
         })
         return petTypes
     }
-
 }

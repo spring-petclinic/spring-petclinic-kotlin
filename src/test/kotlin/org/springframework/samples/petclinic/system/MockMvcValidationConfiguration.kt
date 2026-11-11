@@ -1,11 +1,11 @@
 package org.springframework.samples.petclinic.system
 
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.webmvc.autoconfigure.error.BasicErrorController
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.servlet.ModelAndView
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 
 /**
  * This advice is necessary because MockMvc is not a real servlet environment, therefore it does not redirect error
@@ -18,8 +18,6 @@ import jakarta.servlet.http.HttpServletResponse
 internal class MockMvcValidationConfiguration(private val errorController: BasicErrorController) {
 
     @ExceptionHandler(RuntimeException::class)
-    fun defaultErrorHandler(request: HttpServletRequest, response: HttpServletResponse, ex: Exception): ModelAndView {
-        return errorController.errorHtml(request, response)
-    }
-
+    fun defaultErrorHandler(request: HttpServletRequest, response: HttpServletResponse): ModelAndView =
+        errorController.errorHtml(request, response)
 }

@@ -15,15 +15,19 @@
  */
 package org.springframework.samples.petclinic.owner
 
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.samples.petclinic.visit.Visit
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.InitBinder
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.server.ResponseStatusException
-import jakarta.validation.Valid
 
 /**
  * @author Juergen Hoeller
@@ -62,18 +66,14 @@ class VisitController(val visits: VisitRepository, val pets: PetRepository) {
 
     // Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
     @GetMapping("/owners/*/pets/{petId}/visits/new")
-    fun initNewVisitForm(@PathVariable("petId") petId: Int, model: Map<String, Any>): String
-            = "pets/createOrUpdateVisitForm"
+    fun initNewVisitForm(): String = "pets/createOrUpdateVisitForm"
 
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-    fun processNewVisitForm(@Valid visit: Visit, result: BindingResult): String {
-        return if (result.hasErrors()) {
-            "pets/createOrUpdateVisitForm"
-        } else {
-            visits.save(visit)
-            "redirect:/owners/{ownerId}"
-        }
+    fun processNewVisitForm(@Valid visit: Visit, result: BindingResult): String = if (result.hasErrors()) {
+        "pets/createOrUpdateVisitForm"
+    } else {
+        visits.save(visit)
+        "redirect:/owners/{ownerId}"
     }
-
 }

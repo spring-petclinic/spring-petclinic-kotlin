@@ -1,12 +1,11 @@
 package org.springframework.samples.petclinic.model
 
-
+import jakarta.validation.Validator
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import java.util.*
-import jakarta.validation.Validator
 
 /**
  * @author Michael Isvy
@@ -23,7 +22,6 @@ class ValidatorTests {
 
     @Test
     fun shouldNotValidateWhenFirstNameEmpty() {
-
         LocaleContextHolder.setLocale(Locale.ENGLISH)
         val person = Person()
         person.firstName = ""
@@ -37,5 +35,4 @@ class ValidatorTests {
         assertThat(violation.propertyPath.toString()).isEqualTo("firstName")
         assertThat(violation.message).isEqualTo("must not be empty")
     }
-
 }

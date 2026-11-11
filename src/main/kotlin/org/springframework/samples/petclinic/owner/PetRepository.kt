@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.petclinic.owner
 
-
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -53,5 +52,4 @@ interface PetRepository : Repository<Pet, Int> {
      * @param pet the {@link Pet} to save
      */
     fun save(pet: Pet)
-
 }

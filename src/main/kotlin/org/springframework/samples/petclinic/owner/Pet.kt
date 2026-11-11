@@ -15,12 +15,16 @@
  */
 package org.springframework.samples.petclinic.owner
 
-
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
+import jakarta.persistence.Transient
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.samples.petclinic.model.NamedEntity
 import org.springframework.samples.petclinic.visit.Visit
 import java.time.LocalDate
-import jakarta.persistence.*
 
 /**
  * Simple business object representing a owner.
@@ -56,5 +60,4 @@ class Pet : NamedEntity() {
         _visits.add(visit)
         visit.petId = this.id
     }
-
 }

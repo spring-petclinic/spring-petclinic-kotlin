@@ -7,12 +7,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
-import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.http.MediaType
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 
 /**
  * Test class for the [VetController]
@@ -22,7 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 class VetControllerTest {
 
     @Autowired
-    lateinit private var mockMvc: MockMvc
+    private lateinit var mockMvc: MockMvc
 
     @MockitoBean
     private lateinit var vets: VetRepository
@@ -47,25 +51,24 @@ class VetControllerTest {
     @Test
     fun testShowVetListHtml() {
         mockMvc.perform(get("/vets.html"))
-                .andExpect(status().isOk)
-                .andExpect(model().attributeExists("vets"))
-                .andExpect(view().name("vets/vetList"))
+            .andExpect(status().isOk)
+            .andExpect(model().attributeExists("vets"))
+            .andExpect(view().name("vets/vetList"))
     }
 
     @Test
     fun testShowResourcesVetList() {
         val actions = mockMvc.perform(get("/vets.json").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk)
+            .andExpect(status().isOk)
         actions.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.vetList[0].id").value(1))
+            .andExpect(jsonPath("$.vetList[0].id").value(1))
     }
 
     @Test
     fun testShowVetListXml() {
         mockMvc.perform(get("/vets.xml").accept(MediaType.APPLICATION_XML))
-                .andExpect(status().isOk)
-                .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
-                .andExpect(content().node(hasXPath("/vets/vetList[id=1]/id")))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
+            .andExpect(content().node(hasXPath("/vets/vetList[id=1]/id")))
     }
-
 }
