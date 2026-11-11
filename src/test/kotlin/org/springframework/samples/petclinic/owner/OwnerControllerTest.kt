@@ -62,7 +62,7 @@ class OwnerControllerTest {
         given(owners.findById(TEST_OWNER_ID)).willReturn(george)
         val visit = Visit()
         visit.date = LocalDate.now()
-        given(this.visits.findByPetId(max.id!!)).willReturn(Collections.singleton(visit))
+        given(this.visits.findByPetId(1)).willReturn(Collections.singleton(visit))
     }
 
     @Test
@@ -150,6 +150,12 @@ class OwnerControllerTest {
     }
 
     @Test
+    fun testInitUpdateOwnerFormNotFound() {
+        mockMvc.perform(get("/owners/{ownerId}/edit", 9999))
+                .andExpect(status().isNotFound)
+    }
+
+    @Test
     fun testProcessUpdateOwnerFormSuccess() {
         mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID)
                 .param("firstName", "Joe")
@@ -189,6 +195,12 @@ class OwnerControllerTest {
                 .andExpect(view().name("owners/ownerDetails"))
 
         Mockito.verify(this.visits).findByPetId(1)
+    }
+
+    @Test
+    fun testShowOwnerNotFound() {
+        mockMvc.perform(get("/owners/{ownerId}", 9999))
+                .andExpect(status().isNotFound)
     }
 
 

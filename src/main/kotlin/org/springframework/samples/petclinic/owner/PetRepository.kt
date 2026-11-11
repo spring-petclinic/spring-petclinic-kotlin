@@ -46,7 +46,7 @@ interface PetRepository : Repository<Pet, Int> {
      * @return the {@link Pet} if found
      */
     @Transactional(readOnly = true)
-    fun findById(id: Int): Pet
+    fun findById(id: Int): Pet?
 
     /**
      * Save a {@link Pet} to the data store, either inserting or updating it.

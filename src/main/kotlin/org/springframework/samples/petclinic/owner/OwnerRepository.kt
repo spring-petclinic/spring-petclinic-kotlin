@@ -50,7 +50,7 @@ interface OwnerRepository : Repository<Owner, Int> {
      */
     @Query("SELECT owner FROM Owner owner left join fetch owner._pets WHERE owner.id =:id")
     @Transactional(readOnly = true)
-    fun findById(id: Int): Owner
+    fun findById(id: Int): Owner?
 
     /**
      * Save an {@link Owner} to the data store, either inserting or updating it.

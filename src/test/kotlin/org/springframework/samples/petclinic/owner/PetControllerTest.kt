@@ -58,6 +58,12 @@ class PetControllerTest {
     }
 
     @Test
+    fun testInitCreationFormOwnerNotFound() {
+        mockMvc.perform(get("/owners/{ownerId}/pets/new", 9999))
+                .andExpect(status().isNotFound)
+    }
+
+    @Test
     fun testProcessCreationFormSuccess() {
         mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
                 .param("name", "Betty")
@@ -86,6 +92,12 @@ class PetControllerTest {
                 .andExpect(status().isOk)
                 .andExpect(model().attributeExists("owner"))
                 .andExpect(view().name("pets/createOrUpdatePetForm"))
+    }
+
+    @Test
+    fun testInitUpdateFormPetNotFound() {
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, 9999))
+                .andExpect(status().isNotFound)
     }
 
     @Test

@@ -16,13 +16,14 @@
 package org.springframework.samples.petclinic.owner
 
 
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
-import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import jakarta.validation.Valid
 
 /**
@@ -42,7 +43,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
 
     @ModelAttribute("owner")
     fun findOwner(@PathVariable("ownerId") ownerId: Int): Owner
-            = owners.findById(ownerId)
+            = owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
 
     @InitBinder("owner")
     fun initOwnerBinder(dataBinder: WebDataBinder) {
@@ -64,7 +65,8 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
 
     @PostMapping("/pets/new")
     fun processCreationForm(owner: Owner, @Valid pet: Pet, result: BindingResult, model: Model): String {
-        if (StringUtils.hasLength(pet.name) && pet.isNew && owner.getPet(pet.name!!, true) != null) {
+        val petName = pet.name
+        if (!petName.isNullOrBlank() && pet.isNew && owner.getPet(petName, true) != null) {
             result.rejectValue("name", "duplicate", "already exists")
         }
         owner.addPet(pet)
@@ -79,7 +81,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
 
     @GetMapping("/pets/{petId}/edit")
     fun initUpdateForm(@PathVariable petId: Int, model: Model): String {
-        val pet = pets.findById(petId)
+        val pet = pets.findById(petId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Pet $petId not found")
         model["pet"] = pet
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM
     }

@@ -45,6 +45,12 @@ class VisitControllerTest {
     }
 
     @Test
+    fun testInitNewVisitFormPetNotFound() {
+        mockMvc.perform(get("/owners/*/pets/{petId}/visits/new", 9999))
+                .andExpect(status().isNotFound)
+    }
+
+    @Test
     fun testProcessNewVisitFormSuccess() {
         mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
                 .param("name", "George")
