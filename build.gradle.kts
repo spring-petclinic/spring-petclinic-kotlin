@@ -17,14 +17,10 @@ val bootstrapVersion = "5.3.8"
 val fontAwesomeVersion = "4.7.0"
 val webjarsLocatorLiteVersion = "1.1.5"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
 kotlin {
+    jvmToolchain(17)
     compilerOptions {
+        allWarningsAsErrors.set(true)
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }

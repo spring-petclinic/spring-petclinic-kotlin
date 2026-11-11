@@ -16,8 +16,7 @@ class VetTest {
         vet.firstName = "Zaphod"
         vet.lastName = "Beeblebrox"
         vet.id = 123
-        val other = SerializationUtils
-                .deserialize(SerializationUtils.serialize(vet)) as Vet
+        val other = SerializationUtils.clone(vet)
         assertThat(other.firstName).isEqualTo(vet.firstName)
         assertThat(other.lastName).isEqualTo(vet.lastName)
         assertThat(other.id).isEqualTo(vet.id)

@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
-class PetclinicIntegrationTests(@param:Autowired private val vets: VetRepository) {
+class PetclinicIntegrationTests(@Autowired private val vets: VetRepository) {
 
     @Test
     fun testFindAll() {
