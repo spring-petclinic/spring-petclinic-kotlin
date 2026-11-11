@@ -10,3 +10,16 @@ indent_style = space
 [*.{java,xml}]
 indent_size = 4
 trim_trailing_whitespace = true
+
+# Kotlin sources and Gradle Kotlin DSL scripts follow the official Kotlin coding conventions
+# (https://kotlinlang.org/docs/coding-conventions.html), enforced by ktlint
+[*.{kt,kts}]
+indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 120
+ktlint_code_style = intellij_idea
+ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
+# Never use wildcard imports
+ij_kotlin_name_count_to_use_star_import = 2147483647
+ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
+ij_kotlin_packages_to_use_import_on_demand = unset

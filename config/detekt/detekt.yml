@@ -1,0 +1,24 @@
+# Detekt configuration overriding the default rule set
+# (see https://detekt.dev/docs/introduction/configurations).
+# Formatting rules are delegated to ktlint (org.jlleitschuh.gradle.ktlint plugin).
+
+exceptions:
+  TooGenericExceptionThrown:
+    ignoreAnnotated:
+      - 'Controller'
+
+performance:
+  SpreadOperator:
+    active: false
+
+style:
+  FunctionOnlyReturningConstant:
+    ignoreAnnotated:
+      - 'GetMapping'
+      - 'PostMapping'
+      - 'RequestMapping'
+  SerialVersionUIDInSerializableClass:
+    active: false
+  UnusedPrivateProperty:
+    ignoreAnnotated:
+      - 'MockitoBean'

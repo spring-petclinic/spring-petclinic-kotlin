@@ -11,11 +11,14 @@ plugins {
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
+    id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.8"
 }
 
 val bootstrapVersion = "5.3.8"
 val fontAwesomeVersion = "4.7.0"
 val webjarsLocatorLiteVersion = "1.1.5"
+val ktlintVersion = "1.8.0"
 
 kotlin {
     jvmToolchain(17)
@@ -33,6 +36,34 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+ktlint {
+    version.set(ktlintVersion)
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom(files("config/detekt/detekt.yml"))
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    jvmTarget = "17"
+}
+
+// Detekt and ktlint are compiled against their own Kotlin version: prevent the Spring dependency
+// management plugin from aligning their classpaths with the project's Kotlin version.
+configurations.matching { it.name == "detekt" || it.name.startsWith("ktlint") }.configureEach {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.jetbrains.kotlin") {
+            val targetVersion = if (name == "detekt") {
+                io.gitlab.arturbosch.detekt.getSupportedKotlinVersion()
+            } else {
+                "2.3.10"
+            }
+            useVersion(targetVersion)
+        }
+    }
 }
 
 repositories {
@@ -60,7 +91,7 @@ dependencies {
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
-    runtimeOnly("org.webjars:webjars-locator-lite:${webjarsLocatorLiteVersion}")
+    runtimeOnly("org.webjars:webjars-locator-lite:$webjarsLocatorLiteVersion")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
@@ -71,4 +102,3 @@ jib {
         tags = setOf(project.version.toString(), "latest")
     }
 }
-
