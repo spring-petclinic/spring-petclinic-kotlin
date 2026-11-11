@@ -21,4 +21,4 @@ style:
     active: false
   UnusedPrivateProperty:
     ignoreAnnotated:
-      - 'MockitoBean'
+      - 'MockkBean'

@@ -2,19 +2,14 @@ package org.springframework.samples.petclinic.visit
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
 import org.springframework.samples.petclinic.owner.PetRepository
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 
-@ExtendWith(SpringExtension::class)
 @DataJpaTest
-class VisitRepositoryTest(@Autowired private val pets: PetRepository, @Autowired private val visits: VisitRepository) {
+class VisitRepositoryTest(private val pets: PetRepository, private val visits: VisitRepository) {
 
     @Test
-    @Throws(Exception::class)
     fun shouldFindVisitsByPetId() {
         val visits = this.visits.findByPetId(7)
         assertThat(visits.size).isEqualTo(2)

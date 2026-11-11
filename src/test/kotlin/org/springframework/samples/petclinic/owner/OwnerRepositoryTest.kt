@@ -2,15 +2,11 @@ package org.springframework.samples.petclinic.owner
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 
-@ExtendWith(SpringExtension::class)
 @DataJpaTest
-class OwnerRepositoryTest(@Autowired private val owners: OwnerRepository) {
+class OwnerRepositoryTest(private val owners: OwnerRepository) {
 
     @Test
     fun shouldFindOwnersByLastName() {

@@ -2,16 +2,12 @@ package org.springframework.samples.petclinic.owner
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
-@ExtendWith(SpringExtension::class)
 @DataJpaTest
-class PetRepositoryTest(@Autowired private val pets: PetRepository, @Autowired private val owners: OwnerRepository) {
+class PetRepositoryTest(private val pets: PetRepository, private val owners: OwnerRepository) {
 
     @Test
     fun shouldFindPetWithCorrectId() {
@@ -60,7 +56,6 @@ class PetRepositoryTest(@Autowired private val pets: PetRepository, @Autowired p
 
     @Test
     @Transactional
-    @Throws(Exception::class)
     fun shouldUpdatePetName() {
         var pet7 = requireNotNull(this.pets.findById(7))
         val oldName = pet7.name

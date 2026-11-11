@@ -1,215 +1,228 @@
 package org.springframework.samples.petclinic.owner
 
-import org.assertj.core.util.Lists
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.verify
 import org.hamcrest.Matchers.empty
+import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.hasProperty
-import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito.given
-import org.mockito.Mockito
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.samples.petclinic.visit.Visit
 import org.springframework.samples.petclinic.visit.VisitRepository
-import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
+import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 import java.time.LocalDate
-import java.util.Collections
 
 /**
  * Test class for [OwnerController]
  *
  * @author Colin But
  */
-@ExtendWith(SpringExtension::class)
 @WebMvcTest(OwnerController::class)
-class OwnerControllerTest {
-
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
-    @MockitoBean
-    private lateinit var owners: OwnerRepository
-
-    @MockitoBean
-    private lateinit var visits: VisitRepository
+class OwnerControllerTest(
+    private val mockMvc: MockMvc,
+    @MockkBean private val owners: OwnerRepository,
+    @MockkBean private val visits: VisitRepository,
+) {
 
     private lateinit var george: Owner
 
     @BeforeEach
     fun setup() {
-        george = Owner()
-        george.id = TEST_OWNER_ID
-        george.firstName = "George"
-        george.lastName = "Franklin"
-        george.address = "110 W. Liberty St."
-        george.city = "Madison"
-        george.telephone = "6085551023"
-        val max = Pet()
-        val dog = PetType()
-        dog.name = "dog"
-        max.type = dog
-        max.name = "Max"
-        max.birthDate = LocalDate.now()
+        george = Owner().apply {
+            id = TEST_OWNER_ID
+            firstName = "George"
+            lastName = "Franklin"
+            address = "110 W. Liberty St."
+            city = "Madison"
+            telephone = "6085551023"
+        }
+        val max = Pet().apply {
+            type = PetType().apply { name = "dog" }
+            name = "Max"
+            birthDate = LocalDate.now()
+        }
         george.addPet(max)
         max.id = 1
-        given(owners.findById(TEST_OWNER_ID)).willReturn(george)
-        val visit = Visit()
-        visit.date = LocalDate.now()
-        given(this.visits.findByPetId(1)).willReturn(Collections.singleton(visit))
+        every { owners.findById(TEST_OWNER_ID) } returns george
+        every { owners.findById(9999) } returns null
+        justRun { owners.save(any()) }
+        val visit = Visit().apply { date = LocalDate.now() }
+        every { visits.findByPetId(1) } returns setOf(visit)
     }
 
     @Test
     fun testInitCreationForm() {
-        mockMvc.perform(get("/owners/new"))
-            .andExpect(status().isOk)
-            .andExpect(model().attributeExists("owner"))
-            .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+        mockMvc.get("/owners/new")
+            .andExpect {
+                status { isOk() }
+                model { attributeExists("owner") }
+                view { name("owners/createOrUpdateOwnerForm") }
+            }
     }
 
     @Test
     fun testProcessCreationFormSuccess() {
-        mockMvc.perform(
-            post("/owners/new")
-                .param("firstName", "Joe")
-                .param("lastName", "Bloggs")
-                .param("address", "123 Caramel Street")
-                .param("city", "London")
-                .param("telephone", "01316761638"),
-        )
-            .andExpect(status().is3xxRedirection)
+        mockMvc.post("/owners/new") {
+            param("firstName", "Joe")
+            param("lastName", "Bloggs")
+            param("address", "123 Caramel Street")
+            param("city", "London")
+            param("telephone", "01316761638")
+        }.andExpect {
+            status { is3xxRedirection() }
+        }
     }
 
     @Test
     fun testProcessCreationFormHasErrors() {
-        mockMvc.perform(
-            post("/owners/new")
-                .param("firstName", "Joe")
-                .param("lastName", "Bloggs")
-                .param("city", "London"),
-        )
-            .andExpect(status().isOk)
-            .andExpect(model().attributeHasErrors("owner"))
-            .andExpect(model().attributeHasFieldErrors("owner", "address"))
-            .andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-            .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+        mockMvc.post("/owners/new") {
+            param("firstName", "Joe")
+            param("lastName", "Bloggs")
+            param("city", "London")
+        }.andExpect {
+            status { isOk() }
+            model {
+                attributeHasErrors("owner")
+                attributeHasFieldErrors("owner", "address")
+                attributeHasFieldErrors("owner", "telephone")
+            }
+            view { name("owners/createOrUpdateOwnerForm") }
+        }
     }
 
     @Test
     fun testInitFindForm() {
-        mockMvc.perform(get("/owners/find"))
-            .andExpect(status().isOk)
-            .andExpect(model().attributeExists("owner"))
-            .andExpect(view().name("owners/findOwners"))
+        mockMvc.get("/owners/find")
+            .andExpect {
+                status { isOk() }
+                model { attributeExists("owner") }
+                view { name("owners/findOwners") }
+            }
     }
 
     @Test
     fun testProcessFindFormSuccess() {
-        given(owners.findByLastName("")).willReturn(Lists.newArrayList<Owner>(george, Owner()))
-        mockMvc.perform(get("/owners"))
-            .andExpect(status().isOk)
-            .andExpect(view().name("owners/ownersList"))
+        every { owners.findByLastName("") } returns listOf(george, Owner())
+        mockMvc.get("/owners")
+            .andExpect {
+                status { isOk() }
+                view { name("owners/ownersList") }
+            }
     }
 
     @Test
     fun testProcessFindFormByLastName() {
-        given(owners.findByLastName(george.lastName)).willReturn(Lists.newArrayList<Owner>(george))
-        mockMvc.perform(
-            get("/owners")
-                .param("lastName", "Franklin"),
-        )
-            .andExpect(status().is3xxRedirection)
-            .andExpect(view().name("redirect:/owners/" + TEST_OWNER_ID))
+        every { owners.findByLastName(george.lastName) } returns listOf(george)
+        mockMvc.get("/owners") {
+            param("lastName", "Franklin")
+        }.andExpect {
+            status { is3xxRedirection() }
+            view { name("redirect:/owners/$TEST_OWNER_ID") }
+        }
     }
 
     @Test
     fun testProcessFindFormNoOwnersFound() {
-        mockMvc.perform(
-            get("/owners")
-                .param("lastName", "Unknown Surname"),
-        )
-            .andExpect(status().isOk)
-            .andExpect(model().attributeHasFieldErrors("owner", "lastName"))
-            .andExpect(model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
-            .andExpect(view().name("owners/findOwners"))
+        every { owners.findByLastName("Unknown Surname") } returns emptyList()
+        mockMvc.get("/owners") {
+            param("lastName", "Unknown Surname")
+        }.andExpect {
+            status { isOk() }
+            model {
+                attributeHasFieldErrors("owner", "lastName")
+                attributeHasFieldErrorCode("owner", "lastName", "notFound")
+            }
+            view { name("owners/findOwners") }
+        }
     }
 
     @Test
     fun testInitUpdateOwnerForm() {
-        mockMvc.perform(get("/owners/{ownerId}/edit", TEST_OWNER_ID))
-            .andExpect(status().isOk)
-            .andExpect(model().attributeExists("owner"))
-            .andExpect(model().attribute("owner", hasProperty<Any>("lastName", `is`("Franklin"))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("firstName", `is`("George"))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("address", `is`("110 W. Liberty St."))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("city", `is`("Madison"))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("telephone", `is`("6085551023"))))
-            .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+        mockMvc.get("/owners/{ownerId}/edit", TEST_OWNER_ID)
+            .andExpect {
+                status { isOk() }
+                model {
+                    attributeExists("owner")
+                    attribute("owner", hasProperty("lastName", equalTo("Franklin")))
+                    attribute("owner", hasProperty("firstName", equalTo("George")))
+                    attribute("owner", hasProperty("address", equalTo("110 W. Liberty St.")))
+                    attribute("owner", hasProperty("city", equalTo("Madison")))
+                    attribute("owner", hasProperty("telephone", equalTo("6085551023")))
+                }
+                view { name("owners/createOrUpdateOwnerForm") }
+            }
     }
 
     @Test
     fun testInitUpdateOwnerFormNotFound() {
-        mockMvc.perform(get("/owners/{ownerId}/edit", 9999))
-            .andExpect(status().isNotFound)
+        mockMvc.get("/owners/{ownerId}/edit", 9999)
+            .andExpect {
+                status { isNotFound() }
+            }
     }
 
     @Test
     fun testProcessUpdateOwnerFormSuccess() {
-        mockMvc.perform(
-            post("/owners/{ownerId}/edit", TEST_OWNER_ID)
-                .param("firstName", "Joe")
-                .param("lastName", "Bloggs")
-                .param("address", "123 Caramel Street")
-                .param("city", "London")
-                .param("telephone", "01616291589"),
-        )
-            .andExpect(status().is3xxRedirection)
-            .andExpect(view().name("redirect:/owners/{ownerId}"))
+        mockMvc.post("/owners/{ownerId}/edit", TEST_OWNER_ID) {
+            param("firstName", "Joe")
+            param("lastName", "Bloggs")
+            param("address", "123 Caramel Street")
+            param("city", "London")
+            param("telephone", "01616291589")
+        }.andExpect {
+            status { is3xxRedirection() }
+            view { name("redirect:/owners/{ownerId}") }
+        }
     }
 
     @Test
     fun testProcessUpdateOwnerFormHasErrors() {
-        mockMvc.perform(
-            post("/owners/{ownerId}/edit", TEST_OWNER_ID)
-                .param("firstName", "Joe")
-                .param("lastName", "Bloggs")
-                .param("city", "London"),
-        )
-            .andExpect(status().isOk)
-            .andExpect(model().attributeHasErrors("owner"))
-            .andExpect(model().attributeHasFieldErrors("owner", "address"))
-            .andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-            .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+        mockMvc.post("/owners/{ownerId}/edit", TEST_OWNER_ID) {
+            param("firstName", "Joe")
+            param("lastName", "Bloggs")
+            param("city", "London")
+        }.andExpect {
+            status { isOk() }
+            model {
+                attributeHasErrors("owner")
+                attributeHasFieldErrors("owner", "address")
+                attributeHasFieldErrors("owner", "telephone")
+            }
+            view { name("owners/createOrUpdateOwnerForm") }
+        }
     }
 
     @Test
     fun testShowOwner() {
-        mockMvc.perform(get("/owners/{ownerId}", TEST_OWNER_ID))
-            .andExpect(status().isOk)
-            .andExpect(model().attribute("owner", hasProperty<Any>("lastName", `is`("Franklin"))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("firstName", `is`("George"))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("address", `is`("110 W. Liberty St."))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("city", `is`("Madison"))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("telephone", `is`("6085551023"))))
-            .andExpect(model().attribute("owner", hasProperty<Any>("pets", not<Any>(empty<Any>()))))
-            .andExpect(view().name("owners/ownerDetails"))
+        mockMvc.get("/owners/{ownerId}", TEST_OWNER_ID)
+            .andExpect {
+                status { isOk() }
+                model {
+                    attribute("owner", hasProperty("lastName", equalTo("Franklin")))
+                    attribute("owner", hasProperty("firstName", equalTo("George")))
+                    attribute("owner", hasProperty("address", equalTo("110 W. Liberty St.")))
+                    attribute("owner", hasProperty("city", equalTo("Madison")))
+                    attribute("owner", hasProperty("telephone", equalTo("6085551023")))
+                    attribute("owner", hasProperty("pets", not(empty<Pet>())))
+                }
+                view { name("owners/ownerDetails") }
+            }
 
-        Mockito.verify(this.visits).findByPetId(1)
+        verify { visits.findByPetId(1) }
     }
 
     @Test
     fun testShowOwnerNotFound() {
-        mockMvc.perform(get("/owners/{ownerId}", 9999))
-            .andExpect(status().isNotFound)
+        mockMvc.get("/owners/{ownerId}", 9999)
+            .andExpect {
+                status { isNotFound() }
+            }
     }
 
     companion object {

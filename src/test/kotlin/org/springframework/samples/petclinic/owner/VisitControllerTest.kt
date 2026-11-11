@@ -1,76 +1,71 @@
 package org.springframework.samples.petclinic.owner
 
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
+import io.mockk.justRun
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito.given
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.samples.petclinic.visit.VisitRepository
-import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
+import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 
 /**
  * Test class for [VisitController]
  *
  * @author Colin But
  */
-@ExtendWith(SpringExtension::class)
 @WebMvcTest(VisitController::class)
-class VisitControllerTest {
-
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
-    @MockitoBean
-    private lateinit var visits: VisitRepository
-
-    @MockitoBean
-    private lateinit var pets: PetRepository
+class VisitControllerTest(
+    private val mockMvc: MockMvc,
+    @MockkBean private val visits: VisitRepository,
+    @MockkBean private val pets: PetRepository,
+) {
 
     @BeforeEach
     fun init() {
-        given(pets.findById(TEST_PET_ID)).willReturn(Pet())
+        every { pets.findById(TEST_PET_ID) } returns Pet()
+        every { pets.findById(9999) } returns null
+        justRun { visits.save(any()) }
     }
 
     @Test
     fun testInitNewVisitForm() {
-        mockMvc.perform(get("/owners/*/pets/{petId}/visits/new", TEST_PET_ID))
-            .andExpect(status().isOk)
-            .andExpect(view().name("pets/createOrUpdateVisitForm"))
+        mockMvc.get("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
+            .andExpect {
+                status { isOk() }
+                view { name("pets/createOrUpdateVisitForm") }
+            }
     }
 
     @Test
     fun testInitNewVisitFormPetNotFound() {
-        mockMvc.perform(get("/owners/*/pets/{petId}/visits/new", 9999))
-            .andExpect(status().isNotFound)
+        mockMvc.get("/owners/*/pets/{petId}/visits/new", 9999)
+            .andExpect {
+                status { isNotFound() }
+            }
     }
 
     @Test
     fun testProcessNewVisitFormSuccess() {
-        mockMvc.perform(
-            post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
-                .param("name", "George")
-                .param("description", "Visit Description"),
-        )
-            .andExpect(status().is3xxRedirection)
-            .andExpect(view().name("redirect:/owners/{ownerId}"))
+        mockMvc.post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID) {
+            param("name", "George")
+            param("description", "Visit Description")
+        }.andExpect {
+            status { is3xxRedirection() }
+            view { name("redirect:/owners/{ownerId}") }
+        }
     }
 
     @Test
     fun testProcessNewVisitFormHasErrors() {
-        mockMvc.perform(
-            post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
-                .param("name", "George"),
-        )
-            .andExpect(model().attributeHasErrors("visit"))
-            .andExpect(status().isOk)
-            .andExpect(view().name("pets/createOrUpdateVisitForm"))
+        mockMvc.post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID) {
+            param("name", "George")
+        }.andExpect {
+            model { attributeHasErrors("visit") }
+            status { isOk() }
+            view { name("pets/createOrUpdateVisitForm") }
+        }
     }
 }
