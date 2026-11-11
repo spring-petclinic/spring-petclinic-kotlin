@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.samples.petclinic.visit.Visit
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.GetMapping
@@ -38,7 +40,7 @@ import org.springframework.web.server.ResponseStatusException
  * @author Antoine Rey
  */
 @Controller
-class VisitController(val visits: VisitRepository, val pets: PetRepository) {
+class VisitController(private val visits: VisitRepository, private val pets: PetRepository) {
 
     @InitBinder
     fun setAllowedFields(dataBinder: WebDataBinder) {
@@ -53,10 +55,10 @@ class VisitController(val visits: VisitRepository, val pets: PetRepository) {
      * (Even though id is not part of the form fields)
      *
      * @param petId
-     * @return Pet
+     * @return Visit
      */
     @ModelAttribute("visit")
-    fun loadPetWithVisit(@PathVariable("petId") petId: Int, model: MutableMap<String, Any>): Visit {
+    fun loadPetWithVisit(@PathVariable petId: Int, model: Model): Visit {
         val pet = pets.findById(petId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Pet $petId not found")
         model["pet"] = pet
         val visit = Visit()

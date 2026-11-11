@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.GetMapping
@@ -38,7 +39,7 @@ private const val VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwne
  * @author Antoine Rey
  */
 @Controller
-class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) {
+class OwnerController(private val owners: OwnerRepository, private val visits: VisitRepository) {
 
     @InitBinder
     fun setAllowedFields(dataBinder: WebDataBinder) {
@@ -46,7 +47,7 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
     }
 
     @GetMapping("/owners/new")
-    fun initCreationForm(model: MutableMap<String, Any>): String {
+    fun initCreationForm(model: Model): String {
         val owner = Owner()
         model["owner"] = owner
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM
@@ -57,17 +58,17 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
         VIEWS_OWNER_CREATE_OR_UPDATE_FORM
     } else {
         owners.save(owner)
-        "redirect:/owners/" + owner.id
+        "redirect:/owners/${owner.id}"
     }
 
     @GetMapping("/owners/find")
-    fun initFindForm(model: MutableMap<String, Any>): String {
+    fun initFindForm(model: Model): String {
         model["owner"] = Owner()
         return "owners/findOwners"
     }
 
     @GetMapping("/owners")
-    fun processFindForm(owner: Owner, result: BindingResult, model: MutableMap<String, Any>): String {
+    fun processFindForm(owner: Owner, result: BindingResult, model: Model): String {
         // find owners by last name
         val results = owners.findByLastName(owner.lastName)
         return when {
@@ -79,7 +80,7 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
 
             results.size == 1 -> {
                 // 1 owner found
-                "redirect:/owners/" + results.first().id
+                "redirect:/owners/${results.first().id}"
             }
 
             else -> {
@@ -91,25 +92,22 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
     }
 
     @GetMapping("/owners/{ownerId}/edit")
-    fun initUpdateOwnerForm(@PathVariable("ownerId") ownerId: Int, model: Model): String {
+    fun initUpdateOwnerForm(@PathVariable ownerId: Int, model: Model): String {
         val owner =
             owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
-        model.addAttribute(owner)
+        model["owner"] = owner
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM
     }
 
     @PostMapping("/owners/{ownerId}/edit")
-    fun processUpdateOwnerForm(
-        @Valid owner: Owner,
-        result: BindingResult,
-        @PathVariable("ownerId") ownerId: Int,
-    ): String = if (result.hasErrors()) {
-        VIEWS_OWNER_CREATE_OR_UPDATE_FORM
-    } else {
-        owner.id = ownerId
-        this.owners.save(owner)
-        "redirect:/owners/{ownerId}"
-    }
+    fun processUpdateOwnerForm(@Valid owner: Owner, result: BindingResult, @PathVariable ownerId: Int): String =
+        if (result.hasErrors()) {
+            VIEWS_OWNER_CREATE_OR_UPDATE_FORM
+        } else {
+            owner.id = ownerId
+            this.owners.save(owner)
+            "redirect:/owners/{ownerId}"
+        }
 
     /**
      * Custom handler for displaying an owner.
@@ -118,14 +116,14 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
      * @return the view
      */
     @GetMapping("/owners/{ownerId}")
-    fun showOwner(@PathVariable("ownerId") ownerId: Int, model: Model): String {
+    fun showOwner(@PathVariable ownerId: Int, model: Model): String {
         val owner =
             this.owners.findById(ownerId)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
         for (pet in owner.pets) {
             pet.id?.let { visits.findByPetId(it).forEach(pet::addVisit) }
         }
-        model.addAttribute(owner)
+        model["owner"] = owner
         return "owners/ownerDetails"
     }
 }

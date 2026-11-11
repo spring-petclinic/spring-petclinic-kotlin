@@ -21,15 +21,15 @@ import org.springframework.web.bind.annotation.GetMapping
 /**
  * Controller used to showcase what happens when an exception is thrown
  *
+ * Also see how a view that resolves to "5xx" has been added ("5xx.html").
+ *
  * @author Michael Isvy
  * @author Antoine Rey
- * <p/>
- * Also see how a view that resolves to "5xx" has been added ("5xx.html").
  */
 @Controller
 class CrashController {
 
     @GetMapping("/oups")
-    fun triggerException(): Unit =
-        throw RuntimeException("Expected: controller used to showcase what happens when an exception is thrown")
+    fun triggerException(): Nothing =
+        error("Expected: controller used to showcase what happens when an exception is thrown")
 }

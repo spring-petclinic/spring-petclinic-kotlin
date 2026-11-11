@@ -18,12 +18,12 @@ package org.springframework.samples.petclinic.owner
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 
+private const val REQUIRED = "required"
+
 /**
  * `Validator` for `Pet` forms.
  *
- *
  * We're not using Bean Validation annotations here because it is easier to define such validation rule in Java.
- *
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -53,8 +53,4 @@ class PetValidator : Validator {
      * This Validator validates *just* Pet instances
      */
     override fun supports(clazz: Class<*>) = Pet::class.java.isAssignableFrom(clazz)
-
-    companion object {
-        const val REQUIRED = "required"
-    }
 }

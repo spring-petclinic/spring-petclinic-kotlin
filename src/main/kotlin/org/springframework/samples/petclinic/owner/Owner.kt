@@ -63,29 +63,12 @@ class Owner : Person() {
     }
 
     /**
-     * Return the Pet with the given name, or null if none found for this Owner.
+     * Return the [Pet] with the given name, or `null` if none found for this [Owner].
      *
      * @param name to test
-     * @return true if owner name is already in use
+     * @param ignoreNew whether to ignore new (unsaved) pets
+     * @return the matching [Pet], or `null` if not found
      */
-    fun getPet(name: String): Pet? = getPet(name, false)
-
-    /**
-     * Return the Pet with the given name, or null if none found for this Owner.
-     *
-     * @param name to test
-     * @return true if owner name is already in use
-     */
-    fun getPet(name: String, ignoreNew: Boolean): Pet? {
-        val lname = name.lowercase()
-        for (pet in _pets) {
-            if (!ignoreNew || !pet.isNew) {
-                val compName = pet.name?.lowercase()
-                if (compName == lname) {
-                    return pet
-                }
-            }
-        }
-        return null
-    }
+    fun getPet(name: String, ignoreNew: Boolean = false): Pet? =
+        pets.firstOrNull { (!ignoreNew || !it.isNew) && it.name.equals(name, ignoreCase = true) }
 }
