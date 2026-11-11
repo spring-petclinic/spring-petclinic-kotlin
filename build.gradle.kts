@@ -19,6 +19,7 @@ val bootstrapVersion = "5.3.8"
 val fontAwesomeVersion = "4.7.0"
 val webjarsLocatorLiteVersion = "1.1.5"
 val ktlintVersion = "1.8.0"
+val springmockkVersion = "5.0.1"
 
 kotlin {
     jvmToolchain(17)
@@ -88,6 +89,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+    testImplementation("com.ninja-squad:springmockk:$springmockkVersion")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")

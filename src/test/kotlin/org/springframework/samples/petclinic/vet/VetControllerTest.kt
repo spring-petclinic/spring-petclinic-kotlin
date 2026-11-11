@@ -1,74 +1,73 @@
 package org.springframework.samples.petclinic.vet
 
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
 import org.hamcrest.xml.HasXPath.hasXPath
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito.given
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.http.MediaType
-import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
+import org.springframework.test.web.servlet.get
 
 /**
  * Test class for the [VetController]
  */
-@ExtendWith(SpringExtension::class)
 @WebMvcTest(VetController::class)
-class VetControllerTest {
-
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
-    @MockitoBean
-    private lateinit var vets: VetRepository
+class VetControllerTest(private val mockMvc: MockMvc, @MockkBean private val vets: VetRepository) {
 
     @BeforeEach
     fun setup() {
-        val james = Vet()
-        james.firstName = "James"
-        james.lastName = "Carter"
-        james.id = 1
-        val helen = Vet()
-        helen.firstName = "Helen"
-        helen.lastName = "Leary"
-        helen.id = 2
-        val radiology = Specialty()
-        radiology.id = 1
-        radiology.name = "radiology"
-        helen.addSpecialty(radiology)
-        given(this.vets.findAll()).willReturn(listOf(james, helen))
+        val james = Vet().apply {
+            firstName = "James"
+            lastName = "Carter"
+            id = 1
+        }
+        val helen = Vet().apply {
+            firstName = "Helen"
+            lastName = "Leary"
+            id = 2
+            addSpecialty(
+                Specialty().apply {
+                    id = 1
+                    name = "radiology"
+                },
+            )
+        }
+        every { vets.findAll() } returns listOf(james, helen)
     }
 
     @Test
     fun testShowVetListHtml() {
-        mockMvc.perform(get("/vets.html"))
-            .andExpect(status().isOk)
-            .andExpect(model().attributeExists("vets"))
-            .andExpect(view().name("vets/vetList"))
+        mockMvc.get("/vets.html")
+            .andExpect {
+                status { isOk() }
+                model { attributeExists("vets") }
+                view { name("vets/vetList") }
+            }
     }
 
     @Test
     fun testShowResourcesVetList() {
-        val actions = mockMvc.perform(get("/vets.json").accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk)
-        actions.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.vetList[0].id").value(1))
+        mockMvc.get("/vets.json") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            jsonPath("$.vetList[0].id") { value(1) }
+        }
     }
 
     @Test
     fun testShowVetListXml() {
-        mockMvc.perform(get("/vets.xml").accept(MediaType.APPLICATION_XML))
-            .andExpect(status().isOk)
-            .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
-            .andExpect(content().node(hasXPath("/vets/vetList[id=1]/id")))
+        mockMvc.get("/vets.xml") {
+            accept = MediaType.APPLICATION_XML
+        }.andExpect {
+            status { isOk() }
+            content {
+                contentType(MediaType.APPLICATION_XML_VALUE)
+                node(hasXPath("/vets/vetList[id=1]/id"))
+            }
+        }
     }
 }

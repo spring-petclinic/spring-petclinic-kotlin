@@ -1,19 +1,16 @@
 package org.springframework.samples.petclinic
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.samples.petclinic.vet.VetRepository
-import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@ExtendWith(SpringExtension::class)
 @SpringBootTest
-class PetclinicIntegrationTests(@Autowired private val vets: VetRepository) {
+class PetclinicIntegrationTests(private val vets: VetRepository) {
 
     @Test
     fun testFindAll() {
-        vets.findAll()
-        vets.findAll() // served from cache
+        assertThat(vets.findAll()).isNotEmpty
+        assertThat(vets.findAll()).isNotEmpty // served from cache
     }
 }

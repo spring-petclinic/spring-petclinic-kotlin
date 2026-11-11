@@ -1,57 +1,44 @@
 package org.springframework.samples.petclinic.owner
 
+import io.mockk.every
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito.given
-import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.junit.jupiter.api.assertThrows
 import java.text.ParseException
-import java.util.*
+import java.util.Locale
 
 /**
  * Test class for [PetTypeFormatter]
  *
  * @author Colin But
  */
-@ExtendWith(SpringExtension::class)
-@ExtendWith(MockitoExtension::class)
 class PetTypeFormatterTest {
 
-    @Mock
-    private lateinit var pets: PetRepository
+    private val pets = mockk<PetRepository>()
 
-    private lateinit var petTypeFormatter: PetTypeFormatter
-
-    @BeforeEach
-    fun setup() {
-        petTypeFormatter = PetTypeFormatter(pets)
-    }
+    private val petTypeFormatter = PetTypeFormatter(pets)
 
     @Test
     fun testPrint() {
-        val petType = PetType()
-        petType.name = "Hamster"
-        val petTypeName = this.petTypeFormatter.print(petType, Locale.ENGLISH)
-        assertThat("Hamster").isEqualTo(petTypeName)
+        val petType = PetType().apply { name = "Hamster" }
+        val petTypeName = petTypeFormatter.print(petType, Locale.ENGLISH)
+        assertThat(petTypeName).isEqualTo("Hamster")
     }
 
     @Test
-    @Throws(ParseException::class)
     fun shouldParse() {
-        given(this.pets.findPetTypes()).willReturn(makePetTypes())
+        every { pets.findPetTypes() } returns makePetTypes()
         val petType = petTypeFormatter.parse("Bird", Locale.ENGLISH)
-        assertThat("Bird").isEqualTo(petType.name)
+        assertThat(petType.name).isEqualTo("Bird")
     }
 
     @Test
-    @Throws(ParseException::class)
     fun shouldThrowParseException() {
-        given(this.pets.findPetTypes()).willReturn(makePetTypes())
-        assertThrows(ParseException::class.java, { petTypeFormatter.parse("Fish", Locale.ENGLISH) })
+        every { pets.findPetTypes() } returns makePetTypes()
+        assertThrows<ParseException> {
+            petTypeFormatter.parse("Fish", Locale.ENGLISH)
+        }
     }
 
     /**
@@ -59,18 +46,8 @@ class PetTypeFormatterTest {
      *
      * @return [List] of [PetType]
      */
-    private fun makePetTypes(): List<PetType> {
-        val petTypes = ArrayList<PetType>()
-        petTypes.add(object : PetType() {
-            init {
-                name = "Dog"
-            }
-        })
-        petTypes.add(object : PetType() {
-            init {
-                name = "Bird"
-            }
-        })
-        return petTypes
-    }
+    private fun makePetTypes(): List<PetType> = listOf(
+        PetType().apply { name = "Dog" },
+        PetType().apply { name = "Bird" },
+    )
 }
