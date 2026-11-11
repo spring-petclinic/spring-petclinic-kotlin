@@ -15,10 +15,15 @@ class PetRepositoryTest(@param:Autowired private val pets: PetRepository, @param
 
     @Test
     fun shouldFindPetWithCorrectId() {
-        val pet7 = this.pets.findById(7)
+        val pet7 = requireNotNull(this.pets.findById(7))
         assertThat(pet7.name).startsWith("Samantha")
-        assertThat(pet7.owner!!.firstName).isEqualTo("Jean")
+        assertThat(pet7.owner?.firstName).isEqualTo("Jean")
 
+    }
+
+    @Test
+    fun shouldReturnNullWhenPetNotFound() {
+        assertThat(this.pets.findById(9999)).isNull()
     }
 
     @Test
@@ -34,7 +39,7 @@ class PetRepositoryTest(@param:Autowired private val pets: PetRepository, @param
     @Test
     @Transactional
     fun shouldInsertPetIntoDatabaseAndGenerateId() {
-        var owner6 = this.owners.findById(6)
+        var owner6 = requireNotNull(this.owners.findById(6))
         val found = owner6.pets.size
 
         val pet = Pet()
@@ -48,7 +53,7 @@ class PetRepositoryTest(@param:Autowired private val pets: PetRepository, @param
         this.pets.save(pet)
         this.owners.save(owner6)
 
-        owner6 = this.owners.findById(6)
+        owner6 = requireNotNull(this.owners.findById(6))
         assertThat(owner6.pets.size).isEqualTo(found + 1)
         // checks that id has been generated
         assertThat(pet.id).isNotNull()
@@ -58,14 +63,14 @@ class PetRepositoryTest(@param:Autowired private val pets: PetRepository, @param
     @Transactional
     @Throws(Exception::class)
     fun shouldUpdatePetName() {
-        var pet7 = this.pets.findById(7)
+        var pet7 = requireNotNull(this.pets.findById(7))
         val oldName = pet7.name
 
         val newName = oldName + "X"
         pet7.name = newName
         this.pets.save(pet7)
 
-        pet7 = this.pets.findById(7)
+        pet7 = requireNotNull(this.pets.findById(7))
         assertThat(pet7.name).isEqualTo(newName)
     }
 }

@@ -15,12 +15,14 @@
  */
 package org.springframework.samples.petclinic.owner
 
+import org.springframework.http.HttpStatus
 import org.springframework.samples.petclinic.visit.Visit
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import jakarta.validation.Valid
 
 /**
@@ -51,7 +53,7 @@ class VisitController(val visits: VisitRepository, val pets: PetRepository) {
      */
     @ModelAttribute("visit")
     fun loadPetWithVisit(@PathVariable("petId") petId: Int, model: MutableMap<String, Any>): Visit {
-        val pet = pets.findById(petId)
+        val pet = pets.findById(petId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Pet $petId not found")
         model["pet"] = pet
         val visit = Visit()
         pet.addVisit(visit)

@@ -20,7 +20,7 @@ class VetTest {
                 .deserialize(SerializationUtils.serialize(vet)) as Vet
         assertThat(other.firstName).isEqualTo(vet.firstName)
         assertThat(other.lastName).isEqualTo(vet.lastName)
-        assertThat(other.id).isEqualTo(vet.id!!)
+        assertThat(other.id).isEqualTo(vet.id)
     }
 
 }

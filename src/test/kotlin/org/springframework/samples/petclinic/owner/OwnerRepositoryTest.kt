@@ -24,11 +24,16 @@ class OwnerRepositoryTest(@Autowired private val owners: OwnerRepository) {
 
     @Test
     fun shouldFindSingleOwnerWithPet() {
-        val owner = this.owners.findById(1)
+        val owner = requireNotNull(this.owners.findById(1))
         assertThat(owner.lastName).startsWith("Franklin")
         assertThat(owner.pets.size).isEqualTo(1)
         assertThat(owner.pets[0].type).isNotNull()
-        assertThat(owner.pets[0].type!!.name).isEqualTo("cat")
+        assertThat(owner.pets[0].type?.name).isEqualTo("cat")
+    }
+
+    @Test
+    fun shouldReturnNullWhenOwnerNotFound() {
+        assertThat(this.owners.findById(9999)).isNull()
     }
 
     @Test
@@ -53,7 +58,7 @@ class OwnerRepositoryTest(@Autowired private val owners: OwnerRepository) {
     @Test
     @Transactional
     fun shouldUpdateOwner() {
-        var owner = this.owners.findById(1)
+        var owner = requireNotNull(this.owners.findById(1))
         val oldLastName = owner.lastName
         val newLastName = oldLastName + "X"
 
@@ -61,7 +66,7 @@ class OwnerRepositoryTest(@Autowired private val owners: OwnerRepository) {
         this.owners.save(owner)
 
         // retrieving new name from database
-        owner = this.owners.findById(1)
+        owner = requireNotNull(this.owners.findById(1))
         assertThat(owner.lastName).isEqualTo(newLastName)
     }
 }

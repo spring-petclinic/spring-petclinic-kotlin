@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.owner
 
+import org.springframework.http.HttpStatus
 import org.springframework.samples.petclinic.visit.VisitRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.server.ResponseStatusException
 import jakarta.validation.Valid
 
 /**
@@ -90,7 +92,7 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
 
     @GetMapping("/owners/{ownerId}/edit")
     fun initUpdateOwnerForm(@PathVariable("ownerId") ownerId: Int, model: Model): String {
-        val owner = owners.findById(ownerId)
+        val owner = owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
         model.addAttribute(owner)
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM
     }
@@ -114,9 +116,9 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
      */
     @GetMapping("/owners/{ownerId}")
     fun showOwner(@PathVariable("ownerId") ownerId: Int, model: Model): String {
-        val owner = this.owners.findById(ownerId)
+        val owner = this.owners.findById(ownerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
         for (pet in owner.pets) {
-            visits.findByPetId(pet.id!!).forEach(pet::addVisit)
+            pet.id?.let { visits.findByPetId(it).forEach(pet::addVisit) }
         }
         model.addAttribute(owner)
         return "owners/ownerDetails"

@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.petclinic.owner
 
-import org.springframework.util.StringUtils
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 
@@ -36,7 +35,7 @@ class PetValidator : Validator {
         val pet = obj as Pet
         val name = pet.name
         // name validation
-        if (!StringUtils.hasLength(name)) {
+        if (name.isNullOrBlank()) {
             errors.rejectValue("name", REQUIRED, REQUIRED)
         }
 

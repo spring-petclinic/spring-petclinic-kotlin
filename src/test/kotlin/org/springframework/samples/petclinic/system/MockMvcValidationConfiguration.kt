@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse
  *
  * @see <a href="https://github.com/spring-projects/spring-boot/issues/5574">Spring Boot issue #5574</a>
  */
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = [CrashController::class])
 internal class MockMvcValidationConfiguration(private val errorController: BasicErrorController) {
 
     @ExceptionHandler(RuntimeException::class)
