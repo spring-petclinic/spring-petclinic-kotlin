@@ -18,8 +18,9 @@ package org.springframework.samples.petclinic.system
 import org.springframework.boot.cache.autoconfigure.JCacheManagerCustomizer
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
-import javax.cache.configuration.Configuration
+import org.springframework.context.annotation.Configuration
 import javax.cache.configuration.MutableConfiguration
+import javax.cache.configuration.Configuration as CacheConfiguration
 
 /**
  * Cache configuration intended for caches providing the JCache API. This configuration creates the used cache for the
@@ -29,7 +30,7 @@ import javax.cache.configuration.MutableConfiguration
  * @author Stephane Nicoll
  * @author Jens Wilke
  */
-@org.springframework.context.annotation.Configuration(proxyBeanMethods = false)
+@Configuration(proxyBeanMethods = false)
 @EnableCaching
 class CacheConfig {
 
@@ -40,11 +41,11 @@ class CacheConfig {
 
     /**
      * Create a simple configuration that enable statistics via the JCache programmatic configuration API.
-     * <p>
+     *
      * Within the configuration object that is provided by the JCache API standard, there is only a very limited set of
      * configuration options. The really relevant configuration options (like the size limit) must be set via a
      * configuration mechanism that is provided by the selected JCache implementation.
      */
-    private fun createCacheConfiguration(): Configuration<Any, Any> =
+    private fun createCacheConfiguration(): CacheConfiguration<Any, Any> =
         MutableConfiguration<Any, Any>().setStatisticsEnabled(true)
 }

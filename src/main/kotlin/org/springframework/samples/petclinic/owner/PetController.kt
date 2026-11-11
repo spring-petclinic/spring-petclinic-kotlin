@@ -40,13 +40,13 @@ private const val VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm
  */
 @Controller
 @RequestMapping("/owners/{ownerId}")
-class PetController(val pets: PetRepository, val owners: OwnerRepository) {
+class PetController(private val pets: PetRepository, private val owners: OwnerRepository) {
 
     @ModelAttribute("types")
     fun populatePetTypes(): Collection<PetType> = this.pets.findPetTypes()
 
     @ModelAttribute("owner")
-    fun findOwner(@PathVariable("ownerId") ownerId: Int): Owner = owners.findById(ownerId)
+    fun findOwner(@PathVariable ownerId: Int): Owner = owners.findById(ownerId)
         ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Owner $ownerId not found")
 
     @InitBinder("owner")

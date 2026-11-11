@@ -32,13 +32,13 @@ import java.util.*
  * @author Antoine Rey
  */
 @Component
-class PetTypeFormatter(val pets: PetRepository) : Formatter<PetType> {
+class PetTypeFormatter(private val pets: PetRepository) : Formatter<PetType> {
 
     override fun print(petType: PetType, locale: Locale): String = petType.name ?: ""
 
     override fun parse(text: String, locale: Locale): PetType {
         val findPetTypes = this.pets.findPetTypes()
         return findPetTypes.find { it.name == text }
-            ?: throw ParseException("type not found: " + text, 0)
+            ?: throw ParseException("type not found: $text", 0)
     }
 }

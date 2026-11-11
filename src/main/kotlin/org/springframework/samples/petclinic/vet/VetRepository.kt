@@ -20,8 +20,9 @@ import org.springframework.data.repository.Repository
 import org.springframework.transaction.annotation.Transactional
 
 /**
- * Repository class for <code>Vet</code> domain objects All method names are compliant with Spring Data naming
- * conventions so this interface can easily be extended for Spring Data See here: http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
+ * Repository class for [Vet] domain objects. All method names are compliant with Spring Data naming
+ * conventions so this interface can easily be extended for Spring Data.
+ * See here: http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -32,11 +33,11 @@ import org.springframework.transaction.annotation.Transactional
 interface VetRepository : Repository<Vet, Int> {
 
     /**
-     * Retrieve all <code>Vet</code>s from the data store.
+     * Retrieve all [Vet]s from the data store.
      *
-     * @return a <code>Collection</code> of <code>Vet</code>s
+     * @return a [List] of [Vet]s
      */
     @Transactional(readOnly = true)
     @Cacheable("vets")
-    fun findAll(): Collection<Vet>
+    fun findAll(): List<Vet>
 }

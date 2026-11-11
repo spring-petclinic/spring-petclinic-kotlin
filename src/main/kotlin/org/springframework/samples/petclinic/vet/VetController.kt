@@ -16,6 +16,8 @@
 package org.springframework.samples.petclinic.vet
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
@@ -27,12 +29,12 @@ import org.springframework.web.bind.annotation.ResponseBody
  * @author Antoine Rey
  */
 @Controller
-class VetController(val vetRepository: VetRepository) {
+class VetController(private val vetRepository: VetRepository) {
 
     @GetMapping("/vets.html")
-    fun showHtmlVetList(model: MutableMap<String, Any>): String {
+    fun showHtmlVetList(model: Model): String {
         val vets = Vets(vetRepository.findAll())
-        model.put("vets", vets)
+        model["vets"] = vets
         return "vets/vetList"
     }
 
