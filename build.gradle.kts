@@ -13,7 +13,7 @@ plugins {
     kotlin("plugin.jpa") version kotlinVersion
 }
 
-val boostrapVersion = "5.3.8"
+val bootstrapVersion = "5.3.8"
 val fontAwesomeVersion = "4.7.0"
 val webjarsLocatorLiteVersion = "1.1.5"
 
@@ -41,30 +41,26 @@ tasks.withType<Test> {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://repo.spring.io/snapshot") }
-    maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
-    implementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("org.glassfish.jaxb:jaxb-runtime")
     implementation("javax.cache:cache-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.webjars.npm:bootstrap:$boostrapVersion")
+    implementation("org.webjars.npm:bootstrap:$bootstrapVersion")
     implementation("org.webjars.npm:font-awesome:$fontAwesomeVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
