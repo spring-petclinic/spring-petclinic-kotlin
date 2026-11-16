@@ -19,10 +19,11 @@ import jakarta.xml.bind.annotation.XmlElement
 import jakarta.xml.bind.annotation.XmlRootElement
 
 /**
- * Simple domain object representing a list of veterinarians. Mostly here to be used for the 'vets' [ ].
+ * Simple domain object representing a list of veterinarians. Mostly here to be used for the 'vets'
+ * [org.springframework.web.servlet.view.xml.MarshallingView].
  *
  * @author Arjen Poutsma
  * @author Antoine Rey
  */
 @XmlRootElement
-data class Vets(@get:XmlElement var vetList: Collection<Vet>? = null)
+data class Vets(@get:XmlElement val vetList: List<Vet> = emptyList())
