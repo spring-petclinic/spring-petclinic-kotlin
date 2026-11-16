@@ -15,7 +15,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
 }
 
-val bootstrapVersion = "5.3.8"
+val bootstrapVersion = "5.3.9"
 val fontAwesomeVersion = "4.7.0"
 val webjarsLocatorLiteVersion = "1.1.5"
 val ktlintVersion = "1.8.0"
