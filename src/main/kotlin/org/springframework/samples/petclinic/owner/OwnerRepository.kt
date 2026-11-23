@@ -20,8 +20,9 @@ import org.springframework.data.repository.Repository
 import org.springframework.transaction.annotation.Transactional
 
 /**
- * Repository class for <code>Owner</code> domain objects All method names are compliant with Spring Data naming
- * conventions so this interface can easily be extended for Spring Data See here: http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
+ * Repository class for [Owner] domain objects. All method names are compliant with Spring Data naming
+ * conventions so this interface can easily be extended for Spring Data.
+ * See here: http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -32,10 +33,10 @@ import org.springframework.transaction.annotation.Transactional
 interface OwnerRepository : Repository<Owner, Int> {
 
     /**
-     * Retrieve {@link Owner}s from the data store by last name, returning all owners
-     * whose last name <i>starts</i> with the given name.
+     * Retrieve [Owner]s from the data store by last name, returning all owners
+     * whose last name *starts* with the given name.
      * @param lastName Value to search for
-     * @return a Collection of matching {@link Owner}s (or an empty Collection if none
+     * @return a [Collection] of matching [Owner]s (or an empty [Collection] if none
      * found)
      */
     @Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner._pets WHERE owner.lastName LIKE :lastName%")
@@ -43,17 +44,17 @@ interface OwnerRepository : Repository<Owner, Int> {
     fun findByLastName(lastName: String): Collection<Owner>
 
     /**
-     * Retrieve an {@link Owner} from the data store by id.
+     * Retrieve an [Owner] from the data store by id.
      * @param id the id to search for
-     * @return the {@link Owner} if found
+     * @return the [Owner] if found
      */
     @Query("SELECT owner FROM Owner owner left join fetch owner._pets WHERE owner.id =:id")
     @Transactional(readOnly = true)
     fun findById(id: Int): Owner?
 
     /**
-     * Save an {@link Owner} to the data store, either inserting or updating it.
-     * @param owner the {@link Owner} to save
+     * Save an [Owner] to the data store, either inserting or updating it.
+     * @param owner the [Owner] to save
      */
     fun save(owner: Owner)
 }

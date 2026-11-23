@@ -20,7 +20,7 @@ import jakarta.persistence.Table
 import org.springframework.samples.petclinic.model.NamedEntity
 
 /**
- * Models a {@link Vet Vet's} specialty (for example, dentistry).
+ * Models a [Vet]'s specialty (for example, dentistry).
  *
  * @author Juergen Hoeller
  * @author Antoine Rey

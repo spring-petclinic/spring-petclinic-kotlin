@@ -2,11 +2,6 @@
 # (see https://detekt.dev/docs/introduction/configurations).
 # Formatting rules are delegated to ktlint (org.jlleitschuh.gradle.ktlint plugin).
 
-exceptions:
-  TooGenericExceptionThrown:
-    ignoreAnnotated:
-      - 'Controller'
-
 performance:
   SpreadOperator:
     active: false

@@ -20,8 +20,9 @@ import org.springframework.data.repository.Repository
 import org.springframework.transaction.annotation.Transactional
 
 /**
- * Repository class for <code>Pet</code> domain objects All method names are compliant with Spring Data naming
- * conventions so this interface can easily be extended for Spring Data See here: http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
+ * Repository class for [Pet] domain objects. All method names are compliant with Spring Data naming
+ * conventions so this interface can easily be extended for Spring Data.
+ * See here: http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -32,24 +33,24 @@ import org.springframework.transaction.annotation.Transactional
 interface PetRepository : Repository<Pet, Int> {
 
     /**
-     * Retrieve all {@link PetType}s from the data store.
-     * @return a Collection of {@link PetType}s.
+     * Retrieve all [PetType]s from the data store.
+     * @return a [Collection] of [PetType]s.
      */
     @Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
     @Transactional(readOnly = true)
     fun findPetTypes(): List<PetType>
 
     /**
-     * Retrieve a {@link Pet} from the data store by id.
+     * Retrieve a [Pet] from the data store by id.
      * @param id the id to search for
-     * @return the {@link Pet} if found
+     * @return the [Pet] if found
      */
     @Transactional(readOnly = true)
     fun findById(id: Int): Pet?
 
     /**
-     * Save a {@link Pet} to the data store, either inserting or updating it.
-     * @param pet the {@link Pet} to save
+     * Save a [Pet] to the data store, either inserting or updating it.
+     * @param pet the [Pet] to save
      */
     fun save(pet: Pet)
 }
