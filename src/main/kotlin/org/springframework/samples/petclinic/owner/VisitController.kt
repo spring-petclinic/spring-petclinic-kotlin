@@ -42,7 +42,7 @@ class VisitController(val visits: VisitRepository, val pets: PetRepository) {
 
     @InitBinder
     fun setAllowedFields(dataBinder: WebDataBinder) {
-        dataBinder.setDisallowedFields("id")
+        dataBinder.setAllowedFields("date", "description")
     }
 
     /**

@@ -42,7 +42,7 @@ class OwnerController(val owners: OwnerRepository, val visits: VisitRepository) 
 
     @InitBinder
     fun setAllowedFields(dataBinder: WebDataBinder) {
-        dataBinder.setDisallowedFields("id")
+        dataBinder.setAllowedFields("firstName", "lastName", "address", "city", "telephone")
     }
 
     @GetMapping("/owners/new")
