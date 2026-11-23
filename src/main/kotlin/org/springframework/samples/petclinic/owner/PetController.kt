@@ -51,7 +51,7 @@ class PetController(val pets: PetRepository, val owners: OwnerRepository) {
 
     @InitBinder("owner")
     fun initOwnerBinder(dataBinder: WebDataBinder) {
-        dataBinder.setDisallowedFields("id")
+        dataBinder.setAllowedFields("firstName", "lastName", "address", "city", "telephone")
     }
 
     @InitBinder("pet")
